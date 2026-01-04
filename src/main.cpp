@@ -10,8 +10,16 @@ main ()
 	if (err_synopsis == -1)
 	{
 		std::cout << "Error in function DisplaySynopsis (returned -1)\n";
+		return -1;
 	}
 
 
+	// Prompt user for net sales (used for EBITA calculation)
+	uint64_t net_sales = action::GetNumberStdin ("Enter net sales below:\n");
+	if (net_sales == -1)
+	{
+		std::cout << "Error in function GetNumberStdin (net_sales)\n";
+		return -1;
+	}
 	return 0;
 }
