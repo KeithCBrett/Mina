@@ -8,7 +8,7 @@ namespace action
 	{
 		std::cout << "kcbfin - A Security Analyzer\n";
 		std::cout << "Version: 00.00.00\n";
-		return -1;
+		return 0;
 	}
 
 
