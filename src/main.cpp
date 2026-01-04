@@ -13,13 +13,5 @@ main ()
 	}
 
 
-	// Get net income
-	uint64_t net_income = action::GetNumberStdin ("Enter net income/earnings below:\n");
-	if (net_income == -1)
-	{
-		std::cout << "Error in function GetNumberStdin (net_income)\n";
-	}
-
-
 	return 0;
 }
