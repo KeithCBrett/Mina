@@ -21,5 +21,14 @@ main ()
 		std::cout << "Error in function GetNumberStdin (net_sales)\n";
 		return -1;
 	}
+
+
+	// Prompt user for cost of merchandise sold (used in EBITA)
+	uint64_t cost_merch_sold = action::GetNumberStdin ("Enter cost of merchandise sold below:\n");
+	if (cost_merch_sold == -1)
+	{
+		std::cout << "Error in function GetNumberStdin (cost_merch_sold)\n";
+		return -1;
+	}
 	return 0;
 }
