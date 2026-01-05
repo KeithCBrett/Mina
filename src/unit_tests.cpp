@@ -14,4 +14,5 @@ TEST (DisplaySynopsisValidInp, ActionTests)
 TEST (EbitaValidInp, CalcTests)
 {
 	EXPECT_EQ (9790, calc::Ebita (90837, 61054, 18348, 1645));
+	EXPECT_EQ (7251, calc::Ebita (77349, 51352, 17053, 1693));
 }
