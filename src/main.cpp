@@ -37,11 +37,22 @@ main ()
 
 	// Prompt user for selling, general, administrative cost (used in EBITA)
 	uint64_t selling_general_admin = action::GetNumberStdin
-		("Enter cost of selling, general, administrative:\n");
+		("Enter cost of selling, general, administrative below:\n");
 	if (selling_general_admin == -1)
 	{
 		std::cout << "Error in function GetNumb";
 		std::cout << "erStdin (cost_merch_sold)\n";
+		return -1;
+	}
+
+
+	// Prompt user for depreciation (used in EBITA)
+	uint64_t depreciation = action::GetNumberStdin
+		("Enter cost of depreciation below:\n");
+	if (depreciation == -1)
+	{
+		std::cout << "Error in function GetNumb";
+		std::cout << "erStdin (depreciation)\n";
 		return -1;
 	}
 	return 0;
