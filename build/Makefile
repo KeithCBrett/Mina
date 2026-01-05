@@ -205,6 +205,19 @@ action/fast:
 .PHONY : action/fast
 
 #=============================================================================
+# Target rules for targets named calc
+
+# Build rule for target.
+calc: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 calc
+.PHONY : calc
+
+# fast build rule for target.
+calc/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calc.dir/build.make CMakeFiles/calc.dir/build
+.PHONY : calc/fast
+
+#=============================================================================
 # Target rules for targets named unit_tests
 
 # Build rule for target.
@@ -293,6 +306,30 @@ action.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/action.dir/build.make CMakeFiles/action.dir/action.cpp.s
 .PHONY : action.cpp.s
 
+calc.o: calc.cpp.o
+.PHONY : calc.o
+
+# target to build an object file
+calc.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calc.dir/build.make CMakeFiles/calc.dir/calc.cpp.o
+.PHONY : calc.cpp.o
+
+calc.i: calc.cpp.i
+.PHONY : calc.i
+
+# target to preprocess a source file
+calc.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calc.dir/build.make CMakeFiles/calc.dir/calc.cpp.i
+.PHONY : calc.cpp.i
+
+calc.s: calc.cpp.s
+.PHONY : calc.s
+
+# target to generate assembly for a file
+calc.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calc.dir/build.make CMakeFiles/calc.dir/calc.cpp.s
+.PHONY : calc.cpp.s
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -356,6 +393,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... action"
+	@echo "... calc"
 	@echo "... gmock"
 	@echo "... gmock_main"
 	@echo "... gtest"
@@ -365,6 +403,9 @@ help:
 	@echo "... action.o"
 	@echo "... action.i"
 	@echo "... action.s"
+	@echo "... calc.o"
+	@echo "... calc.i"
+	@echo "... calc.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

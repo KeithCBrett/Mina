@@ -2,6 +2,7 @@ build/CMakeCache.txt
 build/CMakeFiles/
 build/cmake_install.cmake
 build/libaction.a
+build/libcalc.a
 build/_deps/
 build/lib/
 build/bin/

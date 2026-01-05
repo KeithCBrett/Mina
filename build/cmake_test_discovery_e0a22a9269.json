@@ -1,15 +1,26 @@
 {
-  "tests": 1,
+  "tests": 2,
   "name": "AllTests",
   "testsuites": [
     {
-      "name": "DisplaySynopsisTest",
+      "name": "DisplaySynopsisValidInp",
       "tests": 1,
       "testsuite": [
         {
           "name": "ActionTests",
           "file": "\/home\/Connor\/Programming\/C++\/kcbfin\/src\/unit_tests.cpp",
-          "line": 7
+          "line": 8
+        }
+      ]
+    },
+    {
+      "name": "EbitaValidInp",
+      "tests": 1,
+      "testsuite": [
+        {
+          "name": "CalcTests",
+          "file": "\/home\/Connor\/Programming\/C++\/kcbfin\/src\/unit_tests.cpp",
+          "line": 14
         }
       ]
     }

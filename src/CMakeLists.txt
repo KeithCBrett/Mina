@@ -45,6 +45,19 @@ target_sources(action
 			action.h
 )
 
+# Name of calc library
+add_library(calc)
+
+# Associate source files with library
+target_sources(calc
+	PRIVATE
+		calc.cpp
+	PUBLIC
+		FILE_SET HEADERS
+		FILES
+			calc.h
+)
+
 # Link action library to main
 target_link_libraries(kcbfin
 	PRIVATE
@@ -59,6 +72,7 @@ add_executable(unit_tests
 target_link_libraries(unit_tests
 	GTest::gtest_main
 	action
+	calc
 )
 include(GoogleTest)
 gtest_discover_tests(unit_tests)
