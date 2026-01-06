@@ -1,5 +1,5 @@
 {
-  "tests": 2,
+  "tests": 3,
   "name": "AllTests",
   "testsuites": [
     {
@@ -21,6 +21,17 @@
           "name": "CalcTests",
           "file": "\/home\/Connor\/Programming\/C++\/kcbfin\/src\/unit_tests.cpp",
           "line": 14
+        }
+      ]
+    },
+    {
+      "name": "EbitaInvalidInp",
+      "tests": 1,
+      "testsuite": [
+        {
+          "name": "CalcTests",
+          "file": "\/home\/Connor\/Programming\/C++\/kcbfin\/src\/unit_tests.cpp",
+          "line": 21
         }
       ]
     }
