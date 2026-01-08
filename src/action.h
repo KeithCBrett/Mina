@@ -12,4 +12,7 @@ namespace action
 
 	// Used for clearing the screen of user inputs
 	int ClearScreen ();
+
+	// Used for displaying the results of calculations
+	int DisplayResult ();
 }
