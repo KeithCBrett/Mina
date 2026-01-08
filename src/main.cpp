@@ -30,7 +30,8 @@ main ()
 		("Enter cost of merchandise sold below:\n");
 	if (cost_merch_sold == -1)
 	{
-		std::cout << "Error in function GetNumberStdin (cost_merch_sold)\n";
+		std::cout << "Error in function GetNumbe";
+		std::cout << "rStdin (cost_merch_sold)\n";
 		return -1;
 	}
 

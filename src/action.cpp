@@ -30,7 +30,8 @@ namespace action
 	int
 	ClearScreen ()
 	{
-		return -1;
+		std::cout << "\033[2J\033[1;1H";
+		return 0;
 	}
 
 
