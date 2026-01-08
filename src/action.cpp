@@ -4,7 +4,8 @@
 
 namespace action
 {
-	int DisplaySynopsis ()
+	int
+		DisplaySynopsis ()
 	{
 		std::cout << "kcbfin - A Security Analyzer\n";
 		std::cout << "Version: 00.00.00\n";
@@ -12,7 +13,8 @@ namespace action
 	}
 
 
-	uint64_t GetNumberStdin (std::string inp_string)
+	uint64_t
+		GetNumberStdin (std::string inp_string)
 	{
 		std::cout << inp_string;
 		uint64_t out_num = -1;
@@ -22,5 +24,12 @@ namespace action
 			out_num = -1;
 		}
 		return out_num;
+	}
+
+
+	int
+		ClearScreen ()
+	{
+		return -1;
 	}
 }

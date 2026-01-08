@@ -9,4 +9,7 @@ namespace action
 
 	// Used for getting security data from user
 	uint64_t GetNumberStdin (std::string);
+
+	// Used for clearing the screen of user inputs
+	int ClearScreen ();
 }

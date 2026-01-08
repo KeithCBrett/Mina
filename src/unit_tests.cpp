@@ -26,3 +26,9 @@ TEST (EbitaInvalidInp, CalcTests)
 	EXPECT_EQ (-1, calc::Ebita(90837, 61054, 0, 1645));
 	EXPECT_EQ (-1, calc::Ebita(90837, 61054, 18348, 0));
 }
+
+
+TEST (ClearScreenValidInp, ActionTests)
+{
+	EXPECT_EQ (0, action::ClearScreen ());
+}
