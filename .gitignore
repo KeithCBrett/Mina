@@ -11,3 +11,4 @@ build/Testing/
 build/unit_tests\[1\]_include.cmake
 build/unit_tests\[1\]_tests.cmake
 build/cmake_test_discovery_*.json
+build/libkcbfin_version.a

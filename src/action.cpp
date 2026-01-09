@@ -1,4 +1,5 @@
 #include "action.h"
+#include "get_version_num.h"
 #include <cstdint>
 
 
@@ -8,7 +9,37 @@ namespace action
 	DisplaySynopsis ()
 	{
 		std::cout << "kcbfin - A Security Analyzer\n";
-		std::cout << "Version: 00.00.00\n\n";
+
+		unsigned num_commits = GetNumCommits ();
+		unsigned num_minor = num_commits / 100;
+		unsigned num_patch = num_commits % 100;
+
+		if (num_minor > 9)
+		{
+			if (num_patch > 9)
+			{
+				std::cout << "00." << num_minor << "."
+					<< num_patch << "\n\n";
+			}
+			else
+			{
+				std::cout << "00." << num_minor << ".0"
+					<< num_patch << "\n\n";
+			}
+		}
+		else
+		{
+			if (num_patch > 9)
+			{
+				std::cout << "00.0" << num_minor << "."
+					<< num_patch << "\n\n";
+			}
+			else
+			{
+				std::cout << "00.0" << num_minor << ".0"
+					<< num_patch << "\n\n";
+			}
+		}
 		return 0;
 	}
 

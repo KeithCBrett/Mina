@@ -3,6 +3,7 @@
 
 #include "action.h"
 #include "calc.h"
+#include "get_version_num.h"
 
 
 TEST (DisplaySynopsisValidInp, ActionTests)

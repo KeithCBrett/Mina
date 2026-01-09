@@ -179,6 +179,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named kcbfin_version
+
+# Build rule for target.
+kcbfin_version: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 kcbfin_version
+.PHONY : kcbfin_version
+
+# fast build rule for target.
+kcbfin_version/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kcbfin_version.dir/build.make CMakeFiles/kcbfin_version.dir/build
+.PHONY : kcbfin_version/fast
+
+#=============================================================================
 # Target rules for targets named kcbfin
 
 # Build rule for target.
@@ -330,6 +343,30 @@ calc.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/calc.dir/build.make CMakeFiles/calc.dir/calc.cpp.s
 .PHONY : calc.cpp.s
 
+get_version_num.o: get_version_num.cpp.o
+.PHONY : get_version_num.o
+
+# target to build an object file
+get_version_num.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kcbfin_version.dir/build.make CMakeFiles/kcbfin_version.dir/get_version_num.cpp.o
+.PHONY : get_version_num.cpp.o
+
+get_version_num.i: get_version_num.cpp.i
+.PHONY : get_version_num.i
+
+# target to preprocess a source file
+get_version_num.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kcbfin_version.dir/build.make CMakeFiles/kcbfin_version.dir/get_version_num.cpp.i
+.PHONY : get_version_num.cpp.i
+
+get_version_num.s: get_version_num.cpp.s
+.PHONY : get_version_num.s
+
+# target to generate assembly for a file
+get_version_num.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kcbfin_version.dir/build.make CMakeFiles/kcbfin_version.dir/get_version_num.cpp.s
+.PHONY : get_version_num.cpp.s
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -399,6 +436,7 @@ help:
 	@echo "... gtest"
 	@echo "... gtest_main"
 	@echo "... kcbfin"
+	@echo "... kcbfin_version"
 	@echo "... unit_tests"
 	@echo "... action.o"
 	@echo "... action.i"
@@ -406,6 +444,9 @@ help:
 	@echo "... calc.o"
 	@echo "... calc.i"
 	@echo "... calc.s"
+	@echo "... get_version_num.o"
+	@echo "... get_version_num.i"
+	@echo "... get_version_num.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
