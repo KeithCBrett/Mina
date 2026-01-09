@@ -14,5 +14,5 @@ namespace action
 	int ClearScreen ();
 
 	// Used for displaying the results of calculations
-	int DisplayResult (uint64_t inp_EBITA);
+	int DisplayResult (bool unit_test, uint64_t inp_EBITA);
 }

@@ -41,7 +41,7 @@ main ()
 
 
 	// Display result so far, clear screen, etc
-	error = action::DisplayResult (ebita);
+	error = action::DisplayResult (false, ebita);
 
 
 	// Prompt user for cost of merchandise sold (used in EBITA)
@@ -55,7 +55,7 @@ main ()
 	}
 
 
-	error = action::DisplayResult (ebita);
+	error = action::DisplayResult (false, ebita);
 
 
 	// Prompt user for selling, general, administrative cost (used in EBITA)
@@ -69,7 +69,7 @@ main ()
 	}
 
 
-	error = action::DisplayResult (ebita);
+	error = action::DisplayResult (false, ebita);
 
 
 	// Prompt user for depreciation (used in EBITA)
@@ -83,7 +83,7 @@ main ()
 	}
 
 
-	error = action::DisplayResult (ebita);
+	error = action::DisplayResult (false, ebita);
 
 
 	// Calculate earnings before taxes, interest, and amoritization. This
@@ -91,7 +91,7 @@ main ()
 	ebita = calc::Ebita
 		(net_sales, cost_merch_sold,
 		 selling_general_admin, depreciation);
-	error = action::DisplayResult (ebita);
+	error = action::DisplayResult (false, ebita);
 	if (error == -1)
 	{
 		std::cout << "Error in function Displa";

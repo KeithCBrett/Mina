@@ -67,15 +67,18 @@ namespace action
 
 
 	int
-	DisplayResult (uint64_t inp_EBITA)
+	DisplayResult (bool inp_unit_test, uint64_t inp_EBITA)
 	{
 		action::ClearScreen ();
 		action::DisplaySynopsis ();
 		int error = -1;
 		if (inp_EBITA != 0)
 		{
-			std::cout << "Ebita: " << inp_EBITA;
-			std::cout << "\n";
+			if (!inp_unit_test)
+			{
+				std::cout << "Ebita: " << inp_EBITA;
+				std::cout << "\n";
+			}
 			error = 0;
 		}
 		return error;
