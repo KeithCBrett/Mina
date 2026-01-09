@@ -36,5 +36,5 @@ TEST (ClearScreenValidInp, ActionTests)
 
 TEST (DisplayResultValidInp, ActionTests)
 {
-	EXPECT_EQ (0, action::DisplayResult ());
+	EXPECT_EQ (0, action::DisplayResult (9790));
 }

@@ -8,7 +8,7 @@ namespace action
 	DisplaySynopsis ()
 	{
 		std::cout << "kcbfin - A Security Analyzer\n";
-		std::cout << "Version: 00.00.00\n";
+		std::cout << "Version: 00.00.00\n\n";
 		return 0;
 	}
 
@@ -36,8 +36,17 @@ namespace action
 
 
 	int
-	DisplayResult ()
+	DisplayResult (uint64_t inp_EBITA)
 	{
-		return -1;
+		action::ClearScreen ();
+		action::DisplaySynopsis ();
+		int error = -1;
+		if (inp_EBITA != 0)
+		{
+			std::cout << "Ebita: " << inp_EBITA;
+			std::cout << "\n";
+			error = 0;
+		}
+		return error;
 	}
 }
