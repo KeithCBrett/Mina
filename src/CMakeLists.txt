@@ -62,6 +62,7 @@ target_sources(calc
 target_link_libraries(kcbfin
 	PRIVATE
 		action
+		calc
 )
 
 # The following snippet enables Gtest, adds unit test exe, etc

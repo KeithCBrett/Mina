@@ -1,10 +1,16 @@
 #include "action.h"
+#include "calc.h"
 #include <cstdint>
 
 
 int
 main ()
 {
+	// Storage for financial calculations
+	// Earnings before interest, taxes, and amoritization
+	int ebita = 0;
+
+
 	// Print to stdout name of project, version number, etc
 	int err_synopsis = action::DisplaySynopsis ();
 	if (err_synopsis == -1)
@@ -56,5 +62,12 @@ main ()
 		std::cout << "erStdin (depreciation)\n";
 		return -1;
 	}
+
+
+	// Calculate earnings before taxes, interest, and amoritization. This
+	// metric is good to know, but is also used in our NOPLAT calculation
+	ebita = calc::Ebita
+		(net_sales, cost_merch_sold,
+		 selling_general_admin, depreciation);
 	return 0;
 }
