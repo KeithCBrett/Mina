@@ -1,6 +1,9 @@
-#include "action.h"
-#include "calc.h"
-#include <cstdint>
+#include "../include/ClearScreen.hpp"
+#include "../include/DisplaySynopsis.hpp"
+#include "../include/GetNumberStdin.hpp"
+#include "../include/DisplayResult.hpp"
+#include "../include/Ebita.hpp"
+
 
 
 int
