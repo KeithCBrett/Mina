@@ -19,9 +19,12 @@
 namespace action
 {
 	int
-	DisplaySynopsis ()
+	DisplaySynopsis (bool inp_unit_test)
 	{
-		std::cout << "kcbfin - A Security Analyzer\n";
+		if (!inp_unit_test)
+		{
+			std::cout << "kcbfin - A Security Analyzer\n";
+		}
 
 		unsigned num_commits = GetNumCommits ();
 		unsigned num_minor = num_commits / 100;
@@ -31,26 +34,38 @@ namespace action
 		{
 			if (num_patch > 9)
 			{
-				std::cout << "00." << num_minor << "."
-					<< num_patch << "\n\n";
+				if (!inp_unit_test)
+				{
+					std::cout << "00." << num_minor << "."
+						<< num_patch << "\n\n";
+				}
 			}
 			else
 			{
-				std::cout << "00." << num_minor << ".0"
-					<< num_patch << "\n\n";
+				if (!inp_unit_test)
+				{
+					std::cout << "00." << num_minor << ".0"
+						<< num_patch << "\n\n";
+				}
 			}
 		}
 		else
 		{
 			if (num_patch > 9)
 			{
-				std::cout << "00.0" << num_minor << "."
-					<< num_patch << "\n\n";
+				if (!inp_unit_test)
+				{
+					std::cout << "00.0" << num_minor << "."
+						<< num_patch << "\n\n";
+				}
 			}
 			else
 			{
-				std::cout << "00.0" << num_minor << ".0"
-					<< num_patch << "\n\n";
+				if (!inp_unit_test)
+				{
+					std::cout << "00.0" << num_minor << ".0"
+						<< num_patch << "\n\n";
+				}
 			}
 		}
 		return 0;

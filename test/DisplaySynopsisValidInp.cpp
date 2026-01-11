@@ -14,10 +14,10 @@
 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#include "unit_tests.hpp"
+#include "../include/unit_tests.hpp"
 
 
 TEST (DisplaySynopsisValidInp, ActionTests)
 {
-	EXPECT_EQ (0, action::DisplaySynopsis ());
+	EXPECT_EQ (0, action::DisplaySynopsis (true));
 }

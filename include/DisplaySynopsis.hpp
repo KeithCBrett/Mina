@@ -19,5 +19,5 @@
 
 namespace action
 {
-	int DisplaySynopsis ();
+	int DisplaySynopsis (bool inp_unit_test);
 }

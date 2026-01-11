@@ -24,7 +24,7 @@ main ()
 
 
 	// Print to stdout name of project, version number, etc
-	int err_synopsis = action::DisplaySynopsis ();
+	int err_synopsis = action::DisplaySynopsis (false);
 	if (err_synopsis == -1)
 	{
 		std::cout << "Error in function Di";

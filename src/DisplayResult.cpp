@@ -23,7 +23,7 @@ namespace action
 	DisplayResult (bool inp_unit_test, uint64_t inp_EBITA)
 	{
 		action::ClearScreen ();
-		action::DisplaySynopsis ();
+		action::DisplaySynopsis (false);
 		int error = -1;
 		if (inp_EBITA != 0)
 		{
