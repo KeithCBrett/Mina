@@ -1,11 +1,15 @@
 # Minimum required version of cmake needed to build project
 cmake_minimum_required(VERSION 4.2)
 
+# Name of project for future reference
+project(kcbfin LANGUAGES CXX)
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Name of project for future reference
-project(kcbfin)
+# We need to import the Qt API for our GUI
+find_package(Qt6 6.5 COMPONENTS Quick REQUIRED)
+qt_standard_project_setup(REQUIRES 6.5)
 
 # Prepends subdirectory to files in a list
 function(PREPEND var)
@@ -36,13 +40,21 @@ target_include_directories(action PUBLIC include/)
 target_include_directories(calc PUBLIC include/)
 
 # Name of executable generated
-add_executable(kcbfin)
+qt_add_executable(kcbfin)
+
+# Declare a QML (Qt) module
+qt_add_qml_module(kcbfin
+	URI kcbfin
+	QML_FILES
+		src/home.qml
+)
 
 # Link action library to main
 target_link_libraries(kcbfin
 	PRIVATE
 		action
 		calc
+		Qt6::Quick
 )
 
 # Associate source files with project
