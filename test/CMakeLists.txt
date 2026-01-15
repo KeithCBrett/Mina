@@ -6,9 +6,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 set(kcbfin_TEST_SRC
-	ClearScreenValidInp.cpp
-	DisplayResultValidInp.cpp
-	DisplaySynopsisValidInp.cpp
 	EbitaInvalidInp.cpp
 	EbitaValidInp.cpp
 )

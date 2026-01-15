@@ -18,10 +18,6 @@
 # Below we create a list of all include files that are apart of the action
 # library
 set(kcbfin_action_INC
-	ClearScreen.hpp
-	DisplayResult.hpp
-	DisplaySynopsis.hpp
-	GetNumberStdin.hpp
 	GetVersionNum.hpp
 	action.hpp
 )

@@ -19,10 +19,6 @@
 # Below we create a list of all source files that are apart of the action
 # library
 set(kcbfin_action_SRC
-	ClearScreen.cpp
-	DisplayResult.cpp
-	DisplaySynopsis.cpp
-	GetNumberStdin.cpp
 	GetVersionNum.cpp
 )
 

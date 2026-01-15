@@ -18,10 +18,6 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 // Backend headers
-#include "../include/ClearScreen.hpp"
-#include "../include/DisplaySynopsis.hpp"
-#include "../include/GetNumberStdin.hpp"
-#include "../include/DisplayResult.hpp"
 #include "../include/Ebita.hpp"
 
 // Frontend headers (Qt)
