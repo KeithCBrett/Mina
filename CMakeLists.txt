@@ -47,6 +47,15 @@ qt_add_qml_module(kcbfin
 	URI kcbfin
 	QML_FILES
 		src/home.qml
+		src/DropdownMenu.qml
+)
+
+# Encode image resources in source
+qt_add_resources(kcbfin
+	PREFIX "images/"
+	FILES
+		src/setting.png
+		src/pallete.png
 )
 
 # Link action library to main
