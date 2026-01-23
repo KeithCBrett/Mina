@@ -22,10 +22,27 @@ Item {
 		anchors.topMargin: 40
 		states: [
 			State {
-				name: "toggled"
+				name: "togglecogwheel"
 				PropertyChanges {
 					target: cogwheel;
 					anchors.rightMargin: parent.width / 2
+				}
+				// Show buttons
+				PropertyChanges {
+					target: appearancebutton
+					visible: true
+				}
+			},
+			State {
+				name: ""
+				PropertyChanges {
+					appearancebutton.state: ""
+				}
+				PropertyChanges {
+					colorwheel.visible: true
+				}
+				PropertyChanges {
+					appearancebutton.visible: false
 				}
 			}
 		]
@@ -73,7 +90,60 @@ Item {
 			color: "#ffb642"
 		}
 		Rectangle {
-			id: themerectangle
+			id: appearancemenu
+			width: rootrectangle.width
+			height: rootrectangle.height
+			anchors.left: parent.right
+			color: "#001e21"
+			border.color: "#ffb642"
+			Text {
+				text: "Foreground"
+				font.family: "Iosevka NF"
+				font.pointSize: 24
+				anchors.top: parent.top
+				anchors.left: parent.left
+				anchors.topMargin: parent.width * 0.1
+				anchors.leftMargin: parent.width * 0.1
+				color: "#ffb642"
+			}
+			ColorWheel {
+				id: colorwheel
+				anchors.top: parent.top
+				anchors.left: parent.left
+				anchors.leftMargin: (rootrectangle.width
+				- colorwheel.width) / 2
+				anchors.topMargin: ((rootrectangle.width
+				- colorwheel.width) / 2)
+				+ (colorwheel.width * 0.40)
+				visible: true
+				width: parent.width - (parent.width * 0.2)
+			}
+			Text {
+				id: textbackground
+				text: "Background"
+				font.family: "Iosevka NF"
+				font.pointSize: 24
+				anchors.top: colorwheel.bottom
+				anchors.left: parent.left
+				anchors.topMargin: parent.width * 0.1
+				anchors.leftMargin: parent.width * 0.1
+				color: "#ffb642"
+			}
+			ColorWheel {
+				id: colorwheel2
+				anchors.top: textbackground.bottom
+				anchors.left: parent.left
+				anchors.leftMargin: (rootrectangle.width
+				- colorwheel.width) / 2
+				anchors.topMargin: ((rootrectangle.width
+				- colorwheel.width) / 2)
+				+ (colorwheel.width * 0.15)
+				visible: true
+				width: parent.width - (parent.width * 0.2)
+			}
+		}
+		Rectangle {
+			id: appearancebutton
 			color: "#001e21"
 			width: parent.width - (parent.border.width * 2)
 			height: (parent.height / 4) - (parent.height / 10)
@@ -85,7 +155,7 @@ Item {
 				}
 			}
 			Text {
-				id:appearancetext
+				id: appearancetext
 				text: "Appearance"
 				color: "#ffb642"
 				anchors.fill: parent
@@ -123,10 +193,61 @@ Item {
 				: Qt.ArrowCursor;
 
 				onEntered: {
-					themerectangle.color = "#002119";
+					appearancebutton.color = "#002119";
 				}
 				onExited: {
-					themerectangle.color = "#001e21";
+					appearancebutton.color = "#001e21";
+				}
+				onClicked: {
+					appearancebutton.state
+					= "toggleappearance";
+				}
+			}
+			states: [
+				State {
+					// Toggles appearance menu on
+					name: "toggleappearance"
+					AnchorChanges {
+						target: appearancemenu
+						anchors.left: rootrectangle.left
+					}
+					PropertyChanges {
+						target: appearancebutton
+						visible: false
+					}
+					PropertyChanges {
+						target: colorwheel
+						visible: true
+					}
+				},
+				State {
+					name: ""
+					AnchorChanges {
+						target: appearancemenu
+						anchors.left: rootrectangle.right
+					}
+					PropertyChanges {
+						target: appearancebutton
+						visible: true
+					}
+					PropertyChanges {
+						target: colorwheel
+						visible: false
+					}
+				}
+			]
+			transitions: Transition {
+				AnchorAnimation {
+					targets: {
+						appearancemenu
+					}
+					duration: 200
+					easing.type: Easing.InOutQuad;
+				}
+				NumberAnimation {
+					properties: appearancemenu.x
+					duration: 200
+					easing.type: Easing.InOutQuad;
 				}
 			}
 		}
@@ -147,8 +268,10 @@ Item {
 		}
 
 		// Whenever cogwheel is clicked, toggle
-		onClicked: cogwheel.state == 'toggled' ? cogwheel.state = ''
-		: cogwheel.state = 'toggled';
+		onClicked: {
+			cogwheel.state == 'togglecogwheel'
+			? cogwheel.state = ''
+			: cogwheel.state = 'togglecogwheel'
+		}
 	}
-
 }
