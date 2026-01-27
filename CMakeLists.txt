@@ -46,9 +46,8 @@ qt_add_executable(kcbfin)
 qt_add_qml_module(kcbfin
 	URI kcbfin
 	QML_FILES
-		src/home.qml
+		src/Home.qml
 		src/DropdownMenu.qml
-		src/ColorWheel.qml
 )
 
 # Encode image resources in source

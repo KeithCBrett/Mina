@@ -1,6 +1,5 @@
-// kcbfin is a equity/security analyzer capable of performing various
-// calculations related to valuing businesses and other cash flow producing
-// assets
+// home.qml is the graphical entry to the program (i.e. the first GUI page
+// the user interacts with on application launch)
 
 // Copyright (C) 2026  Keith C Brett (KeithCBrett@gmail.com)
 
@@ -16,19 +15,15 @@
 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-// Backend headers
-#include "../include/Ebita.hpp"
-
-// Frontend headers (Qt)
-#include <QtQuick>
-#include <QtQml>
+import QtQuick
+import QtQuick.Window
 
 
-int
-main (int argc, char *argv[])
-{
-	QGuiApplication gui (argc, argv);
-	QQmlApplicationEngine engine ("../../src/Home.qml");
-	return gui.exec();
+Window {
+	width: 1920
+	height: 1080
+	color: '#001320'
+	visible: true
+	title: qsTr("KCBfin")
+	DropdownMenu {}
 }

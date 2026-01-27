@@ -1,3 +1,20 @@
+// DropdownMenu is graphically represented by the cogwheel in the top right
+// corner of each GUI page. Written in Qt's QML framework
+
+// Copyright (C) 2026  Keith C Brett (KeithCBrett@gmail.com)
+
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import QtQuick
 import Qt5Compat.GraphicalEffects
 
@@ -22,27 +39,24 @@ Item {
 		anchors.topMargin: 40
 		states: [
 			State {
-				name: "togglecogwheel"
+				name: "toggleCogwheel"
 				PropertyChanges {
 					target: cogwheel;
 					anchors.rightMargin: parent.width / 2
 				}
 				// Show buttons
 				PropertyChanges {
-					target: appearancebutton
+					target: appearanceButton
 					visible: true
 				}
 			},
 			State {
 				name: ""
 				PropertyChanges {
-					appearancebutton.state: ""
+					appearanceButton.state: ""
 				}
 				PropertyChanges {
-					colorwheel.visible: true
-				}
-				PropertyChanges {
-					appearancebutton.visible: false
+					appearanceButton.visible: false
 				}
 			}
 		]
@@ -56,7 +70,7 @@ Item {
 
 	// Colors setting button orange
 	ColorOverlay {
-		id: colorcogwheel
+		id: colorCogwheel
 		anchors.fill: cogwheel
 		source: cogwheel
 		color: "#ffb642"
@@ -79,71 +93,26 @@ Item {
 
 	// Draw settings menu
 	Rectangle {
-		id: rootrectangle
+		id: rootRectangle
 		color: "#001e21"
 		anchors.top: dropdown.top
 		anchors.bottom: dropdown.bottom
 		anchors.right: dropdown.right
-		anchors.left: colorcogwheel.right
+		anchors.left: colorCogwheel.right
 		anchors.leftMargin: 40
 		border {
 			color: "#ffb642"
 		}
 		Rectangle {
-			id: appearancemenu
-			width: rootrectangle.width
-			height: rootrectangle.height
+			id: appearanceMenu
+			width: rootRectangle.width
+			height: rootRectangle.height
 			anchors.left: parent.right
 			color: "#001e21"
 			border.color: "#ffb642"
-			Text {
-				text: "Foreground"
-				font.family: "Iosevka NF"
-				font.pointSize: 24
-				anchors.top: parent.top
-				anchors.left: parent.left
-				anchors.topMargin: parent.width * 0.1
-				anchors.leftMargin: parent.width * 0.1
-				color: "#ffb642"
-			}
-			ColorWheel {
-				id: colorwheel
-				anchors.top: parent.top
-				anchors.left: parent.left
-				anchors.leftMargin: (rootrectangle.width
-				- colorwheel.width) / 2
-				anchors.topMargin: ((rootrectangle.width
-				- colorwheel.width) / 2)
-				+ (colorwheel.width * 0.40)
-				visible: true
-				width: parent.width - (parent.width * 0.2)
-			}
-			Text {
-				id: textbackground
-				text: "Background"
-				font.family: "Iosevka NF"
-				font.pointSize: 24
-				anchors.top: colorwheel.bottom
-				anchors.left: parent.left
-				anchors.topMargin: parent.width * 0.1
-				anchors.leftMargin: parent.width * 0.1
-				color: "#ffb642"
-			}
-			ColorWheel {
-				id: colorwheel2
-				anchors.top: textbackground.bottom
-				anchors.left: parent.left
-				anchors.leftMargin: (rootrectangle.width
-				- colorwheel.width) / 2
-				anchors.topMargin: ((rootrectangle.width
-				- colorwheel.width) / 2)
-				+ (colorwheel.width * 0.15)
-				visible: true
-				width: parent.width - (parent.width * 0.2)
-			}
 		}
 		Rectangle {
-			id: appearancebutton
+			id: appearanceButton
 			color: "#001e21"
 			width: parent.width - (parent.border.width * 2)
 			height: (parent.height / 4) - (parent.height / 10)
@@ -155,20 +124,20 @@ Item {
 				}
 			}
 			Text {
-				id: appearancetext
+				id: appearanceText
 				text: "Appearance"
 				color: "#ffb642"
 				anchors.fill: parent
 				width: parent.width
 				height: parent.height
 				verticalAlignment: Text.AlignVCenter
-				leftPadding: (appearanceicon.width
-				+ appearanceicon.anchors.leftMargin) + 20
+				leftPadding: (appearanceIcon.width
+				+ appearanceIcon.anchors.leftMargin) + 20
 				font.pointSize: 20
 				font.family: "Iosevka NF"
 			}
 			Image {
-				id: appearanceicon
+				id: appearanceIcon
 				source: "pallete.png"
 				anchors.left: parent.left
 				anchors.leftMargin: 20
@@ -178,9 +147,9 @@ Item {
 				height: 30
 			}
 			ColorOverlay {
-				id: colorappearanceicon
-				anchors.fill: appearanceicon
-				source: appearanceicon
+				id: colorAppearanceIcon
+				anchors.fill: appearanceIcon
+				source: appearanceIcon
 				color: "#ffb642"
 			}
 			// Controls mouse area for appearance button
@@ -193,59 +162,51 @@ Item {
 				: Qt.ArrowCursor;
 
 				onEntered: {
-					appearancebutton.color = "#002119";
+					appearanceButton.color = "#002119";
 				}
 				onExited: {
-					appearancebutton.color = "#001e21";
+					appearanceButton.color = "#001e21";
 				}
 				onClicked: {
-					appearancebutton.state
-					= "toggleappearance";
+					appearanceButton.state
+					= "toggleAppearance";
 				}
 			}
 			states: [
 				State {
 					// Toggles appearance menu on
-					name: "toggleappearance"
+					name: "toggleAppearance"
 					AnchorChanges {
-						target: appearancemenu
-						anchors.left: rootrectangle.left
+						target: appearanceMenu
+						anchors.left: rootRectangle.left
 					}
 					PropertyChanges {
-						target: appearancebutton
+						target: appearanceButton
 						visible: false
-					}
-					PropertyChanges {
-						target: colorwheel
-						visible: true
 					}
 				},
 				State {
 					name: ""
 					AnchorChanges {
-						target: appearancemenu
-						anchors.left: rootrectangle.right
+						target: appearanceMenu
+						anchors.left: rootRectangle.right
 					}
 					PropertyChanges {
-						target: appearancebutton
+						target: appearanceButton
 						visible: true
-					}
-					PropertyChanges {
-						target: colorwheel
-						visible: false
 					}
 				}
 			]
 			transitions: Transition {
 				AnchorAnimation {
 					targets: {
-						appearancemenu
+						appearanceMenu
 					}
 					duration: 200
 					easing.type: Easing.InOutQuad;
 				}
 				NumberAnimation {
-					properties: appearancemenu.x
+					properties: appearanceMenu.x
 					duration: 200
 					easing.type: Easing.InOutQuad;
 				}
@@ -255,7 +216,7 @@ Item {
 
 	// Controls mouse interaction for cogwheel
 	MouseArea {
-		anchors.fill: colorcogwheel
+		anchors.fill: colorCogwheel
 		hoverEnabled: true
 
 		// Change cursor to pointer on mouse over
@@ -264,14 +225,14 @@ Item {
 
 		// When we hover over cogwheel it rotatates
 		onEntered: { 
-			colorcogwheel.rotation += 360
+			colorCogwheel.rotation += 360
 		}
 
 		// Whenever cogwheel is clicked, toggle
 		onClicked: {
-			cogwheel.state == 'togglecogwheel'
+			cogwheel.state == 'toggleCogwheel'
 			? cogwheel.state = ''
-			: cogwheel.state = 'togglecogwheel'
+			: cogwheel.state = 'toggleCogwheel'
 		}
 	}
 }
