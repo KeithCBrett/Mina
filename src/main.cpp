@@ -29,6 +29,6 @@ int
 main (int argc, char *argv[])
 {
 	QGuiApplication gui (argc, argv);
-	QQmlApplicationEngine engine ("../../src/Home.qml");
+	QQmlApplicationEngine engine ("../../src/Main.qml");
 	return gui.exec();
 }

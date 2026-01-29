@@ -46,8 +46,9 @@ qt_add_executable(kcbfin)
 qt_add_qml_module(kcbfin
 	URI kcbfin
 	QML_FILES
-		src/Home.qml
+		src/Main.qml
 		src/DropdownMenu.qml
+		src/AppearanceButton.qml
 )
 
 # Encode image resources in source

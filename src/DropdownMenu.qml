@@ -28,15 +28,19 @@ Item {
 
 	Image {
 		id: cogwheel
+
 		source: "setting.png"
 		width: 30
 		height: 30
+
 		smooth: true
 		visible: false
+
 		anchors.right: parent.right
 		anchors.rightMargin: 40
 		anchors.top: parent.top
 		anchors.topMargin: 40
+
 		states: [
 			State {
 				name: "toggleCogwheel"
@@ -44,22 +48,9 @@ Item {
 					target: cogwheel;
 					anchors.rightMargin: parent.width / 2
 				}
-				// Show buttons
-				PropertyChanges {
-					target: appearanceButton
-					visible: true
-				}
 			},
-			State {
-				name: ""
-				PropertyChanges {
-					appearanceButton.state: ""
-				}
-				PropertyChanges {
-					appearanceButton.visible: false
-				}
-			}
 		]
+
 		Behavior on anchors.rightMargin {
 			PropertyAnimation {
 				easing.type: Easing.InOutQuad;
@@ -90,126 +81,66 @@ Item {
 		}
 	}
 
-
 	// Draw settings menu
 	Rectangle {
 		id: rootRectangle
 		color: "#001e21"
+
 		anchors.top: dropdown.top
 		anchors.bottom: dropdown.bottom
 		anchors.right: dropdown.right
 		anchors.left: colorCogwheel.right
 		anchors.leftMargin: 40
+
 		border {
 			color: "#ffb642"
+			width: 1
 		}
-		Rectangle {
-			id: appearanceMenu
-			width: rootRectangle.width
-			height: rootRectangle.height
-			anchors.left: parent.right
-			color: "#001e21"
-			border.color: "#ffb642"
-		}
-		Rectangle {
-			id: appearanceButton
-			color: "#001e21"
-			width: parent.width - (parent.border.width * 2)
-			height: (parent.height / 4) - (parent.height / 10)
-			anchors.horizontalCenter: parent.horizontalCenter
-			anchors.bottom: parent.bottom
-			Behavior on color {
-				ColorAnimation {
-					duration: 125
-				}
-			}
-			Text {
-				id: appearanceText
-				text: "Appearance"
-				color: "#ffb642"
-				anchors.fill: parent
-				width: parent.width
-				height: parent.height
-				verticalAlignment: Text.AlignVCenter
-				leftPadding: (appearanceIcon.width
-				+ appearanceIcon.anchors.leftMargin) + 20
-				font.pointSize: 20
-				font.family: "Iosevka NF"
-			}
-			Image {
-				id: appearanceIcon
-				source: "pallete.png"
-				anchors.left: parent.left
-				anchors.leftMargin: 20
-				anchors.verticalCenter: parent.verticalCenter
-				visible: false
-				width: 30
-				height: 30
-			}
-			ColorOverlay {
-				id: colorAppearanceIcon
-				anchors.fill: appearanceIcon
-				source: appearanceIcon
-				color: "#ffb642"
-			}
-			// Controls mouse area for appearance button
-			MouseArea {
-				anchors.fill: parent
-				hoverEnabled: true
 
-				// Change cursor to pointer on mouse over
-				cursorShape: containsMouse ? Qt.PointingHandCursor
-				: Qt.ArrowCursor;
+		Column {
+			id: dropdownButtonColumn
 
-				onEntered: {
-					appearanceButton.color = "#002119";
-				}
-				onExited: {
-					appearanceButton.color = "#001e21";
-				}
-				onClicked: {
-					appearanceButton.state
-					= "toggleAppearance";
-				}
+			property real num_elements: 4
+			property real total_element_height: num_elements
+			* appearanceButton.height
+			property real height_delta: rootRectangle.height
+			- total_element_height
+
+			spacing: height_delta / (num_elements - 1)
+			- rootRectangle.border.width
+			anchors.fill: parent
+			leftPadding: rootRectangle.border.width
+			topPadding: rootRectangle.border.width
+			bottomPadding: rootRectangle.border.width
+
+			AppearanceButton {
+				id: appearanceButton
+
+				width: rootRectangle.width
+				- (rootRectangle.border.width * 2)
+				height: (rootRectangle.height / 4)
+				- ((rootRectangle.height / 4) * 0.25)
 			}
-			states: [
-				State {
-					// Toggles appearance menu on
-					name: "toggleAppearance"
-					AnchorChanges {
-						target: appearanceMenu
-						anchors.left: rootRectangle.left
-					}
-					PropertyChanges {
-						target: appearanceButton
-						visible: false
-					}
-				},
-				State {
-					name: ""
-					AnchorChanges {
-						target: appearanceMenu
-						anchors.left: rootRectangle.right
-					}
-					PropertyChanges {
-						target: appearanceButton
-						visible: true
-					}
-				}
-			]
-			transitions: Transition {
-				AnchorAnimation {
-					targets: {
-						appearanceMenu
-					}
-					duration: 200
-					easing.type: Easing.InOutQuad;
-				}
-				NumberAnimation {
-					properties: appearanceMenu.x
-					duration: 200
-					easing.type: Easing.InOutQuad;
-				}
+
+			AppearanceButton {
+				width: rootRectangle.width
+				- (rootRectangle.border.width * 2)
+				height: (rootRectangle.height / 4)
+				- ((rootRectangle.height / 4) * 0.25)
+			}
+
+			AppearanceButton {
+				width: rootRectangle.width
+				- (rootRectangle.border.width * 2)
+				height: (rootRectangle.height / 4)
+				- ((rootRectangle.height / 4) * 0.25)
+			}
+
+			AppearanceButton {
+				width: rootRectangle.width
+				- (rootRectangle.border.width * 2)
+				height: (rootRectangle.height / 4)
+				- ((rootRectangle.height / 4) * 0.25)
 			}
 		}
 	}
