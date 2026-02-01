@@ -36,6 +36,7 @@ Rectangle {
 	Column {
 		id: appearanceMenuColumn
 		anchors.fill: parent
+		Component.onCompleted: defaultButton.state = "selectDefault"
 
 		property real num_elements: 4
 		property real total_element_height: num_elements
