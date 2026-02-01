@@ -21,17 +21,23 @@ import Qt5Compat.GraphicalEffects
 Rectangle {
 	id: root
 
+	property real inpLeftMargin: 1
+	property real inpFontSize: 22
+	property real inpTopPadding: root.height / 2
+	- (appearanceButtonImage.height / 2)
+
 	color: "#001e21"
 
 	Row {
 		spacing: 16
 		padding: 10
-		topPadding: root.height / 2
-		- (appearanceButtonImage.height / 2)
+		topPadding: inpTopPadding
 
 		Image {
 			id: appearanceButtonImage
 			source: "pallete.png"
+
+			visible: false
 
 			width: 30
 			height: 30
@@ -40,7 +46,11 @@ Rectangle {
 			layer.effect: ColorOverlay {
 				id: appearanceButtonImageColor
 				source: appearanceButtonImage
+
+				visible: false
+
 				anchors.fill: appearanceButtonImage
+				smooth: true
 				color: "#ffb642"
 			}
 		}
@@ -49,7 +59,9 @@ Rectangle {
 			id: appearanceButtonText
 			text: "Appearance"
 
-			font.pointSize: 22
+			visible: false
+
+			font.pointSize: inpFontSize
 			font.family: "Iosevka NF"
 			color: "#ffb642"
 
@@ -57,25 +69,31 @@ Rectangle {
 		}
 	}
 
-	MouseArea {
-		id: appearanceButtonMouse
-		anchors.fill: root
-		hoverEnabled: true
+	states: [
+		State {
+			name: "toggleButton"
 
-		cursorShape: containsMouse ? Qt.PointingHandCursor
-		: Qt.ArrowCursor;
-
-		onEntered: {
-			root.color = "#000921"
-			root.border.color = "#ffb642"
-			root.border.width = 1
+			PropertyChanges {
+				target: appearanceButtonText
+				visible: true
+			}
+			PropertyChanges {
+				target: appearanceButtonImage
+				visible: true
+			}
+		},
+		State {
+			name: ""
+			PropertyChanges {
+				target: appearanceButtonText
+				visible: false
+			}
+			PropertyChanges {
+				target: appearanceButtonImage
+				visible: false
+			}
 		}
-		
-		onExited: {
-			root.color = "#001e21"
-			root.border.width = 0
-		}
-	}
+	]
 
 	Behavior on color {
 		ColorAnimation {

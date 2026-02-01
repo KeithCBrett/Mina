@@ -45,10 +45,26 @@ Item {
 			State {
 				name: "toggleCogwheel"
 				PropertyChanges {
-					target: cogwheel;
+					target: cogwheel
 					anchors.rightMargin: parent.width / 2
 				}
+				PropertyChanges {
+					target: appearanceButton
+					state: "toggleButton"
+				}
 			},
+
+			State {
+				name: ""
+				PropertyChanges {
+					target: appearanceMenu
+					state: ""
+				}
+				PropertyChanges {
+					target: appearanceButton
+					state: ""
+				}
+			}
 		]
 
 		Behavior on anchors.rightMargin {
@@ -109,6 +125,7 @@ Item {
 			spacing: height_delta / (num_elements - 1)
 			- rootRectangle.border.width
 			anchors.fill: parent
+
 			leftPadding: rootRectangle.border.width
 			topPadding: rootRectangle.border.width
 			bottomPadding: rootRectangle.border.width
@@ -116,10 +133,45 @@ Item {
 			AppearanceButton {
 				id: appearanceButton
 
+				inpFontSize: 22
+				inpLeftMargin: rootRectangle.border.width
 				width: rootRectangle.width
 				- (rootRectangle.border.width * 2)
 				height: (rootRectangle.height / 4)
 				- ((rootRectangle.height / 4) * 0.25)
+
+				MouseArea {
+					id: appearanceButtonMouse
+					anchors.fill: parent
+					hoverEnabled: true
+
+					onClicked: {
+						appearanceMenu.state
+						= "toggleMenu"
+						appearanceButton.state
+						= ""
+					}
+
+					onEntered: {
+						appearanceButton.color
+						= "#000921"
+						appearanceButton.border.color
+						= "#ffb642"
+						appearanceButton.border.width
+						= 1
+						cursorShape
+						= Qt.PointingHandCursor
+					}
+
+					onExited: {
+						appearanceButton.color
+						= "#001e21"
+						appearanceButton.border.width
+						= 0
+						cursorShape
+						= Qt.ArrowCursor
+					}
+				}
 			}
 
 			AppearanceButton {
@@ -142,6 +194,24 @@ Item {
 				height: (rootRectangle.height / 4)
 				- ((rootRectangle.height / 4) * 0.25)
 			}
+		}
+		// Code for slide-out menus that appear when *Button.qml is
+		// clicked
+		AppearanceMenu {
+			id: appearanceMenu
+
+			inpColor1: "#001e21"
+			inpColor2: "#ffb642"
+			inpBorderWidth: rootRectangle.border.width
+			inpButtonWidth: appearanceButton.width
+			inpButtonHeight: appearanceButton.height
+			inpFontSize: appearanceButton.inpFontSize
+			inpTopPadding: appearanceButton.inpTopPadding
+
+			width: rootRectangle.width
+			height: rootRectangle.height
+
+			anchors.left: rootRectangle.right
 		}
 	}
 

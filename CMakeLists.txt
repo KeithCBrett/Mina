@@ -49,6 +49,7 @@ qt_add_qml_module(kcbfin
 		src/Main.qml
 		src/DropdownMenu.qml
 		src/AppearanceButton.qml
+		src/AppearanceMenu.qml
 )
 
 # Encode image resources in source
