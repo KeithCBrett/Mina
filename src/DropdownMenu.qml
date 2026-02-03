@@ -21,10 +21,85 @@ import Qt5Compat.GraphicalEffects
 
 Item {
 	id: dropdown
+
 	width: (parent.width / 2)
 	height: parent.height
+
 	anchors.right: parent.right
 	anchors.top: parent.top
+
+	function getForegroundColor () {
+		var out_color = "#000000"
+		if (appearanceMenu.defaultButtonState == "selectDefault") {
+			out_color = "#ffb642"
+		}
+		if (appearanceMenu.godelButtonState == "selectGodel") {
+			out_color = "#006c6f"
+		}
+		if (appearanceMenu.bloombergButtonState == "selectBloomberg") {
+			out_color = "#fc8b19"
+		}
+		if (appearanceMenu.factsetButtonState == "selectFactset") {
+			out_color = "#0b2e54"
+		}
+		return out_color
+	}
+
+	function getBackgroundColor () {
+		var out_color = "#000000"
+		if (appearanceMenu.defaultButtonState == "selectDefault") {
+			out_color = "#001320"
+		}
+		if (appearanceMenu.godelButtonState == "selectGodel") {
+			out_color = "#181818"
+		}
+		if (appearanceMenu.bloombergButtonState == "selectBloomberg") {
+			out_color = "#000000"
+		}
+		if (appearanceMenu.factsetButtonState == "selectFactset") {
+			out_color = "#ffffff"
+		}
+		return out_color
+	}
+
+	function getSettingsMenuColor () {
+		var out_color = "#000000"
+		if (appearanceMenu.defaultButtonState == "selectDefault") {
+			out_color = "#001e21"
+		}
+		if (appearanceMenu.godelButtonState == "selectGodel") {
+			out_color = "#171717"
+		}
+		if (appearanceMenu.bloombergButtonState == "selectBloomberg") {
+			out_color = "#1d1d1d"
+		}
+		if (appearanceMenu.factsetButtonState == "selectFactset") {
+			out_color = "#fafafa"
+		}
+		return out_color
+	}
+
+	function getMouseOverColor () {
+		var out_color = "#000000"
+		if (appearanceMenu.defaultButtonState == "selectDefault") {
+			out_color = "#000921"
+		}
+		if (appearanceMenu.godelButtonState == "selectGodel") {
+			out_color = "#181818"
+		}
+		if (appearanceMenu.bloombergButtonState == "selectBloomberg") {
+			out_color = "#282828"
+		}
+		if (appearanceMenu.factsetButtonState == "selectFactset") {
+			out_color = "#d9edf5"
+		}
+		return out_color
+	}
+
+	property color foregroundColor: getForegroundColor ()
+	property color backgroundColor: getBackgroundColor ()
+	property color settingsMenuColor: getSettingsMenuColor ()
+	property color mouseOverColor: getMouseOverColor ()
 
 	Image {
 		id: cogwheel
@@ -80,7 +155,7 @@ Item {
 		id: colorCogwheel
 		anchors.fill: cogwheel
 		source: cogwheel
-		color: "#ffb642"
+		color: foregroundColor
 		// Whenever the cogwheel is rotated, animate it
 		Behavior on rotation {
 			NumberAnimation {
@@ -95,12 +170,19 @@ Item {
 				duration: 500
 			}
 		}
+		
+		Behavior on color {
+			ColorAnimation {
+				easing.type: Easing.InOutQuad;
+				duration: 200
+			}
+		}
 	}
 
 	// Draw settings menu
 	Rectangle {
 		id: rootRectangle
-		color: "#001e21"
+		color: settingsMenuColor
 
 		anchors.top: dropdown.top
 		anchors.bottom: dropdown.bottom
@@ -109,7 +191,7 @@ Item {
 		anchors.leftMargin: 40
 
 		border {
-			color: "#ffb642"
+			color: foregroundColor
 			width: 1
 		}
 
@@ -135,6 +217,9 @@ Item {
 
 				inpFontSize: 22
 				inpLeftMargin: rootRectangle.border.width
+				inpColor1: foregroundColor
+				inpColor2: settingsMenuColor
+
 				width: rootRectangle.width
 				- (rootRectangle.border.width * 2)
 				height: (rootRectangle.height / 4)
@@ -154,9 +239,9 @@ Item {
 
 					onEntered: {
 						appearanceButton.color
-						= "#000921"
+						= mouseOverColor
 						appearanceButton.border.color
-						= "#ffb642"
+						= foregroundColor
 						appearanceButton.border.width
 						= 1
 						cursorShape
@@ -165,7 +250,7 @@ Item {
 
 					onExited: {
 						appearanceButton.color
-						= "#001e21"
+						= settingsMenuColor
 						appearanceButton.border.width
 						= 0
 						cursorShape
@@ -194,14 +279,17 @@ Item {
 				height: (rootRectangle.height / 4)
 				- ((rootRectangle.height / 4) * 0.25)
 			}
+
+			
 		}
 		// Code for slide-out menus that appear when *Button.qml is
 		// clicked
 		AppearanceMenu {
 			id: appearanceMenu
 
-			inpColor1: "#001e21"
-			inpColor2: "#ffb642"
+			inpColor1: settingsMenuColor
+			inpColor2: foregroundColor
+			inpMouseOverColor: mouseOverColor
 			inpBorderWidth: rootRectangle.border.width
 			inpButtonWidth: appearanceButton.width
 			inpButtonHeight: appearanceButton.height
@@ -212,6 +300,13 @@ Item {
 			height: rootRectangle.height
 
 			anchors.left: rootRectangle.right
+		}
+
+		Behavior on color {
+			ColorAnimation {
+				easing.type: Easing.InOutQuad;
+				duration: 200
+			}
 		}
 	}
 

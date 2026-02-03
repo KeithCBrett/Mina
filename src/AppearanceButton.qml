@@ -25,8 +25,10 @@ Rectangle {
 	property real inpFontSize: 22
 	property real inpTopPadding: root.height / 2
 	- (appearanceButtonImage.height / 2)
+	property color inpColor1: "#000000"
+	property color inpColor2: "#000000"
 
-	color: "#001e21"
+	color: inpColor2
 
 	Row {
 		spacing: 16
@@ -51,7 +53,7 @@ Rectangle {
 
 				anchors.fill: appearanceButtonImage
 				smooth: true
-				color: "#ffb642"
+				color: inpColor1
 			}
 		}
 		
@@ -63,7 +65,7 @@ Rectangle {
 
 			font.pointSize: inpFontSize
 			font.family: "Iosevka NF"
-			color: "#ffb642"
+			color: inpColor1
 
 			topPadding: root.height * 0.001
 		}

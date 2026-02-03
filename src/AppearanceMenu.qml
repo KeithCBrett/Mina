@@ -23,11 +23,18 @@ Rectangle {
 	// Caller of AppearanceMenu sets these
 	property color inpColor1: "#000000"
 	property color inpColor2: "#000000"
+	property color inpMouseOverColor: "#000000"
 	property real inpBorderWidth: 0
 	property real inpButtonWidth: 0
 	property real inpButtonHeight: 0
 	property real inpFontSize: 1
 	property real inpTopPadding: 0
+
+	// The following states denote which theme/button is selected
+	property string defaultButtonState: defaultButton.state
+	property string godelButtonState: godelButton.state
+	property string bloombergButtonState: bloombergButton.state
+	property string factsetButtonState: factsetButton.state
 
 	color: inpColor1
 	border.color: inpColor2
@@ -49,7 +56,7 @@ Rectangle {
 
 		Rectangle {
 			id: defaultButton
-			color: root.inpColor1
+			color: root.color
 
 			width: root.inpButtonWidth
 			height: root.inpButtonHeight
@@ -78,11 +85,11 @@ Rectangle {
 					defaultButton.border.width = 1
 					defaultButton.border.color
 					= inpColor2
-					defaultButton.color = "#000921"
+					defaultButton.color = inpMouseOverColor
 				}
 
 				onExited: {
-					defaultButton.color = "#001e21"
+					defaultButton.color = root.inpColor1
 
 					defaultButton.border.width
 					= (defaultButton.state
@@ -105,6 +112,19 @@ Rectangle {
 						target: defaultButton
 						border.width: 1
 						border.color: root.inpColor2
+						color: inpColor1
+					}
+					PropertyChanges {
+						target: godelButton
+						color: inpColor1
+					}
+					PropertyChanges {
+						target: bloombergButton
+						color: inpColor1
+					}
+					PropertyChanges {
+						target: factsetButton
+						color: inpColor1
 					}
 				},
 				State {
@@ -112,6 +132,19 @@ Rectangle {
 					PropertyChanges {
 						target: defaultButton
 						border.width: 0
+						color: inpColor1
+					}
+					PropertyChanges {
+						target: godelButton
+						color: inpColor1
+					}
+					PropertyChanges {
+						target: bloombergButton
+						color: inpColor1
+					}
+					PropertyChanges {
+						target: factsetButton
+						color: inpColor1
 					}
 				}
 			]
@@ -126,7 +159,7 @@ Rectangle {
 
 		Rectangle {
 			id: godelButton
-			color: root.inpColor1
+			color: root.color
 
 			width: root.inpButtonWidth
 			height: root.inpButtonHeight
@@ -155,11 +188,11 @@ Rectangle {
 					godelButton.border.width = 1
 					godelButton.border.color
 					= inpColor2
-					godelButton.color = "#000921"
+					godelButton.color = inpMouseOverColor
 				}
 
 				onExited: {
-					godelButton.color = "#001e21"
+					godelButton.color = root.inpColor1
 
 					godelButton.border.width
 					= (godelButton.state
@@ -182,6 +215,19 @@ Rectangle {
 						target: godelButton
 						border.width: 1
 						border.color: root.inpColor2
+						color: inpColor1
+					}
+					PropertyChanges {
+						target: defaultButton
+						color: inpColor1
+					}
+					PropertyChanges {
+						target: bloombergButton
+						color: inpColor1
+					}
+					PropertyChanges {
+						target: factsetButton
+						color: inpColor1
 					}
 				},
 				State {
@@ -189,6 +235,19 @@ Rectangle {
 					PropertyChanges {
 						target: godelButton
 						border.width: 0
+						color: inpColor1
+					}
+					PropertyChanges {
+						target: defaultButton
+						color: inpColor1
+					}
+					PropertyChanges {
+						target: bloombergButton
+						color: inpColor1
+					}
+					PropertyChanges {
+						target: factsetButton
+						color: inpColor1
 					}
 				}
 			]
@@ -203,7 +262,7 @@ Rectangle {
 
 		Rectangle {
 			id: bloombergButton
-			color: root.inpColor1
+			color: root.color
 
 			width: root.inpButtonWidth
 			height: root.inpButtonHeight
@@ -232,11 +291,11 @@ Rectangle {
 					bloombergButton.border.width = 1
 					bloombergButton.border.color
 					= inpColor2
-					bloombergButton.color = "#000921"
+					bloombergButton.color = inpMouseOverColor
 				}
 
 				onExited: {
-					bloombergButton.color = "#001e21"
+					bloombergButton.color = root.inpColor1
 
 					bloombergButton.border.width
 					= (bloombergButton.state
@@ -259,6 +318,19 @@ Rectangle {
 						target: bloombergButton
 						border.width: 1
 						border.color: root.inpColor2
+						color: inpColor1
+					}
+					PropertyChanges {
+						target: defaultButton
+						color: inpColor1
+					}
+					PropertyChanges {
+						target: godelButton
+						color: inpColor1
+					}
+					PropertyChanges {
+						target: factsetButton
+						color: inpColor1
 					}
 				},
 				State {
@@ -266,6 +338,19 @@ Rectangle {
 					PropertyChanges {
 						target: bloombergButton
 						border.width: 0
+						color: inpColor1
+					}
+					PropertyChanges {
+						target: godelButton
+						color: inpColor1
+					}
+					PropertyChanges {
+						target: defaultButton
+						color: inpColor1
+					}
+					PropertyChanges {
+						target: factsetButton
+						color: inpColor1
 					}
 				}
 			]
@@ -280,7 +365,7 @@ Rectangle {
 
 		Rectangle {
 			id: factsetButton
-			color: root.inpColor1
+			color: root.color
 
 			width: root.inpButtonWidth
 			height: root.inpButtonHeight
@@ -309,11 +394,11 @@ Rectangle {
 					factsetButton.border.width = 1
 					factsetButton.border.color
 					= inpColor2
-					factsetButton.color = "#000921"
+					factsetButton.color = inpMouseOverColor
 				}
 
 				onExited: {
-					factsetButton.color = "#001e21"
+					factsetButton.color = root.inpColor1
 					factsetButton.border.width = 0
 
 					factsetButton.border.width
@@ -337,6 +422,19 @@ Rectangle {
 						target: factsetButton
 						border.width: 1
 						border.color: root.inpColor2
+						color: inpColor1
+					}
+					PropertyChanges {
+						target: defaultButton
+						color: inpColor1
+					}
+					PropertyChanges {
+						target: godelButton
+						color: inpColor1
+					}
+					PropertyChanges {
+						target: bloombergButton
+						color: inpColor1
 					}
 				},
 				State {
@@ -344,6 +442,19 @@ Rectangle {
 					PropertyChanges {
 						target: factsetButton
 						border.width: 0
+						color: inpColor1
+					}
+					PropertyChanges {
+						target: godelButton
+						color: inpColor1
+					}
+					PropertyChanges {
+						target: bloombergButton
+						color: inpColor1
+					}
+					PropertyChanges {
+						target: defaultButton
+						color: inpColor1
 					}
 				}
 			]
@@ -374,6 +485,17 @@ Rectangle {
 			}
 		}
 	]
+
+
+	Behavior on color {
+		ColorAnimation {
+			easing.type: Easing.InOutQuad;
+			duration: 200
+		}
+	}
+
+
+
 
 	transitions: Transition {
 		AnchorAnimation {

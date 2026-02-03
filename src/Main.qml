@@ -22,8 +22,19 @@ import QtQuick.Window
 Window {
 	width: 1920
 	height: 1080
-	color: '#001320'
+	//color: '#001320'
+	color: dropdownMenu.backgroundColor
+
 	visible: true
 	title: qsTr("KCBfin")
-	DropdownMenu {}
+	DropdownMenu {
+		id: dropdownMenu
+	}
+
+	Behavior on color {
+		ColorAnimation {
+			easing.type: Easing.InOutQuad;
+			duration: 200
+		}
+	}
 }
