@@ -155,6 +155,11 @@ Item {
 				}
 
 				PropertyChanges {
+					target: appearanceButtonMouse
+					enabled: true
+				}
+
+				PropertyChanges {
 					target: helpMenu
 					state: ""
 				}
@@ -175,12 +180,12 @@ Item {
 				}
 
 				PropertyChanges {
-					target: aboutButtonMouse
-					enabled: true
+					target: aboutMenu
+					state: ""
 				}
 
 				PropertyChanges {
-					target: appearanceButtonMouse
+					target: aboutButtonMouse
 					enabled: true
 				}
 			}
@@ -472,10 +477,13 @@ Item {
 					onEntered: {
 						appearanceButton.color
 						= mouseOverColor
+
 						appearanceButton.border.color
 						= foregroundColor
+
 						appearanceButton.border.width
 						= 1
+
 						cursorShape
 						= Qt.PointingHandCursor
 					}
@@ -483,8 +491,10 @@ Item {
 					onExited: {
 						appearanceButton.color
 						= settingsMenuColor
+
 						appearanceButton.border.width
 						= 0
+
 						cursorShape
 						= Qt.ArrowCursor
 					}
