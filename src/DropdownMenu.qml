@@ -147,17 +147,41 @@ Item {
 					target: appearanceMenu
 					state: ""
 				}
+
 				PropertyChanges {
 					target: appearanceButton
+					enabled: true
 					state: ""
 				}
+
 				PropertyChanges {
 					target: helpMenu
 					state: ""
 				}
+
 				PropertyChanges {
 					target: helpButton
 					state: ""
+				}
+
+				PropertyChanges {
+					target: helpButtonMouse
+					enabled: true
+				}
+
+				PropertyChanges {
+					target: homeButtonMouse
+					enabled: true
+				}
+
+				PropertyChanges {
+					target: aboutButtonMouse
+					enabled: true
+				}
+
+				PropertyChanges {
+					target: appearanceButtonMouse
+					enabled: true
 				}
 			}
 		]
@@ -254,10 +278,13 @@ Item {
 					onEntered: {
 						homeButton.color
 						= mouseOverColor
+
 						homeButton.border.color
 						= foregroundColor
+
 						homeButton.border.width
 						= 1
+
 						cursorShape
 						= Qt.PointingHandCursor
 					}
@@ -265,8 +292,10 @@ Item {
 					onExited: {
 						homeButton.color
 						= settingsMenuColor
+
 						homeButton.border.width
 						= 0
+
 						cursorShape
 						= Qt.ArrowCursor
 					}
@@ -292,17 +321,33 @@ Item {
 					onClicked: {
 						helpMenu.state
 						= "toggleMenu"
+
 						helpButton.state
 						= ""
+
+						helpButtonMouse.enabled
+						= false
+
+						aboutButtonMouse.enabled
+						= false
+
+						appearanceButtonMouse.enabled
+						= false
+
+						homeButtonMouse.enabled
+						= false
 					}
 
 					onEntered: {
 						helpButton.color
 						= mouseOverColor
+
 						helpButton.border.color
 						= foregroundColor
+
 						helpButton.border.width
 						= 1
+
 						cursorShape
 						= Qt.PointingHandCursor
 					}
@@ -310,8 +355,10 @@ Item {
 					onExited: {
 						helpButton.color
 						= settingsMenuColor
+
 						helpButton.border.width
 						= 0
+
 						cursorShape
 						= Qt.ArrowCursor
 					}
@@ -340,17 +387,33 @@ Item {
 					onClicked: {
 						aboutMenu.state
 						= "toggleMenu"
+
 						aboutButton.state
 						= ""
+
+						aboutButtonMouse.enabled
+						= false
+
+						homeButtonMouse.enabled
+						= false
+
+						appearanceButtonMouse.enabled
+						= false
+
+						helpButtonMouse.enabled
+						= false
 					}
 
 					onEntered: {
 						aboutButton.color
 						= mouseOverColor
+
 						aboutButton.border.color
 						= foregroundColor
+
 						aboutButton.border.width
 						= 1
+
 						cursorShape
 						= Qt.PointingHandCursor
 					}
@@ -358,8 +421,10 @@ Item {
 					onExited: {
 						aboutButton.color
 						= settingsMenuColor
+
 						aboutButton.border.width
 						= 0
+
 						cursorShape
 						= Qt.ArrowCursor
 					}
@@ -387,8 +452,21 @@ Item {
 					onClicked: {
 						appearanceMenu.state
 						= "toggleMenu"
+
 						appearanceButton.state
 						= ""
+
+						appearanceButtonMouse.enabled
+						= false
+
+						aboutButtonMouse.enabled
+						= false
+
+						helpButtonMouse.enabled
+						= false
+
+						homeButtonMouse.enabled
+						= false
 					}
 
 					onEntered: {
