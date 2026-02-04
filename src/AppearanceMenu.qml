@@ -486,16 +486,12 @@ Rectangle {
 		}
 	]
 
-
 	Behavior on color {
 		ColorAnimation {
 			easing.type: Easing.InOutQuad;
 			duration: 200
 		}
 	}
-
-
-
 
 	transitions: Transition {
 		AnchorAnimation {

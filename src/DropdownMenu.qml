@@ -127,6 +127,10 @@ Item {
 					target: appearanceButton
 					state: "toggleButton"
 				}
+				PropertyChanges {
+					target: helpButton
+					state: "toggleButton"
+				}
 			},
 
 			State {
@@ -137,6 +141,14 @@ Item {
 				}
 				PropertyChanges {
 					target: appearanceButton
+					state: ""
+				}
+				PropertyChanges {
+					target: helpMenu
+					state: ""
+				}
+				PropertyChanges {
+					target: helpButton
 					state: ""
 				}
 			}
@@ -212,6 +224,51 @@ Item {
 			topPadding: rootRectangle.border.width
 			bottomPadding: rootRectangle.border.width
 
+			HelpButton {
+				id: helpButton
+
+				inpColor1: foregroundColor
+				inpColor2: settingsMenuColor
+
+				width: rootRectangle.width
+				- (rootRectangle.border.width * 2)
+				height: (rootRectangle.height / 4)
+				- ((rootRectangle.height / 4) * 0.25)
+
+				MouseArea {
+					id: helpButtonMouse
+					anchors.fill: parent
+					hoverEnabled: true
+
+					onClicked: {
+						helpMenu.state
+						= "toggleMenu"
+						helpButton.state
+						= ""
+					}
+
+					onEntered: {
+						helpButton.color
+						= mouseOverColor
+						helpButton.border.color
+						= foregroundColor
+						helpButton.border.width
+						= 1
+						cursorShape
+						= Qt.PointingHandCursor
+					}
+
+					onExited: {
+						helpButton.color
+						= settingsMenuColor
+						helpButton.border.width
+						= 0
+						cursorShape
+						= Qt.ArrowCursor
+					}
+				}
+			}
+
 			AppearanceButton {
 				id: appearanceButton
 
@@ -273,13 +330,6 @@ Item {
 				- ((rootRectangle.height / 4) * 0.25)
 			}
 
-			AppearanceButton {
-				width: rootRectangle.width
-				- (rootRectangle.border.width * 2)
-				height: (rootRectangle.height / 4)
-				- ((rootRectangle.height / 4) * 0.25)
-			}
-
 			
 		}
 		// Code for slide-out menus that appear when *Button.qml is
@@ -295,6 +345,18 @@ Item {
 			inpButtonHeight: appearanceButton.height
 			inpFontSize: appearanceButton.inpFontSize
 			inpTopPadding: appearanceButton.inpTopPadding
+
+			width: rootRectangle.width
+			height: rootRectangle.height
+
+			anchors.left: rootRectangle.right
+		}
+
+		HelpMenu {
+			id: helpMenu
+
+			inpColor1: settingsMenuColor
+			inpColor2: foregroundColor
 
 			width: rootRectangle.width
 			height: rootRectangle.height

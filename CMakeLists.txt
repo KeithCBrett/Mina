@@ -49,6 +49,7 @@ qt_add_qml_module(kcbfin
 		src/Main.qml
 		src/DropdownMenu.qml
 		src/AppearanceButton.qml
+		src/HelpButton.qml
 		src/AppearanceMenu.qml
 )
 
@@ -58,6 +59,8 @@ qt_add_resources(kcbfin
 	FILES
 		src/setting.png
 		src/pallete.png
+		src/home.png
+		src/question.png
 )
 
 # Link action library to main
