@@ -52,6 +52,7 @@ qt_add_qml_module(kcbfin
 		src/HelpButton.qml
 		src/AppearanceMenu.qml
 		src/HomeButton.qml
+		src/AboutButton.qml
 )
 
 # Encode image resources in source
@@ -62,6 +63,7 @@ qt_add_resources(kcbfin
 		src/pallete.png
 		src/home.png
 		src/question.png
+		src/info.png
 )
 
 # Link action library to main

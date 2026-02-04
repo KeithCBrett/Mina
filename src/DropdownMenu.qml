@@ -135,6 +135,10 @@ Item {
 					target: homeButton
 					state: "toggleButton"
 				}
+				PropertyChanges {
+					target: aboutButton
+					state: "toggleButton"
+				}
 			},
 
 			State {
@@ -169,9 +173,11 @@ Item {
 	// Colors setting button orange
 	ColorOverlay {
 		id: colorCogwheel
+
 		anchors.fill: cogwheel
 		source: cogwheel
 		color: foregroundColor
+
 		// Whenever the cogwheel is rotated, animate it
 		Behavior on rotation {
 			NumberAnimation {
@@ -180,6 +186,7 @@ Item {
 				duration: 300
 			}
 		}
+
 		// Whenever cogwheel x changes, animate it moving
 		Behavior on x {
 			NumberAnimation {
@@ -311,6 +318,54 @@ Item {
 				}
 			}
 
+
+			AboutButton {
+				id: aboutButton
+
+				inpFontSize: 22
+				inpLeftMargin: rootRectangle.border.width
+				inpColor1: foregroundColor
+				inpColor2: settingsMenuColor
+
+				width: rootRectangle.width
+				- (rootRectangle.border.width * 2)
+				height: (rootRectangle.height / 4)
+				- ((rootRectangle.height / 4) * 0.25)
+
+				MouseArea {
+					id: aboutButtonMouse
+					anchors.fill: parent
+					hoverEnabled: true
+
+					onClicked: {
+						aboutMenu.state
+						= "toggleMenu"
+						aboutButton.state
+						= ""
+					}
+
+					onEntered: {
+						aboutButton.color
+						= mouseOverColor
+						aboutButton.border.color
+						= foregroundColor
+						aboutButton.border.width
+						= 1
+						cursorShape
+						= Qt.PointingHandCursor
+					}
+
+					onExited: {
+						aboutButton.color
+						= settingsMenuColor
+						aboutButton.border.width
+						= 0
+						cursorShape
+						= Qt.ArrowCursor
+					}
+				}
+			}
+			
 			AppearanceButton {
 				id: appearanceButton
 
@@ -357,22 +412,6 @@ Item {
 					}
 				}
 			}
-
-			AppearanceButton {
-				width: rootRectangle.width
-				- (rootRectangle.border.width * 2)
-				height: (rootRectangle.height / 4)
-				- ((rootRectangle.height / 4) * 0.25)
-			}
-
-			AppearanceButton {
-				width: rootRectangle.width
-				- (rootRectangle.border.width * 2)
-				height: (rootRectangle.height / 4)
-				- ((rootRectangle.height / 4) * 0.25)
-			}
-
-			
 		}
 		// Code for slide-out menus that appear when *Button.qml is
 		// clicked
@@ -396,6 +435,18 @@ Item {
 
 		HelpMenu {
 			id: helpMenu
+
+			inpColor1: settingsMenuColor
+			inpColor2: foregroundColor
+
+			width: rootRectangle.width
+			height: rootRectangle.height
+
+			anchors.left: rootRectangle.right
+		}
+
+		AboutMenu {
+			id: aboutMenu
 
 			inpColor1: settingsMenuColor
 			inpColor2: foregroundColor
