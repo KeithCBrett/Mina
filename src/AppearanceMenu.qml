@@ -114,17 +114,40 @@ Rectangle {
 						border.color: root.inpColor2
 						color: inpColor1
 					}
+
 					PropertyChanges {
 						target: godelButton
 						color: inpColor1
 					}
+
 					PropertyChanges {
 						target: bloombergButton
 						color: inpColor1
 					}
+
 					PropertyChanges {
 						target: factsetButton
 						color: inpColor1
+					}
+
+					PropertyChanges {
+						target: appearanceButton
+						color: inpColor2
+					}
+
+					PropertyChanges {
+						target: aboutButton
+						color: inpColor2
+					}
+
+					PropertyChanges {
+						target: helpButton
+						color: inpColor2
+					}
+
+					PropertyChanges {
+						target: homeButton
+						color: inpColor2
 					}
 				},
 				State {
@@ -134,18 +157,42 @@ Rectangle {
 						border.width: 0
 						color: inpColor1
 					}
+
 					PropertyChanges {
 						target: godelButton
 						color: inpColor1
 					}
+
 					PropertyChanges {
 						target: bloombergButton
 						color: inpColor1
 					}
+
 					PropertyChanges {
 						target: factsetButton
 						color: inpColor1
 					}
+
+					PropertyChanges {
+						target: appearanceButton
+						color: inpColor2
+					}
+
+					PropertyChanges {
+						target: aboutButton
+						color: inpColor2
+					}
+
+					PropertyChanges {
+						target: helpButton
+						color: inpColor2
+					}
+
+					PropertyChanges {
+						target: homeButton
+						color: inpColor2
+					}
+
 				}
 			]
 
@@ -217,18 +264,41 @@ Rectangle {
 						border.color: root.inpColor2
 						color: inpColor1
 					}
+
 					PropertyChanges {
 						target: defaultButton
 						color: inpColor1
 					}
+
 					PropertyChanges {
 						target: bloombergButton
 						color: inpColor1
 					}
+
 					PropertyChanges {
 						target: factsetButton
 						color: inpColor1
 					}
+					PropertyChanges {
+						target: appearanceButton
+						color: inpColor2
+					}
+
+					PropertyChanges {
+						target: aboutButton
+						color: inpColor2
+					}
+
+					PropertyChanges {
+						target: helpButton
+						color: inpColor2
+					}
+
+					PropertyChanges {
+						target: homeButton
+						color: inpColor2
+					}
+
 				},
 				State {
 					name: ""
@@ -237,18 +307,42 @@ Rectangle {
 						border.width: 0
 						color: inpColor1
 					}
+
 					PropertyChanges {
 						target: defaultButton
 						color: inpColor1
 					}
+
 					PropertyChanges {
 						target: bloombergButton
 						color: inpColor1
 					}
+
 					PropertyChanges {
 						target: factsetButton
 						color: inpColor1
 					}
+
+					PropertyChanges {
+						target: appearanceButton
+						color: inpColor2
+					}
+
+					PropertyChanges {
+						target: aboutButton
+						color: inpColor2
+					}
+
+					PropertyChanges {
+						target: helpButton
+						color: inpColor2
+					}
+
+					PropertyChanges {
+						target: homeButton
+						color: inpColor2
+					}
+
 				}
 			]
 
@@ -320,18 +414,42 @@ Rectangle {
 						border.color: root.inpColor2
 						color: inpColor1
 					}
+
 					PropertyChanges {
 						target: defaultButton
 						color: inpColor1
 					}
+
 					PropertyChanges {
 						target: godelButton
 						color: inpColor1
 					}
+
 					PropertyChanges {
 						target: factsetButton
 						color: inpColor1
 					}
+					PropertyChanges {
+						target: appearanceButton
+						color: inpColor2
+					}
+
+					PropertyChanges {
+						target: aboutButton
+						color: inpColor2
+					}
+
+					PropertyChanges {
+						target: helpButton
+						color: inpColor2
+					}
+
+					PropertyChanges {
+						target: homeButton
+						color: inpColor2
+					}
+
+
 				},
 				State {
 					name: ""
@@ -340,18 +458,42 @@ Rectangle {
 						border.width: 0
 						color: inpColor1
 					}
+
 					PropertyChanges {
 						target: godelButton
 						color: inpColor1
 					}
+
 					PropertyChanges {
 						target: defaultButton
 						color: inpColor1
 					}
+
 					PropertyChanges {
 						target: factsetButton
 						color: inpColor1
 					}
+
+					PropertyChanges {
+						target: appearanceButton
+						color: inpColor2
+					}
+
+					PropertyChanges {
+						target: aboutButton
+						color: inpColor2
+					}
+
+					PropertyChanges {
+						target: helpButton
+						color: inpColor2
+					}
+
+					PropertyChanges {
+						target: homeButton
+						color: inpColor2
+					}
+
 				}
 			]
 
@@ -424,17 +566,39 @@ Rectangle {
 						border.color: root.inpColor2
 						color: inpColor1
 					}
+
 					PropertyChanges {
 						target: defaultButton
 						color: inpColor1
 					}
+
 					PropertyChanges {
 						target: godelButton
 						color: inpColor1
 					}
+
 					PropertyChanges {
 						target: bloombergButton
 						color: inpColor1
+					}
+					PropertyChanges {
+						target: appearanceButton
+						color: inpColor2
+					}
+
+					PropertyChanges {
+						target: aboutButton
+						color: inpColor2
+					}
+
+					PropertyChanges {
+						target: helpButton
+						color: inpColor2
+					}
+
+					PropertyChanges {
+						target: homeButton
+						color: inpColor2
 					}
 				},
 				State {
@@ -444,18 +608,42 @@ Rectangle {
 						border.width: 0
 						color: inpColor1
 					}
+
 					PropertyChanges {
 						target: godelButton
 						color: inpColor1
 					}
+
 					PropertyChanges {
 						target: bloombergButton
 						color: inpColor1
 					}
+
 					PropertyChanges {
 						target: defaultButton
 						color: inpColor1
 					}
+
+					PropertyChanges {
+						target: appearanceButton
+						color: inpColor2
+					}
+
+					PropertyChanges {
+						target: aboutButton
+						color: inpColor2
+					}
+
+					PropertyChanges {
+						target: helpButton
+						color: inpColor2
+					}
+
+					PropertyChanges {
+						target: homeButton
+						color: inpColor2
+					}
+
 				}
 			]
 
