@@ -26,7 +26,19 @@ Window {
 	color: dropdownMenu.backgroundColor
 
 	visible: true
-	title: qsTr("KCBfin")
+	title: qsTr("KCBFin")
+
+	Text {
+		id: logo
+
+		text: "KCBFin"
+		color: dropdownMenu.foregroundColor
+		padding: 20
+
+		font.pointSize: 32
+		font.family: "Iosevka NF"
+	}
+
 	DropdownMenu {
 		id: dropdownMenu
 	}
