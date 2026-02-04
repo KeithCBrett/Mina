@@ -51,6 +51,7 @@ qt_add_qml_module(kcbfin
 		src/AppearanceButton.qml
 		src/HelpButton.qml
 		src/AppearanceMenu.qml
+		src/HomeButton.qml
 )
 
 # Encode image resources in source

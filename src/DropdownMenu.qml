@@ -131,6 +131,10 @@ Item {
 					target: helpButton
 					state: "toggleButton"
 				}
+				PropertyChanges {
+					target: homeButton
+					state: "toggleButton"
+				}
 			},
 
 			State {
@@ -223,6 +227,44 @@ Item {
 			leftPadding: rootRectangle.border.width
 			topPadding: rootRectangle.border.width
 			bottomPadding: rootRectangle.border.width
+
+			HomeButton {
+				id: homeButton
+
+				inpColor1: foregroundColor
+				inpColor2: settingsMenuColor
+
+				width: rootRectangle.width
+				- (rootRectangle.border.width * 2)
+				height: (rootRectangle.height / 4)
+				- ((rootRectangle.height / 4) * 0.25)
+
+				MouseArea {
+					id: homeButtonMouse
+					anchors.fill: parent
+					hoverEnabled: true
+
+					onEntered: {
+						homeButton.color
+						= mouseOverColor
+						homeButton.border.color
+						= foregroundColor
+						homeButton.border.width
+						= 1
+						cursorShape
+						= Qt.PointingHandCursor
+					}
+
+					onExited: {
+						homeButton.color
+						= settingsMenuColor
+						homeButton.border.width
+						= 0
+						cursorShape
+						= Qt.ArrowCursor
+					}
+				}
+			}
 
 			HelpButton {
 				id: helpButton
