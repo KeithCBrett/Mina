@@ -35,6 +35,7 @@ Rectangle {
 		wrapMode: Text.WordWrap
 		padding: 10
 		font.pointSize: 22
+		font.family: "Iosevka NF"
 
 		text: "*The contents of this menu change depending on which"
 		+ " page you are on*\n\nThis is the 'Home' page. Consolidates"

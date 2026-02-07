@@ -16,12 +16,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import QtQuick
+import mina
 
 Rectangle {
 	id: root
 
 	property color inpColor1: "#000000"
 	property color inpColor2: "#000000"
+	property VersionNumberInfo version_number: VersionNumberInfo {}
 
 	color: inpColor1
 	border.color: inpColor2
@@ -35,11 +37,14 @@ Rectangle {
 		wrapMode: Text.WordWrap
 		padding: 10
 		font.pointSize: 22
+		font.family: "Iosevka NF"
 
 		text: "Mina:\nis a equity analyzer that performs various"
 		+ " functions related to the appraisal of common stock"
 		+ " (Such as DCF, NOPLAT, ROIC, etc)\n\nContact:"
-		+ " KeithCBrett@gmail.com\n\nLicense:\nGPLv3"
+		+ " KeithCBrett@gmail.com\n\nLicense:\nGPLv3\n\nVersion:\n"
+		+ version_number.getMajor() + "." + version_number.getMinor()
+		+ "." + version_number.getPatch()
 	}
 
 	states: [
