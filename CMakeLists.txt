@@ -6,6 +6,7 @@ project(kcbfin LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # We need to import the Qt API for our GUI
 find_package(Qt6 6.5 COMPONENTS Quick REQUIRED)
@@ -40,7 +41,10 @@ target_include_directories(action PUBLIC include/)
 target_include_directories(calc PUBLIC include/)
 
 # Name of executable generated
-qt_add_executable(kcbfin)
+qt_add_executable(kcbfin
+	src/main.cpp
+)
+set(CMAKE_AUTORCC ON)
 
 # Declare a QML (Qt) module
 qt_add_qml_module(kcbfin
@@ -50,20 +54,20 @@ qt_add_qml_module(kcbfin
 		src/DropdownMenu.qml
 		src/AppearanceButton.qml
 		src/HelpButton.qml
+		src/HelpMenu.qml
 		src/AppearanceMenu.qml
 		src/HomeButton.qml
 		src/AboutButton.qml
-)
-
-# Encode image resources in source
-qt_add_resources(kcbfin
-	PREFIX "images/"
-	FILES
-		src/setting.png
-		src/pallete.png
-		src/home.png
-		src/question.png
-		src/info.png
+		src/AboutMenu.qml
+	RESOURCES
+		src/images/pallete.png
+		src/images/setting.png
+		src/images/question.png
+		src/images/info.png
+		src/images/home.png
+	SOURCES
+		include/VersionNumberInfo.hpp
+		src/VersionNumberInfo.cpp
 )
 
 # Link action library to main
@@ -72,12 +76,6 @@ target_link_libraries(kcbfin
 		action
 		calc
 		Qt6::Quick
-)
-
-# Associate source files with project
-target_sources(kcbfin
-	PRIVATE
-		src/main.cpp
 )
 
 # Below allows us to automate versioning via number of git commits

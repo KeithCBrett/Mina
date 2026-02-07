@@ -17,6 +17,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import QtQuick
 import QtQuick.Window
+import kcbfin
 
 
 Window {
@@ -24,6 +25,8 @@ Window {
 	height: 1080
 	//color: '#001320'
 	color: dropdownMenu.backgroundColor
+
+	property VersionNumberInfo version_number: VersionNumberInfo {}
 
 	visible: true
 	title: qsTr("KCBFin")
@@ -34,8 +37,22 @@ Window {
 		text: "KCBFin"
 		color: dropdownMenu.foregroundColor
 		padding: 20
+		bottomPadding: 0
 
 		font.pointSize: 32
+		font.family: "Iosevka NF"
+	}
+
+	Text {
+		id: versionNumberText
+
+		anchors.top: logo.bottom
+		text: "Version:\n" + version_number.getMajor() + "."
+		+ version_number.getMinor() + "." + version_number.getPatch()
+		padding: 20
+		color: dropdownMenu.foregroundColor
+		topPadding: 0
+		font.pointSize: 16
 		font.family: "Iosevka NF"
 	}
 

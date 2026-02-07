@@ -37,7 +37,7 @@ Rectangle {
 
 		Image {
 			id: homeButtonImage
-			source: "home.png"
+			source: "images/home.png"
 
 			visible: false
 

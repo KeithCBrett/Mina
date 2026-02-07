@@ -37,7 +37,7 @@ Rectangle {
 
 		Image {
 			id: aboutButtonImage
-			source: "info.png"
+			source: "images/info.png"
 
 			visible: false
 

@@ -37,7 +37,7 @@ Rectangle {
 
 		Image {
 			id: helpButtonImage
-			source: "question.png"
+			source: "images/question.png"
 
 			visible: false
 

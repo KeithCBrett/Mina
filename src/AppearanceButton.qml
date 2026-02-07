@@ -37,7 +37,7 @@ Rectangle {
 
 		Image {
 			id: appearanceButtonImage
-			source: "pallete.png"
+			source: "images/pallete.png"
 
 			visible: false
 

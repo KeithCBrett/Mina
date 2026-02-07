@@ -17,6 +17,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import QtQuick
 import Qt5Compat.GraphicalEffects
+import kcbfin
 
 
 Item {
@@ -104,7 +105,7 @@ Item {
 	Image {
 		id: cogwheel
 
-		source: "setting.png"
+		source: "images/setting.png"
 		width: 30
 		height: 30
 
