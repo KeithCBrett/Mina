@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 4.2)
 
 # Name of project for future reference
-project(kcbfin LANGUAGES CXX)
+project(mina LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -33,22 +33,22 @@ add_subdirectory(include)
 add_subdirectory(test)
 
 # Here we declare our libraries and their source files
-add_library(action STATIC ${kcbfin_action_SRC} ${kcbfin_action_INC})
-add_library(calc STATIC ${kcbfin_calc_SRC} ${kcbfin_calc_INC})
+add_library(action STATIC ${mina_action_SRC} ${mina_action_INC})
+add_library(calc STATIC ${mina_calc_SRC} ${mina_calc_INC})
 
 # Tells CMake that action and calc need files located in include/
 target_include_directories(action PUBLIC include/)
 target_include_directories(calc PUBLIC include/)
 
 # Name of executable generated
-qt_add_executable(kcbfin
+qt_add_executable(mina
 	src/main.cpp
 )
 set(CMAKE_AUTORCC ON)
 
 # Declare a QML (Qt) module
-qt_add_qml_module(kcbfin
-	URI kcbfin
+qt_add_qml_module(mina
+	URI mina
 	QML_FILES
 		src/Main.qml
 		src/DropdownMenu.qml
@@ -71,7 +71,7 @@ qt_add_qml_module(kcbfin
 )
 
 # Link action library to main
-target_link_libraries(kcbfin
+target_link_libraries(mina
 	PRIVATE
 		action
 		calc

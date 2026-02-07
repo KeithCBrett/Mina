@@ -18,20 +18,20 @@
 
 # Below we create a list of all source files that are apart of the action
 # library
-set(kcbfin_action_SRC
+set(mina_action_SRC
 	GetVersionNum.cpp
 )
 
 # We also create a list for our calc library
-set(kcbfin_calc_SRC
+set(mina_calc_SRC
 	Ebita.cpp
 )
 
 # Use helper function to get full path string to source files
-PREPEND(kcbfin_action_SRC)
+PREPEND(mina_action_SRC)
 # Pass result to parent scope
-set(kcbfin_action_SRC ${kcbfin_action_SRC} PARENT_SCOPE)
+set(mina_action_SRC ${mina_action_SRC} PARENT_SCOPE)
 
 # Do the same for library calc
-PREPEND(kcbfin_calc_SRC)
-set(kcbfin_calc_SRC ${kcbfin_calc_SRC} PARENT_SCOPE)
+PREPEND(mina_calc_SRC)
+set(mina_calc_SRC ${mina_calc_SRC} PARENT_SCOPE)

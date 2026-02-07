@@ -17,7 +17,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import QtQuick
 import QtQuick.Window
-import kcbfin
+import mina
 
 
 Window {
@@ -29,12 +29,12 @@ Window {
 	property VersionNumberInfo version_number: VersionNumberInfo {}
 
 	visible: true
-	title: qsTr("KCBFin")
+	title: qsTr("Mina")
 
 	Text {
 		id: logo
 
-		text: "KCBFin"
+		text: "Mina"
 		color: dropdownMenu.foregroundColor
 		padding: 20
 		bottomPadding: 0

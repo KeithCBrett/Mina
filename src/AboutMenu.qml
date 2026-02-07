@@ -36,7 +36,7 @@ Rectangle {
 		padding: 10
 		font.pointSize: 22
 
-		text: "KCBFin:\nis a equity analyzer that performs various"
+		text: "Mina:\nis a equity analyzer that performs various"
 		+ " functions related to the appraisal of common stock"
 		+ " (Such as DCF, NOPLAT, ROIC, etc)\n\nContact:"
 		+ " KeithCBrett@gmail.com\n\nLicense:\nGPLv3"
