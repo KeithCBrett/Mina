@@ -1,4 +1,5 @@
-// GetVersionNum is used to get the version number via number of git commits
+// BrowsePage.qml represents the page that is entered when 'Browse' on the
+// home page is clicked
 
 // Copyright (C) 2026  Keith C Brett (KeithCBrett@gmail.com)
 
@@ -14,33 +15,22 @@
 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#include "../include/GetVersionNum.hpp"
 
+import QtQuick
 
-unsigned
-GetVersionMajor ()
-{
-	return  +0;
-}
+Rectangle {
+	id: root
 
+	color: dropdownMenu.backgroundColor
 
-unsigned
-GetVersionMinor ()
-{
-	return  +0;
-}
+	Text {
+		id: browsePageText
+		anchors.centerIn: parent
 
+		color: dropdownMenu.foregroundColor
+		text: "Browse page under construction"
 
-unsigned
-GetVersionPatch ()
-{
-	return  +0;
-}
-
-
-unsigned
-GetNumCommits ()
-{
-	return 46
- +0;
+		font.pointSize: 24
+		font.family: "Iosevka NF"
+	}
 }

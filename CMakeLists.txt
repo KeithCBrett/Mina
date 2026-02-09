@@ -59,6 +59,8 @@ qt_add_qml_module(mina
 		src/HomeButton.qml
 		src/AboutButton.qml
 		src/AboutMenu.qml
+		src/BrowseButton.qml
+		src/BrowsePage.qml
 	RESOURCES
 		src/images/pallete.png
 		src/images/setting.png

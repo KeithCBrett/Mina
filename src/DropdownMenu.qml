@@ -16,6 +16,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import QtQuick
+import QtQuick.Controls
 import Qt5Compat.GraphicalEffects
 import mina
 
@@ -304,6 +305,10 @@ Item {
 
 						cursorShape
 						= Qt.ArrowCursor
+					}
+
+					onClicked: {
+						stack.pop()
 					}
 				}
 			}
