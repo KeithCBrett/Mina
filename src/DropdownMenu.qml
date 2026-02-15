@@ -308,7 +308,8 @@ Item {
 					}
 
 					onClicked: {
-						stack.pop()
+						stack.pop();
+						cogwheel.state = "";
 					}
 				}
 			}
