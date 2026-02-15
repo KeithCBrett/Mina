@@ -22,13 +22,14 @@
 
 // Frontend headers (Qt)
 #include <QtQuick>
+#include <QApplication>
 #include <QtQml>
 
 
 int
 main (int argc, char *argv[])
 {
-	QGuiApplication gui (argc, argv);
+	QApplication gui (argc, argv);
 	QQmlApplicationEngine engine ("../../src/Main.qml");
 	return gui.exec();
 }

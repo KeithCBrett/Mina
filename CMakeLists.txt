@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # We need to import the Qt API for our GUI
-find_package(Qt6 6.5 COMPONENTS Quick REQUIRED)
+find_package(Qt6 6.5 REQUIRED COMPONENTS Quick Charts Widgets)
 qt_standard_project_setup(REQUIRES 6.5)
 
 # Prepends subdirectory to files in a list
@@ -78,6 +78,8 @@ target_link_libraries(mina
 		action
 		calc
 		Qt6::Quick
+		Qt6::Charts
+		Qt6::Widgets
 )
 
 # Below allows us to automate versioning via number of git commits
