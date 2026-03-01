@@ -15,6 +15,10 @@
 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#ifndef GET_VERSION_NUM_H
+#define GET_VERSION_NUM_H
+
+
 unsigned
 GetVersionMajor ();
 
@@ -29,3 +33,4 @@ GetVersionPatch ();
 
 unsigned
 GetNumCommits ();
+#endif

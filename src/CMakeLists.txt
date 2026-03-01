@@ -20,6 +20,8 @@
 # library
 set(mina_action_SRC
 	GetVersionNum.cpp
+	CurlInit.cpp
+	CurlWriter.cpp
 )
 
 # We also create a list for our calc library

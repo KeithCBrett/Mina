@@ -1,5 +1,6 @@
-// Master header for calc module
-// Contains headers used in various functions
+// CurlWriter is one of the prerequisite function implementations needed to
+// make curl work in C++. It is used to write the data that we receive from
+// whatever server we are pulling data from.
 
 // Copyright (C) 2026  Keith C Brett (KeithCBrett@gmail.com)
 
@@ -15,4 +16,21 @@
 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#include <stdint.h>
+#include "CurlWriter.hpp"
+
+
+namespace action
+{
+	size_t CurlWriter (char *data, size_t size, size_t nmemb,
+			std::string *writer_data)
+	{
+		if (writer_data == NULL)
+		{
+			return 0;
+		}
+
+		writer_data->append (data, (size * nmemb));
+
+		return (size * nmemb);
+	}
+}

@@ -19,7 +19,7 @@ PREPEND(kcbfin_TEST_SRC)
 # Obtain GTest if it isn't already on the system
 include(FetchContent)
 FetchContent_Declare(googletest
-	URL https://github.com/google/googletest/archive/9156d4caac880b513264ecbe0aa4746a3fead3d7.zip
+	URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
 )
 
 # For Windows based systems, prevents compiler/linker argument overide

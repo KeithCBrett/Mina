@@ -19,7 +19,8 @@
 # library
 set(mina_action_INC
 	GetVersionNum.hpp
-	action.hpp
+	CurlInit.hpp
+	CurlWriter.hpp
 )
 
 # Do the same for library calc

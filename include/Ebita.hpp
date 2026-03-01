@@ -15,7 +15,11 @@
 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#include "calc.hpp"
+#ifndef EBITA_H
+#define EBITA_H
+
+
+#include <stdint.h>
 
 
 namespace calc
@@ -24,3 +28,4 @@ namespace calc
 		(uint64_t inp_net_sales, uint64_t inp_cost_merch_sold,
 		 uint64_t inp_selling_general_admin, uint64_t inp_depreciation);
 }
+#endif

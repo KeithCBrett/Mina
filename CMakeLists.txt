@@ -12,6 +12,9 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 find_package(Qt6 6.5 REQUIRED COMPONENTS Quick Charts Widgets)
 qt_standard_project_setup(REQUIRES 6.5)
 
+# We also need to import curl for getting stock data from Alpaca API
+find_package(CURL)
+
 # Prepends subdirectory to files in a list
 function(PREPEND var)
 	# Declare empty storage list
@@ -72,7 +75,6 @@ qt_add_qml_module(mina
 		src/VersionNumberInfo.cpp
 )
 
-# Link action library to main
 target_link_libraries(mina
 	PRIVATE
 		action
@@ -80,6 +82,7 @@ target_link_libraries(mina
 		Qt6::Quick
 		Qt6::Charts
 		Qt6::Widgets
+		CURL::libcurl
 )
 
 # Below allows us to automate versioning via number of git commits

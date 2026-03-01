@@ -1,4 +1,5 @@
-// This header is responsible for linking in GoogleTest unit testing framework
+// CurlInit is a curl helper function. It passes in the proper options to
+// curl setup, and return false if an error occured.
 
 // Copyright (C) 2026  Keith C Brett (KeithCBrett@gmail.com)
 
@@ -14,10 +15,16 @@
 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#ifndef UNIT_TESTS_H
-#define UNIT_TESTS_H
+#ifndef CURL_INIT_H
+#define CURL_INIT_H
 
 
-#include <gtest/gtest.h>
-#include "../include/Ebita.hpp"
+#include <curl/curl.h>
+#include <string>
+
+
+namespace action {
+	std::string *CurlInit
+		(CURL *&curl, std::string url, struct curl_slist *headers);
+}
 #endif
