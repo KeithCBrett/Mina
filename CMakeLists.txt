@@ -45,7 +45,7 @@ target_include_directories(calc PUBLIC include/)
 
 # Name of executable generated
 qt_add_executable(mina
-	src/main.cpp
+	src/CPP/main.cpp
 )
 set(CMAKE_AUTORCC ON)
 
@@ -53,26 +53,26 @@ set(CMAKE_AUTORCC ON)
 qt_add_qml_module(mina
 	URI mina
 	QML_FILES
-		src/Main.qml
-		src/DropdownMenu.qml
-		src/AppearanceButton.qml
-		src/HelpButton.qml
-		src/HelpMenu.qml
-		src/AppearanceMenu.qml
-		src/HomeButton.qml
-		src/AboutButton.qml
-		src/AboutMenu.qml
-		src/BrowseButton.qml
-		src/BrowsePage.qml
+		src/QML/Main.qml
+		src/QML/DropdownMenu.qml
+		src/QML/AppearanceButton.qml
+		src/QML/HelpButton.qml
+		src/QML/HelpMenu.qml
+		src/QML/AppearanceMenu.qml
+		src/QML/HomeButton.qml
+		src/QML/AboutButton.qml
+		src/QML/AboutMenu.qml
+		src/QML/BrowseButton.qml
+		src/QML/BrowsePage.qml
 	RESOURCES
-		src/images/pallete.png
-		src/images/setting.png
-		src/images/question.png
-		src/images/info.png
-		src/images/home.png
+		src/QML/images/pallete.png
+		src/QML/images/setting.png
+		src/QML/images/question.png
+		src/QML/images/info.png
+		src/QML/images/home.png
 	SOURCES
 		include/VersionNumberInfo.hpp
-		src/VersionNumberInfo.cpp
+		src/CPP/VersionNumberInfo.cpp
 )
 
 target_link_libraries(mina
@@ -97,6 +97,6 @@ if (result)
 	message(FATAL_ERROR "Failed to get number of commits")
 endif()
 set(kcbfin_NUM_COMMITS ${num_commits})
-configure_file(src/GetVersionNum.cpp.in
-	${CMAKE_CURRENT_SOURCE_DIR}/src/GetVersionNum.cpp @ONLY
+configure_file(src/CPP/GetVersionNum.cpp.in
+	${CMAKE_CURRENT_SOURCE_DIR}/src/CPP/GetVersionNum.cpp @ONLY
 )

@@ -19,14 +19,14 @@
 # Below we create a list of all source files that are apart of the action
 # library
 set(mina_action_SRC
-	GetVersionNum.cpp
-	CurlInit.cpp
-	CurlWriter.cpp
+	CPP/GetVersionNum.cpp
+	CPP/CurlInit.cpp
+	CPP/CurlWriter.cpp
 )
 
 # We also create a list for our calc library
 set(mina_calc_SRC
-	Ebita.cpp
+	CPP/Ebita.cpp
 )
 
 # Use helper function to get full path string to source files

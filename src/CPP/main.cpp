@@ -60,6 +60,6 @@ main (int argc, char *argv[])
 	fprintf (stderr, "%s\n", (*curl_output_buffer).c_str ());
 
 	QApplication gui (argc, argv);
-	QQmlApplicationEngine engine ("../../src/Main.qml");
+	QQmlApplicationEngine engine ("../../src/QML/Main.qml");
 	return gui.exec ();
 }
