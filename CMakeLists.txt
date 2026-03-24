@@ -1,5 +1,5 @@
 # Minimum required version of cmake needed to build project
-cmake_minimum_required(VERSION 4.2)
+cmake_minimum_required(VERSION 4.1.2)
 
 # Name of project for future reference
 project(mina LANGUAGES CXX)
