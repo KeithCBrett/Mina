@@ -67,7 +67,7 @@ Rectangle {
 
 				text: "Default"
 				font.pointSize: root.inpFontSize
-				font.family: "Iosevka NF"
+				font.family: ConstSingleton.defaultFont
 				padding: 10
 				topPadding: root.inpTopPadding
 			}
@@ -217,7 +217,7 @@ Rectangle {
 
 				text: "Godel"
 				font.pointSize: root.inpFontSize
-				font.family: "Iosevka NF"
+				font.family: ConstSingleton.defaultFont
 				padding: 10
 				topPadding: root.inpTopPadding
 			}
@@ -367,7 +367,7 @@ Rectangle {
 
 				text: "Bloomberg"
 				font.pointSize: root.inpFontSize
-				font.family: "Iosevka NF"
+				font.family: ConstSingleton.defaultFont
 				padding: 10
 				topPadding: root.inpTopPadding
 			}
@@ -518,7 +518,7 @@ Rectangle {
 
 				text: "FactSet"
 				font.pointSize: root.inpFontSize
-				font.family: "Iosevka NF"
+				font.family: ConstSingleton.defaultFont
 				padding: 10
 				topPadding: root.inpTopPadding
 			}

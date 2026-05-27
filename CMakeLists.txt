@@ -6,7 +6,6 @@ project(mina LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # We need to import the Qt API for our GUI
 find_package(Qt6 6.5 REQUIRED COMPONENTS Quick Charts Widgets)
@@ -49,9 +48,15 @@ qt_add_executable(mina
 )
 set(CMAKE_AUTORCC ON)
 
+# We will now declare a QML singleton to act as a global variable.
+# https://doc.qt.io/qt-6/qml-singleton.html#accessing-singletons
+set_source_files_properties(src/QML/ConstSingleton.qml
+	PROPERTIES QT_QML_SINGLETON_TYPE TRUE
+)
+
 # Declare a QML (Qt) module
 qt_add_qml_module(mina
-	URI mina
+	URI mina_module
 	QML_FILES
 		src/QML/Main.qml
 		src/QML/DropdownMenu.qml
@@ -64,6 +69,7 @@ qt_add_qml_module(mina
 		src/QML/AboutMenu.qml
 		src/QML/BrowseButton.qml
 		src/QML/BrowsePage.qml
+		src/QML/ConstSingleton.qml
 	RESOURCES
 		src/QML/images/pallete.png
 		src/QML/images/setting.png

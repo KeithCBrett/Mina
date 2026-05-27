@@ -64,7 +64,7 @@ Rectangle {
 			visible: false
 
 			font.pointSize: inpFontSize
-			font.family: "Iosevka NF"
+			font.family: ConstSingleton.defaultFont
 			color: inpColor1
 
 			topPadding: root.height * 0.001

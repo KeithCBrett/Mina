@@ -37,7 +37,7 @@ Rectangle {
 		anchors.centerIn: parent
 
 		text: "Browse"
-		font.family: "Iosevka NF"
+		font.family: ConstSingleton.defaultFont
 		font.pointSize: 24
 
 		color: dropdownMenu.foregroundColor

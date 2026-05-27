@@ -18,7 +18,7 @@
 import QtQuick
 import QtQuick.Controls
 import Qt5Compat.GraphicalEffects
-import mina
+import mina_module
 
 
 Item {

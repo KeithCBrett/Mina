@@ -16,7 +16,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import QtQuick
-import mina
+import mina_module
 
 Rectangle {
 	id: root
@@ -37,7 +37,7 @@ Rectangle {
 		wrapMode: Text.WordWrap
 		padding: 10
 		font.pointSize: 22
-		font.family: "Iosevka NF"
+		font.family: ConstSingleton.defaultFont
 
 		text: "Mina:\nis a equity analyzer that performs various"
 		+ " functions related to the appraisal of common stock"

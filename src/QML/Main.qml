@@ -18,7 +18,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Window
-import mina
+import mina_module
 
 
 Window {
@@ -67,7 +67,7 @@ Window {
 				bottomPadding: 0
 
 				font.pointSize: 32
-				font.family: "Iosevka NF"
+				font.family: ConstSingleton.defaultFont
 			}
 
 			Text {
@@ -81,7 +81,7 @@ Window {
 				color: root.foregroundColor
 				topPadding: 0
 				font.pointSize: 16
-				font.family: "Iosevka NF"
+				font.family: ConstSingleton.defaultFont
 			}
 
 

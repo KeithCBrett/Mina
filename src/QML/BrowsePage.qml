@@ -45,7 +45,7 @@ Rectangle {
 				color: dropdownMenu.foregroundColor
 				labelsColor: dropdownMenu.foregroundColor
 				labelsFont.pixelSize: 16
-				labelsFont.family: "Iosevka NF"
+				labelsFont.family: ConstSingleton.defaultFont
 			}
 
 			axisY: ValueAxis {
@@ -53,7 +53,7 @@ Rectangle {
 				gridLineColor: dropdownMenu.foregroundColor
 				labelsColor: dropdownMenu.foregroundColor
 				labelsFont.pixelSize: 16
-				labelsFont.family: "Iosevka NF"
+				labelsFont.family: ConstSingleton.defaultFont
 			}
 
 			CandlestickSet {
