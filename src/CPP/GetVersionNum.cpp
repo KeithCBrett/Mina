@@ -41,6 +41,6 @@ GetVersionPatch ()
 unsigned
 GetNumCommits ()
 {
-	return 52
+	return 53
  +0;
 }

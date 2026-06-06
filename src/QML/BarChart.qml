@@ -1,5 +1,5 @@
-// BrowsePage.qml represents the page that is entered when 'Browse' on the
-// home page is clicked
+// BarChart.qml represents the bar chart found on the 'Browse' page of the
+// GUI.
 
 // Copyright (C) 2026  Keith C Brett (KeithCBrett@gmail.com)
 
@@ -17,18 +17,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import QtQuick
-import QtCharts 2.10
+
 
 Rectangle {
-	id: root
-
-	color: dropdownMenu.backgroundColor
-
-	BarChart {
-		id: barChart
-
-		anchors.centerIn: parent
-		width: 500
-		height: 300
-	}
+    id: root
 }

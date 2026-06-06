@@ -40,11 +40,53 @@ Window {
 
 	StackView {
 		id: stack
+
+		anchors.fill: parent
 		initialItem: homePage
+
 		BrowsePage {
 			id: browsePage
 		}
-		anchors.fill: parent
+
+		pushEnter: Transition {
+			NumberAnimation {
+				property: "y"
+				from: -stack.height
+				to: 0
+				duration: 200
+				easing.type: Easing.InOutQuad
+			}
+		}
+
+		pushExit: Transition {
+			NumberAnimation {
+				property: "y"
+				from: 0
+				to: -stack.height
+				duration: 200
+				easing.type: Easing.InOutQuad
+			}
+		}
+
+		popEnter: Transition {
+			NumberAnimation {
+				property: "y"
+				from: -stack.height
+				to: 0
+				duration: 200
+				easing.type: Easing.InOutQuad
+			}
+		}
+
+		popExit: Transition {
+			NumberAnimation {
+				property: "y"
+				from: 0
+				to: -stack.height
+				duration: 200
+				easing.type: Easing.InOutQuad
+			}
+		}
 	}
 
 	Component {

@@ -70,6 +70,7 @@ qt_add_qml_module(mina
 		src/QML/BrowseButton.qml
 		src/QML/BrowsePage.qml
 		src/QML/ConstSingleton.qml
+		src/QML/BarChart.qml
 	RESOURCES
 		src/QML/images/pallete.png
 		src/QML/images/setting.png
