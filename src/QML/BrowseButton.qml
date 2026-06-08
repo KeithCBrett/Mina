@@ -17,9 +17,9 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-
 import QtQuick
 import QtQuick.Controls
+
 
 Rectangle {
 	id: root
@@ -42,7 +42,6 @@ Rectangle {
 
 		color: dropdownMenu.foregroundColor
 	}
-
 
 	Behavior on color {
 		ColorAnimation {

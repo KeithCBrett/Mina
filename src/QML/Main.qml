@@ -44,10 +44,6 @@ Window {
 		anchors.fill: parent
 		initialItem: homePage
 
-		BrowsePage {
-			id: browsePage
-		}
-
 		pushEnter: Transition {
 			NumberAnimation {
 				property: "y"
@@ -62,7 +58,7 @@ Window {
 			NumberAnimation {
 				property: "y"
 				from: 0
-				to: -stack.height
+				to: stack.height
 				duration: 200
 				easing.type: Easing.InOutQuad
 			}
@@ -71,7 +67,7 @@ Window {
 		popEnter: Transition {
 			NumberAnimation {
 				property: "y"
-				from: -stack.height
+				from: stack.height
 				to: 0
 				duration: 200
 				easing.type: Easing.InOutQuad
@@ -88,6 +84,12 @@ Window {
 			}
 		}
 	}
+
+	Component {
+		id: browsePage
+		BrowsePage {}
+	}
+
 
 	Component {
 		id: homePage

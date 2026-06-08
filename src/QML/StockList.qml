@@ -1,5 +1,5 @@
-// BrowsePage.qml represents the page that is entered when 'Browse' on the
-// home page is clicked
+// StockList.qml represents the list of stocks on the 'Browse' page. You can
+// click a stock in the list and then the barchart will be updated.
 
 // Copyright (C) 2026  Keith C Brett (KeithCBrett@gmail.com)
 
@@ -20,26 +20,12 @@ import QtQuick
 
 
 Rectangle {
-	id: root
+    id: root
 
-	color: dropdownMenu.backgroundColor
+    color: parent.color
 
-	StockList {
-		id: stockList
-
-		anchors.left: parent.left
-		anchors.top: parent.top
-		anchors.bottom: parent.bottom
-
-		width: parent.width / 4
-	}
-
-	BarChart {
-		id: barChart
-
-		anchors.left: stockList.right
-
-		width: (parent.width / 4) * 2
-		height: stockList.height
-	}
+    border {
+        color: "#ffb642"
+        width: 1
+    }
 }

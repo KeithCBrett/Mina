@@ -21,4 +21,11 @@ import QtQuick
 
 Rectangle {
     id: root
+
+    color: parent.color
+
+    border {
+        color: "#ffb642"
+        width: 1
+    }
 }
