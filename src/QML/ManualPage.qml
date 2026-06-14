@@ -1,5 +1,5 @@
-// StockList.qml represents the list of stocks on the 'Browse' page. You can
-// click a stock in the list and then the barchart will be updated.
+// Main.qml is the graphical entry to the program (i.e. the first GUI page
+// the user interacts with on application launch)
 
 // Copyright (C) 2026  Keith C Brett (KeithCBrett@gmail.com)
 
@@ -16,22 +16,28 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+
 import QtQuick
 
 
 Rectangle {
     id: root
 
-	anchors.left: parent.left
-	anchors.top: parent.top
-	anchors.bottom: parent.bottom
+    color: ColorScheme.background
 
-	width: (parent.width / 4) - ConstSingleton.cogwheelWidth
+    Text {
+        id: manualText
 
-    color: ColorScheme.settingsMenu
+        anchors.centerIn: parent
 
-    border {
-        color: "#ffb642"
-        width: 1
+        font.family: ConstSingleton.defaultFont
+        font.pointSize: 54
+
+        text: "Manual"
+        color: ColorScheme.foreground
+    }
+
+    DropdownMenu {
+        id: manualPageMenu
     }
 }

@@ -15,28 +15,34 @@
 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+
 import QtQuick
 import mina_module
+
 
 Rectangle {
 	id: root
 
-	property color inpColor1: "#000000"
-	property color inpColor2: "#000000"
-	property VersionNumberInfo version_number: VersionNumberInfo {}
+	color: ColorScheme.settingsMenu
 
-	color: inpColor1
-	border.color: inpColor2
+	width: parent.width - (parent.width / 10)
+	height: parent.height
+
+	border.color: ColorScheme.foreground
 	border.width: 1
 
 	Text {
 		id: aboutMenuText
 
 		anchors.fill: parent
-		color: inpColor2
+
+		color: ColorScheme.foreground
+
 		wrapMode: Text.WordWrap
 		padding: 10
-		font.pointSize: 22
+
+		font.pointSize: (ConstSingleton.buttonFontSize - 2)
 		font.family: ConstSingleton.defaultFont
 
 		text: "Mina:\nis a equity analyzer that performs various"
@@ -47,35 +53,28 @@ Rectangle {
 		+ "." + version_number.getPatch()
 	}
 
+	Behavior on color {
+		ColorAnimation {
+			easing.type: Easing.InOutQuad;
+			duration: ConstSingleton.baseAnimationSpeed
+		}
+	}
+
 	states: [
 		State {
-			name: "toggleMenu"
-			AnchorChanges {
-				target: root
-				anchors.left: parent.left
-			}
-		},
+			name: "toggle"
 
-		State {
-			name: ""
 			AnchorChanges {
 				target: root
-				anchors.left: parent.right
+				anchors.left: buttonColumn.left
 			}
 		}
 	]
 
-	Behavior on color {
-		ColorAnimation {
-			easing.type: Easing.InOutQuad;
-			duration: 200
-		}
-	}
-
 	transitions: Transition {
 		AnchorAnimation {
-			easing.type: Easing.InOutQuad;
-			duration: 200
+			easing.type: Easing.InOutQuad
+			duration: ConstSingleton.baseAnimationSpeed
 		}
 	}
 }

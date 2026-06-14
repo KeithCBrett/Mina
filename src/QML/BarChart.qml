@@ -22,6 +22,13 @@ import QtQuick
 Rectangle {
     id: root
 
+	anchors.left: stockList.right
+	anchors.right: browsePageMenu.left
+	anchors.rightMargin: ConstSingleton.cogwheelMargin
+
+	width: (parent.width / 4) * 2
+	height: stockList.height
+
     color: parent.color
 
     border {

@@ -28,8 +28,9 @@ Rectangle {
 	width: parent.width / 6
 	height: parent.height / 8
 
-	color: dropdownMenu.settingsMenuColor
-	border.color: dropdownMenu.foregroundColor
+	color: ColorScheme.settingsMenu
+
+	border.color: ColorScheme.foreground
 	border.width: 1
 
 	Text {
@@ -37,16 +38,41 @@ Rectangle {
 		anchors.centerIn: parent
 
 		text: "Browse"
+		color: ColorScheme.foreground
+
 		font.family: ConstSingleton.defaultFont
 		font.pointSize: 24
+	}
 
-		color: dropdownMenu.foregroundColor
+	MouseArea {
+		id: browseButtonMouse
+		anchors.fill: parent
+
+		hoverEnabled: true
+
+		onEntered: {
+			cursorShape
+			= Qt.PointingHandCursor
+			browseButton.color
+			= ColorScheme.mouseOver
+		}
+
+		onExited: {
+			cursorShape = Qt.ArrowCursor
+			browseButton.color
+			= ColorScheme
+			.settingsMenu
+		}
+
+		onClicked: {
+			stack.push(browsePage)
+		}
 	}
 
 	Behavior on color {
 		ColorAnimation {
 			easing.type: Easing.InOutQuad;
-			duration: 200
+			duration: ConstSingleton.baseAnimationSpeed
 		}
 	}
 }

@@ -1,5 +1,5 @@
-// AboutButton.qml represents the U.I. button with the info icon that appears
-// when the cogwheel in the top right of the screen is clicked.
+// ManualButton.qml represents the U.I. button with the book icon that appears
+// whenever the cogwheel in the top right of the screen is clicked.
 
 // Copyright (C) 2026  Keith C Brett (KeithCBrett@gmail.com)
 
@@ -24,10 +24,10 @@ import QtQuick
 Item {
     id: root
 
+    visible: ConstSingleton.buttonsVisible
+
     width: parent.width
     height: (parent.height / 4) - (parent.height / 20)
-
-    visible: ConstSingleton.buttonsVisible
 
     Rectangle {
         id: rectangle
@@ -63,8 +63,8 @@ Item {
             }
 
             onClicked: {
-                aboutMenu.state = "toggle"
-                ConstSingleton.buttonsVisible = false
+                stack.push(manualPage)
+                cogwheel.state = ""
             }
         }
 
@@ -95,7 +95,9 @@ Item {
         Image {
             id: image
 
-            source: "images/info.png"
+            source: "images/manual.png"
+
+            visible: true
 
             width:  40
             height: 40
@@ -104,6 +106,7 @@ Item {
             layer.effect: ColorOverlay {
                 id: colorImage
 
+                visible: true
 
                 anchors.fill: image
                 source: image
@@ -115,10 +118,9 @@ Item {
         Text {
             id: text
 
-            text: "About"
+            text: "Manual"
 
             topPadding: row.height / 30
-
             font.family: ConstSingleton.defaultFont
             font.pointSize: ConstSingleton.buttonFontSize
 

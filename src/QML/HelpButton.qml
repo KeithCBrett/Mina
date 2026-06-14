@@ -1,5 +1,6 @@
-// HelpButton.qml represents the clickable help button found in the settings
-// menu
+// HelpButton.qml represents the U.I. button with the question mark
+// icon that appears whenever the cogwheel in the top right of the screen is
+// clicked.
 
 // Copyright (C) 2026  Keith C Brett (KeithCBrett@gmail.com)
 
@@ -15,92 +16,114 @@
 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
-import QtQuick
+
+
 import Qt5Compat.GraphicalEffects
+import QtQuick
 
-Rectangle {
-	id: root
 
-	property real inpLeftMargin: 1
-	property real inpFontSize: 22
-	property real inpTopPadding: root.height / 2
-	- (helpButtonImage.height / 2)
-	property color inpColor1: "#000000"
-	property color inpColor2: "#000000"
+Item {
+    id: root
 
-	color: inpColor2
+    width: parent.width
+    height: (parent.height / 4) - (parent.height / 20)
 
-	Row {
-		spacing: 16
-		padding: 10
-		topPadding: inpTopPadding
+    visible: ConstSingleton.buttonsVisible
 
-		Image {
-			id: helpButtonImage
-			source: "images/question.png"
+    Rectangle {
+        id: rectangle
 
-			visible: false
+        anchors.fill: parent
 
-			width: 30
-			height: 30
+        anchors.leftMargin: 1
+        anchors.rightMargin: 1
+        anchors.topMargin: 1
 
-			layer.enabled: true
-			layer.effect: ColorOverlay {
-				id: helpButtonImageColor
-				source: helpButtonImage
+        color: ColorScheme.settingsMenu
 
-				visible: false
+        border.color: ColorScheme.settingsMenu
+        border.width: 1
 
-				anchors.fill: helpButtonImage
-				smooth: true
-				color: inpColor1
-			}
-		}
-		
-		Text {
-			id: helpButtonText
-			text: "Help"
+        MouseArea {
+            id: mouse
 
-			visible: false
+            anchors.fill: parent
 
-			font.pointSize: inpFontSize
-			font.family: ConstSingleton.defaultFont
-			color: inpColor1
+            hoverEnabled: true
 
-			topPadding: root.height * 0.001
-		}
-	}
+            cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
 
-	states: [
-		State {
-			name: "toggleButton"
+            onEntered: {
+                rectangle.color = ColorScheme.mouseOver
+                rectangle.border.color = ColorScheme.foreground
+            }
 
-			PropertyChanges {
-				target: helpButtonText
-				visible: true
-			}
-			PropertyChanges {
-				target: helpButtonImage
-				visible: true
-			}
-		},
-		State {
-			name: ""
-			PropertyChanges {
-				target: helpButtonText
-				visible: false
-			}
-			PropertyChanges {
-				target: helpButtonImage
-				visible: false
-			}
-		}
-	]
+            onExited: {
+                rectangle.color = ColorScheme.settingsMenu
+                rectangle.border.color = ColorScheme.settingsMenu
+            }
 
-	Behavior on color {
-		ColorAnimation {
-			easing.type: Easing.InOutQuad;
-			duration: 200
-		}
-	}
+            onClicked: {
+                helpMenu.state = "toggle"
+                ConstSingleton.buttonsVisible = false
+            }
+        }
+
+        Behavior on color {
+            ColorAnimation {
+                easing.type: Easing.InOutQuad
+                duration: ConstSingleton.baseAnimationSpeed
+            }
+        }
+        Behavior on border.color {
+            ColorAnimation {
+                easing.type: Easing.InOutQuad
+                duration: ConstSingleton.baseAnimationSpeed
+            }
+        }
+    }
+
+    Row {
+        id: row
+
+        anchors.fill: parent
+
+        leftPadding: row.width / 20
+        topPadding: (root.height / 2) - (image.width / 2)
+
+        spacing: 20
+
+        Image {
+            id: image
+
+            source: "images/question.png"
+
+            width:  40
+            height: 40
+
+            layer.enabled: true
+            layer.effect: ColorOverlay {
+                id: colorImage
+
+
+                anchors.fill: image
+                source: image
+
+                color: ColorScheme.foreground
+            }
+        }
+
+        Text {
+            id: text
+
+            text: "Help"
+
+            topPadding: row.height / 30
+
+            font.family: ConstSingleton.defaultFont
+            font.pointSize: ConstSingleton.buttonFontSize
+
+            color: ColorScheme.foreground
+        }
+    }
 }

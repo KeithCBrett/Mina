@@ -1,5 +1,5 @@
-// HomeButton.qml represents the clickable home button found in the settings
-// menu
+// HomeButton.qml represents the U.I. button with the house that slides out
+// whenever the cogwheel of the top right corner of the screen is pressed.
 
 // Copyright (C) 2026  Keith C Brett (KeithCBrett@gmail.com)
 
@@ -15,92 +15,116 @@
 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
-import QtQuick
+
+
 import Qt5Compat.GraphicalEffects
+import QtQuick
 
-Rectangle {
-	id: root
 
-	property real inpLeftMargin: 1
-	property real inpFontSize: 22
-	property real inpTopPadding: root.height / 2
-	- (homeButtonImage.height / 2)
-	property color inpColor1: "#000000"
-	property color inpColor2: "#000000"
+Item {
+    id: root
 
-	color: inpColor2
+    visible: ConstSingleton.buttonsVisible
 
-	Row {
-		spacing: 16
-		padding: 10
-		topPadding: inpTopPadding
+    width: parent.width
+    height: (parent.height / 4) - (parent.height / 20)
 
-		Image {
-			id: homeButtonImage
-			source: "images/home.png"
+    Rectangle {
+        id: rectangle
 
-			visible: false
+        anchors.fill: parent
 
-			width: 30
-			height: 30
+        anchors.leftMargin: 1
+        anchors.rightMargin: 1
+        anchors.topMargin: 1
 
-			layer.enabled: true
-			layer.effect: ColorOverlay {
-				id: homeButtonImageColor
-				source: homeButtonImage
+        color: ColorScheme.settingsMenu
 
-				visible: false
+        border.color: ColorScheme.settingsMenu
+        border.width: 1
 
-				anchors.fill: homeButtonImage
-				smooth: true
-				color: inpColor1
-			}
-		}
-		
-		Text {
-			id: homeButtonText
-			text: "Home"
+        MouseArea {
+            id: mouse
 
-			visible: false
+            anchors.fill: parent
 
-			font.pointSize: inpFontSize
-			font.family: ConstSingleton.defaultFont
-			color: inpColor1
+            hoverEnabled: true
 
-			topPadding: root.height * 0.001
-		}
-	}
+            cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
 
-	states: [
-		State {
-			name: "toggleButton"
+            onEntered: {
+                rectangle.color = ColorScheme.mouseOver
+                rectangle.border.color = ColorScheme.foreground
+            }
 
-			PropertyChanges {
-				target: homeButtonText
-				visible: true
-			}
-			PropertyChanges {
-				target: homeButtonImage
-				visible: true
-			}
-		},
-		State {
-			name: ""
-			PropertyChanges {
-				target: homeButtonText
-				visible: false
-			}
-			PropertyChanges {
-				target: homeButtonImage
-				visible: false
-			}
-		}
-	]
+            onExited: {
+                rectangle.color = ColorScheme.settingsMenu
+                rectangle.border.color = ColorScheme.settingsMenu
+            }
 
-	Behavior on color {
-		ColorAnimation {
-			easing.type: Easing.InOutQuad;
-			duration: 200
-		}
-	}
+            onClicked: {
+                stack.pop()
+                cogwheel.state = ""
+            }
+        }
+
+        Behavior on color {
+            ColorAnimation {
+                easing.type: Easing.InOutQuad
+                duration: ConstSingleton.baseAnimationSpeed
+            }
+        }
+        Behavior on border.color {
+            ColorAnimation {
+                easing.type: Easing.InOutQuad
+                duration: ConstSingleton.baseAnimationSpeed
+            }
+        }
+    }
+
+    Row {
+        id: row
+
+        anchors.fill: parent
+
+        leftPadding: row.width / 20
+        topPadding: (root.height / 2) - (image.width / 2)
+
+        spacing: 20
+
+        Image {
+            id: image
+
+            source: "images/home.png"
+
+            visible: true
+
+            width:  40
+            height: 40
+
+            layer.enabled: true
+            layer.effect: ColorOverlay {
+                id: colorImage
+
+                visible: true
+
+                anchors.fill: image
+                source: image
+
+                color: ColorScheme.foreground
+            }
+        }
+
+        Text {
+            id: text
+
+            text: "Home"
+
+            topPadding: row.height / 30
+            font.family: ConstSingleton.defaultFont
+            font.pointSize: ConstSingleton.buttonFontSize
+
+            color: ColorScheme.foreground
+        }
+    }
 }

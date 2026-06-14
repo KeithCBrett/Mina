@@ -1,5 +1,4 @@
-// BrowsePage.qml represents the page that is entered when 'Browse' on the
-// home page is clicked
+// HomePage.qml represents the first U.I. page you see when you launch Mina.
 
 // Copyright (C) 2026  Keith C Brett (KeithCBrett@gmail.com)
 
@@ -23,17 +22,55 @@ import QtQuick
 Rectangle {
 	id: root
 
+	width: parent.width
+	height: parent.height
+
 	color: ColorScheme.background
 
 	DropdownMenu {
-		id: browsePageMenu
+		id: homePageMenu
 	}
 
-	StockList {
-		id: stockList
+	Text {
+		id: logo
+
+		text: "Mina"
+		color: ColorScheme.foreground
+
+		padding: 20
+		bottomPadding: 0
+
+		font.pointSize: 32
+		font.family: ConstSingleton.defaultFont
 	}
 
-	BarChart {
-		id: barChart
+	Text {
+		id: versionNumberText
+
+		anchors.top: logo.bottom
+
+		text: "Version:\n" + version_number.getMajor()
+		+ "." + version_number.getMinor() + "."
+		+ version_number.getPatch()
+		color: ColorScheme.foreground
+
+		padding: 20
+		topPadding: 0
+
+
+		font.pointSize: 16
+		font.family: ConstSingleton.defaultFont
+	}
+
+
+	BrowseButton {
+		id: browseButton
+	}
+
+	Behavior on color {
+		ColorAnimation {
+			easing.type: Easing.InOutQuad;
+			duration: 200
+		}
 	}
 }

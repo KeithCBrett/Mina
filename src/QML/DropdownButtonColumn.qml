@@ -1,5 +1,5 @@
-// StockList.qml represents the list of stocks on the 'Browse' page. You can
-// click a stock in the list and then the barchart will be updated.
+// DropdownButtonColumn.qml represents the slide out column of buttons that
+// appears in the U.I. when the cogwheel icon is clicked.
 
 // Copyright (C) 2026  Keith C Brett (KeithCBrett@gmail.com)
 
@@ -16,22 +16,40 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+
 import QtQuick
 
 
-Rectangle {
+Item {
     id: root
 
-	anchors.left: parent.left
-	anchors.top: parent.top
-	anchors.bottom: parent.bottom
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    anchors.leftMargin: 40
 
-	width: (parent.width / 4) - ConstSingleton.cogwheelWidth
+    // Draw outline
+    Rectangle {
+        anchors.fill: parent
 
-    color: ColorScheme.settingsMenu
+        color: ColorScheme.settingsMenu
 
-    border {
-        color: "#ffb642"
-        width: 1
+        border.color: ColorScheme.foreground
+        border.width: 1
+    }
+
+    Column {
+        id: column
+
+        anchors.fill: parent
+
+        spacing: (parent.height / 5) / 3
+
+        HomeButton {
+            id: homeButton
+        }
+        HelpButton { }
+        AboutButton { }
+        ManualButton { }
     }
 }

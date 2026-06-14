@@ -15,6 +15,8 @@
 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Window
@@ -26,14 +28,10 @@ Window {
 
 	width: 1920
 	height: 1080
-	//color: '#001320'
-	color: dropdownMenu.backgroundColor
+
+	color: ColorScheme.background
 
 	property VersionNumberInfo version_number: VersionNumberInfo {}
-	property color foregroundColor: dropdownMenu.foregroundColor
-	property color backgroundColor: dropdownMenu.backgroundColor
-	property color settingsMenuColor: dropdownMenu.settingsMenuColor
-	property color mouseOverColor: dropdownMenu.mouseOverColor
 
 	visible: true
 	title: qsTr("Mina")
@@ -49,7 +47,7 @@ Window {
 				property: "y"
 				from: -stack.height
 				to: 0
-				duration: 200
+				duration: ConstSingleton.baseAnimationSpeed
 				easing.type: Easing.InOutQuad
 			}
 		}
@@ -59,7 +57,7 @@ Window {
 				property: "y"
 				from: 0
 				to: stack.height
-				duration: 200
+				duration: ConstSingleton.baseAnimationSpeed
 				easing.type: Easing.InOutQuad
 			}
 		}
@@ -69,7 +67,7 @@ Window {
 				property: "y"
 				from: stack.height
 				to: 0
-				duration: 200
+				duration: ConstSingleton.baseAnimationSpeed
 				easing.type: Easing.InOutQuad
 			}
 		}
@@ -79,7 +77,7 @@ Window {
 				property: "y"
 				from: 0
 				to: -stack.height
-				duration: 200
+				duration: ConstSingleton.baseAnimationSpeed
 				easing.type: Easing.InOutQuad
 			}
 		}
@@ -93,80 +91,11 @@ Window {
 
 	Component {
 		id: homePage
-
-		Rectangle {
-			id: homePageRect
-
-			width: root.width
-			height: root.height
-
-			color: root.color
-
-			Text {
-				id: logo
-
-				text: "Mina"
-				color: root.foregroundColor
-				padding: 20
-				bottomPadding: 0
-
-				font.pointSize: 32
-				font.family: ConstSingleton.defaultFont
-			}
-
-			Text {
-				id: versionNumberText
-
-				anchors.top: logo.bottom
-				text: "Version:\n" + version_number.getMajor()
-				+ "." + version_number.getMinor() + "."
-				+ version_number.getPatch()
-				padding: 20
-				color: root.foregroundColor
-				topPadding: 0
-				font.pointSize: 16
-				font.family: ConstSingleton.defaultFont
-			}
-
-
-			BrowseButton {
-				id: browseButton
-				MouseArea {
-					id: browseButtonMouse
-					anchors.fill: parent
-
-					hoverEnabled: true
-
-					onEntered: {
-						cursorShape
-						= Qt.PointingHandCursor
-						browseButton.color
-						= dropdownMenu.mouseOverColor
-					}
-
-					onExited: {
-						cursorShape = Qt.ArrowCursor
-						browseButton.color
-						= dropdownMenu
-						.settingsMenuColor
-					}
-
-					onClicked: {
-						stack.push(browsePage)
-					}
-				}
-			}
-
-			Behavior on color {
-				ColorAnimation {
-					easing.type: Easing.InOutQuad;
-					duration: 200
-				}
-			}
-		}
+		HomePage {}
 	}
 
-	DropdownMenu {
-		id: dropdownMenu
+	Component {
+		id: manualPage
+		ManualPage {}
 	}
 }

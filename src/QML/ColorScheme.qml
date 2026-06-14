@@ -1,5 +1,5 @@
-// StockList.qml represents the list of stocks on the 'Browse' page. You can
-// click a stock in the list and then the barchart will be updated.
+// ColorScheme.qml is a singleton that stores all of the colors used in the
+// default color scheme.
 
 // Copyright (C) 2026  Keith C Brett (KeithCBrett@gmail.com)
 
@@ -16,22 +16,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+
+pragma Singleton
 import QtQuick
 
 
-Rectangle {
-    id: root
-
-	anchors.left: parent.left
-	anchors.top: parent.top
-	anchors.bottom: parent.bottom
-
-	width: (parent.width / 4) - ConstSingleton.cogwheelWidth
-
-    color: ColorScheme.settingsMenu
-
-    border {
-        color: "#ffb642"
-        width: 1
-    }
+QtObject {
+    property string foreground: "#ffb642"
+    property string background: "#001320"
+    property string settingsMenu: "#001e21"
+    property string mouseOver: "#000921"
 }

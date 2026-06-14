@@ -54,26 +54,37 @@ set_source_files_properties(src/QML/ConstSingleton.qml
 	PROPERTIES QT_QML_SINGLETON_TYPE TRUE
 )
 
+# We will also use a singleton to store the colors for our default color
+# scheme.
+set_source_files_properties(src/QML/ColorScheme.qml
+	PROPERTIES QT_QML_SINGLETON_TYPE TRUE
+)
+
 # Declare a QML (Qt) module
 qt_add_qml_module(mina
 	URI mina_module
 	QML_FILES
 		src/QML/Main.qml
-		src/QML/DropdownMenu.qml
-		src/QML/AppearanceButton.qml
-		src/QML/HelpButton.qml
-		src/QML/HelpMenu.qml
-		src/QML/AppearanceMenu.qml
-		src/QML/HomeButton.qml
 		src/QML/AboutButton.qml
 		src/QML/AboutMenu.qml
+		src/QML/AppearanceMenu.qml
+		src/QML/BarChart.qml
 		src/QML/BrowseButton.qml
 		src/QML/BrowsePage.qml
 		src/QML/ConstSingleton.qml
-		src/QML/BarChart.qml
+		src/QML/ColorScheme.qml
+		src/QML/Cogwheel.qml
+		src/QML/DropdownMenu.qml
+		src/QML/DropdownButtonColumn.qml
+		src/QML/HelpMenu.qml
+		src/QML/HelpButton.qml
+		src/QML/HomeButton.qml
+		src/QML/HomePage.qml
+		src/QML/ManualButton.qml
+		src/QML/ManualPage.qml
 		src/QML/StockList.qml
 	RESOURCES
-		src/QML/images/pallete.png
+		src/QML/images/manual.png
 		src/QML/images/setting.png
 		src/QML/images/question.png
 		src/QML/images/info.png
