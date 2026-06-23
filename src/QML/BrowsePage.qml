@@ -18,6 +18,7 @@
 
 
 import QtQuick
+import mina_module
 
 
 Rectangle {
@@ -33,7 +34,12 @@ Rectangle {
 		id: stockList
 	}
 
-	BarChart {
-		id: barChart
+	CandlestickChart{
+		id: candlestickChart
+		anchors.left: stockList.right
+		anchors.right: browsePageMenu.left
+		anchors.rightMargin: ConstSingleton.cogwheelMargin
+		borderColor: ColorScheme.foreground
+		height: root.height
 	}
 }

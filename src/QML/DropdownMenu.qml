@@ -29,8 +29,8 @@ Item {
 	anchors.right: parent.right
 	anchors.left: parent.left
 
-	anchors.leftMargin: parent.width - ConstSingleton.cogwheelWidth
-	- ConstSingleton.cogwheelMargin
+	anchors.leftMargin: Math.round(parent.width - ConstSingleton.cogwheelWidth
+	- ConstSingleton.cogwheelMargin)
 
 	Cogwheel {
 		id: cogwheel

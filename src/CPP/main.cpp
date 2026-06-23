@@ -20,6 +20,7 @@
 // App headers
 #include "../include/Ebita.hpp"
 #include "../include/CurlInit.hpp"
+#include "../include/CandlestickChart.hpp"
 
 // GUI headers (Qt)
 #include <QtQuick>
@@ -31,7 +32,7 @@
 #include <string>
 
 int
-main (int argc, char *argv[])
+main(int argc, char *argv[])
 {
 	std::string url = "https://data.alpaca.markets/v2/stocks/AAPL/bars?tim"
 		"eframe=1D&start=2024-01-03T00%3A00%3A00Z&end=2024-01-04T00%3A"
@@ -46,20 +47,25 @@ main (int argc, char *argv[])
 	CURL *hnd = NULL;
 
 	struct curl_slist *headers = NULL;
-	headers = curl_slist_append (headers, "accept: application/json");
-	headers = curl_slist_append (headers, my_key.c_str ());
-	headers = curl_slist_append (headers, my_secret.c_str ());
+	headers = curl_slist_append(headers, "accept: application/json");
+	headers = curl_slist_append(headers, my_key.c_str());
+	headers = curl_slist_append(headers, my_secret.c_str());
 
-	curl_output_buffer = action::CurlInit (hnd, url, headers);
-	CURLcode ret = curl_easy_perform (hnd);
-	if (curl_output_buffer->empty () == true)
+	curl_output_buffer = action::CurlInit(hnd, url, headers);
+	CURLcode ret = curl_easy_perform(hnd);
+	if (curl_output_buffer->empty() == true)
 	{
-		fprintf (stderr, "Error initializing curl.\n");
+		fprintf(stderr, "Error initializing curl.\n");
 	}
 
-	fprintf (stderr, "%s\n", (*curl_output_buffer).c_str ());
+	fprintf(stderr, "%s\n", (*curl_output_buffer).c_str());
 
-	QApplication gui (argc, argv);
-	QQmlApplicationEngine engine ("../../src/QML/Main.qml");
-	return gui.exec ();
+	QGuiApplication gui(argc, argv);
+	//QQuickView view;
+	//view.setResizeMode(QQuickView::SizeRootObjectToView);
+	//view.loadFromModule("mina_module", "BarChart");
+	//view.show();
+
+	QQmlApplicationEngine engine("../../src/QML/Main.qml");
+	return gui.exec();
 }

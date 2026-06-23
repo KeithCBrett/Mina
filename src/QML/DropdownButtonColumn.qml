@@ -43,7 +43,7 @@ Item {
 
         anchors.fill: parent
 
-        spacing: (parent.height / 5) / 3
+        spacing: (parent.height / 5) / 3 - 0.25
 
         HomeButton {
             id: homeButton

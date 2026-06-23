@@ -1,18 +1,21 @@
 # Minimum required version of cmake needed to build project
 cmake_minimum_required(VERSION 4.1.2)
 
+
 # Name of project for future reference
 project(mina LANGUAGES CXX)
-
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 
 # We need to import the Qt API for our GUI
 find_package(Qt6 6.5 REQUIRED COMPONENTS Quick Charts Widgets)
 qt_standard_project_setup(REQUIRES 6.5)
 
+
 # We also need to import curl for getting stock data from Alpaca API
 find_package(CURL)
+
 
 # Prepends subdirectory to files in a list
 function(PREPEND var)
@@ -24,29 +27,43 @@ function(PREPEND var)
 	set(${var} "${listVar}" PARENT_SCOPE)
 endfunction(PREPEND)
 
+
 # When build is finished; we will store executables in bin/ and libraries in
 # lib/
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/build/bin")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/build/lib")
+
 
 # The following will execute the CMakeLists.txt in each of the below directories
 add_subdirectory(src)
 add_subdirectory(include)
 add_subdirectory(test)
 
+
 # Here we declare our libraries and their source files
 add_library(action STATIC ${mina_action_SRC} ${mina_action_INC})
 add_library(calc STATIC ${mina_calc_SRC} ${mina_calc_INC})
+
 
 # Tells CMake that action and calc need files located in include/
 target_include_directories(action PUBLIC include/)
 target_include_directories(calc PUBLIC include/)
 
+
 # Name of executable generated
 qt_add_executable(mina
 	src/CPP/main.cpp
+	src/CPP/CandlestickChart.cpp include/CandlestickChart.hpp
 )
+
+# C++ QML module stuff
+set_target_properties(mina PROPERTIES
+	WIN32_EXECUTABLE TRUE
+	MACOSX_BUNDLE TRUE
+)
+
 set(CMAKE_AUTORCC ON)
+
 
 # We will now declare a QML singleton to act as a global variable.
 # https://doc.qt.io/qt-6/qml-singleton.html#accessing-singletons
@@ -68,7 +85,6 @@ qt_add_qml_module(mina
 		src/QML/AboutButton.qml
 		src/QML/AboutMenu.qml
 		src/QML/AppearanceMenu.qml
-		src/QML/BarChart.qml
 		src/QML/BrowseButton.qml
 		src/QML/BrowsePage.qml
 		src/QML/ConstSingleton.qml
@@ -94,15 +110,19 @@ qt_add_qml_module(mina
 		src/CPP/VersionNumberInfo.cpp
 )
 
+
 target_link_libraries(mina
 	PRIVATE
 		action
 		calc
 		Qt6::Quick
-		Qt6::Charts
 		Qt6::Widgets
+		Qt6::Core
+		Qt6::Gui
+		Qt6::Qml
 		CURL::libcurl
 )
+
 
 # Below allows us to automate versioning via number of git commits
 find_package(Git REQUIRED)

@@ -16,6 +16,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+
 import QtQuick
 
 
@@ -26,12 +27,12 @@ Rectangle {
 	anchors.top: parent.top
 	anchors.bottom: parent.bottom
 
-	width: (parent.width / 4) - ConstSingleton.cogwheelWidth
+	width: (parent.width / 4) - ConstSingleton.cogwheelWidth - (parent.width / 24)
 
     color: ColorScheme.settingsMenu
 
     border {
-        color: "#ffb642"
+        color: ColorScheme.foreground
         width: 1
     }
 }
