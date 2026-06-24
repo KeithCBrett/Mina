@@ -34,14 +34,14 @@ Item {
 
         anchors.fill: parent
 
-        anchors.leftMargin: 1
-        anchors.rightMargin: 1
+        anchors.leftMargin: ConstSingleton.borderWidth
+        anchors.rightMargin: ConstSingleton.borderWidth
         anchors.topMargin: 1
 
         color: ColorScheme.settingsMenu
 
         border.color: ColorScheme.settingsMenu
-        border.width: 1
+        border.width: ConstSingleton.borderWidth
 
         MouseArea {
             id: mouse

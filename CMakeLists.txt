@@ -1,3 +1,23 @@
+# This CMakeLists.txt generates a make/ninja file to build our program. This
+# file is responsible for generating a build system that links in gtest, curl,
+# Qt/Qml, as well as our source files. We store most source code as a qt module
+# and import it in Main.qml.
+
+# Copyright (C) 2026  Keith C Brett (KeithCBrett@gmail.com)
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 # Minimum required version of cmake needed to build project
 cmake_minimum_required(VERSION 4.1.2)
 
@@ -54,6 +74,7 @@ target_include_directories(calc PUBLIC include/)
 qt_add_executable(mina
 	src/CPP/main.cpp
 	src/CPP/CandlestickChart.cpp include/CandlestickChart.hpp
+	src/CPP/YAxis.cpp            include/YAxis.hpp
 )
 
 # C++ QML module stuff

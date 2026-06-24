@@ -42,4 +42,15 @@ Rectangle {
 		borderColor: ColorScheme.foreground
 		height: root.height
 	}
+
+	YAxis {
+		id: yAxis
+
+		anchors.left: candlestickChart.right
+
+		height: root.height
+		width: 100
+
+		color: ColorScheme.foreground
+	}
 }

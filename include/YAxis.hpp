@@ -1,4 +1,5 @@
-// GetVersionNum is used to get the version number via number of git commits
+// YAxis.hpp represents the class declaration for the Y-axis associated with
+// the candlestick chart that can be found on the 'Browse' page.
 
 // Copyright (C) 2026  Keith C Brett (KeithCBrett@gmail.com)
 
@@ -14,33 +15,33 @@
 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#include "../include/GetVersionNum.hpp"
 
 
-unsigned
-GetVersionMajor ()
+#ifndef Y_AXIS_H
+#define Y_AXIS_H
+
+
+#include <QtQuick/QQuickPaintedItem>
+#include <QColor>
+
+
+class YAxis : public QQuickPaintedItem
 {
-	return  +0;
-}
+  Q_OBJECT
+  Q_PROPERTY(QColor color READ color WRITE setColor FINAL)
+  QML_ELEMENT
+
+public:
+  YAxis(QQuickItem *parent = nullptr);
+
+  QColor color() const;
+  void setColor(const QColor &color);
+
+  void paint(QPainter *painter) override;
+
+private:
+  QColor m_color;
+};
 
 
-unsigned
-GetVersionMinor ()
-{
-	return  +0;
-}
-
-
-unsigned
-GetVersionPatch ()
-{
-	return  +0;
-}
-
-
-unsigned
-GetNumCommits ()
-{
-	return 58
- +0;
-}
+#endif

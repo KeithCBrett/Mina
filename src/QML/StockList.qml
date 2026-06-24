@@ -33,6 +33,6 @@ Rectangle {
 
     border {
         color: ColorScheme.foreground
-        width: 1
+        width: ConstSingleton.borderWidth
     }
 }

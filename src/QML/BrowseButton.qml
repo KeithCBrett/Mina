@@ -31,7 +31,7 @@ Rectangle {
 	color: ColorScheme.settingsMenu
 
 	border.color: ColorScheme.foreground
-	border.width: 1
+	border.width: ConstSingleton.borderWidth
 
 	Text {
 		id: browseButtonText

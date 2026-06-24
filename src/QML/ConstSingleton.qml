@@ -30,9 +30,18 @@ QtObject {
     property real cogwheelWidth: 30
     property real cogwheelMargin: 40
 
-    // Length of most animations.
+    // Length of most animations (in ms).
     property real baseAnimationSpeed: 200
 
     // Whether or not Dropdown menu buttons should be visible or not.
     property bool buttonsVisible: true
+
+    // All of the menus inherit their widths from their parents. This is
+    // naturally too big and cuts off the right border for the menus.
+    // We can subtract by this number to get the correct width at all supported
+    // screen sizes.
+    property real dropdownMenuWidthOffset: 70
+
+    // Width of most borders (in px).
+    property real borderWidth: 2
 }

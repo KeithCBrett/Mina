@@ -25,11 +25,11 @@ Rectangle {
 
 	color: ColorScheme.settingsMenu
 
-	width: parent.width - (parent.width / 10)
+	width: parent.width - ConstSingleton.dropdownMenuWidthOffset
 	height: parent.height
 
 	border.color: ColorScheme.foreground
-	border.width: 1
+	border.width: ConstSingleton.borderWidth
 
 	Text {
 		id: helpMenuText

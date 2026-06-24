@@ -43,16 +43,17 @@ void CandlestickChart::setBorderColor(const QColor &borderColor)
 }
 
 
-// Draws the lines small lines and numbers associated with the y-axis.
+// Draws the lines small lines and dollar amounts associated with the y-axis.
 void CandlestickChart::drawYAxis(QPainter *painter, float min, float max)
 {
   for (int i = 1 ; i < NUM_Y_AXIS_ELEMENTS ; i++)
   {
     // Draw axis marking.
-    painter->drawLine((width() - 7), ((height() / NUM_Y_AXIS_ELEMENTS) * i),
+    painter->drawLine((width() - 5), ((height() / NUM_Y_AXIS_ELEMENTS) * i),
                       width(), ((height() / NUM_Y_AXIS_ELEMENTS) * i));
     // Draw axis number.
-    painter->drawText((width() - 50), ((height() / NUM_Y_AXIS_ELEMENTS) * i) + 6, "100");
+//    painter->drawText((width() - 50),
+//                      ((height() / NUM_Y_AXIS_ELEMENTS) * i) + 6, "100");
   }
 }
 
