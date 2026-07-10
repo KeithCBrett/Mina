@@ -36,9 +36,11 @@ Rectangle {
 
 	CandlestickChart{
 		id: candlestickChart
+
 		anchors.left: stockList.right
 		anchors.right: browsePageMenu.left
 		anchors.rightMargin: ConstSingleton.cogwheelMargin
+
 		borderColor: ColorScheme.foreground
 		height: root.height
 	}
@@ -50,6 +52,9 @@ Rectangle {
 
 		height: root.height
 		width: 100
+
+		max: 498.83
+		min: 138.80
 
 		color: ColorScheme.foreground
 	}

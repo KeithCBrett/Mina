@@ -46,11 +46,11 @@ void CandlestickChart::setBorderColor(const QColor &borderColor)
 // Draws the lines small lines and dollar amounts associated with the y-axis.
 void CandlestickChart::drawYAxis(QPainter *painter, float min, float max)
 {
-  for (int i = 1 ; i < NUM_Y_AXIS_ELEMENTS ; i++)
+  for (int i = 1 ; i <= NUM_Y_AXIS_ELEMENTS ; i++)
   {
     // Draw axis marking.
-    painter->drawLine((width() - 5), ((height() / NUM_Y_AXIS_ELEMENTS) * i),
-                      width(), ((height() / NUM_Y_AXIS_ELEMENTS) * i));
+    painter->drawLine((width() - 5), ((height() / (NUM_Y_AXIS_ELEMENTS + 1)) * i),
+                      width(), ((height() / (NUM_Y_AXIS_ELEMENTS + 1)) * i));
     // Draw axis number.
 //    painter->drawText((width() - 50),
 //                      ((height() / NUM_Y_AXIS_ELEMENTS) * i) + 6, "100");
@@ -60,7 +60,7 @@ void CandlestickChart::drawYAxis(QPainter *painter, float min, float max)
 
 void CandlestickChart::drawXAxis(QPainter *painter)
 {
-  for (int i = 1 ; i < NUM_X_AXIS_ELEMENTS ; i++)
+  for (int i = 1 ; i <= NUM_X_AXIS_ELEMENTS ; i++)
   {
     painter->drawLine(((width() / NUM_X_AXIS_ELEMENTS) * i), (height() - 7),
                       ((width() / NUM_X_AXIS_ELEMENTS) * i), height());
@@ -83,6 +83,6 @@ void CandlestickChart::paint(QPainter *painter)
   painter->drawRect(rect);
 
   // Paint the axises to the screen.
-  drawYAxis(painter, 0, 0);
+  drawYAxis(painter, 0.06, 0.20);
   drawXAxis(painter);
 }

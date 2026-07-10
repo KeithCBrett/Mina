@@ -29,6 +29,8 @@ class YAxis : public QQuickPaintedItem
 {
   Q_OBJECT
   Q_PROPERTY(QColor color READ color WRITE setColor FINAL)
+  Q_PROPERTY(double min READ min WRITE setMin FINAL)
+  Q_PROPERTY(double max READ max WRITE setMax FINAL)
   QML_ELEMENT
 
 public:
@@ -37,10 +39,25 @@ public:
   QColor color() const;
   void setColor(const QColor &color);
 
-  void paint(QPainter *painter) override;
+  double min() const;
+  void setMin(const double &min);
+
+  double max() const;
+  void setMax(const double &max);
+
+  void paint(QPainter *inp_painter) override;
 
 private:
   QColor m_color;
+  double m_min;
+  double m_max;
+
+  // Below are helper functions for drawing numbers to our Y axis.
+  QString firstYAxisNumber(double inp_double);
+  void drawYAxisNumber(QPainter *inp_painter,
+                       int inp_location, QString inp_number);
+  QString otherYAxisNumber(double inp_min, double inp_max,
+                           QString inp_first_axis_number, int inp_position);
 };
 
 
