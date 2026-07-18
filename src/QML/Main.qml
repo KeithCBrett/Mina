@@ -32,6 +32,7 @@ Window {
 	color: ColorScheme.background
 
 	property VersionNumberInfo version_number: VersionNumberInfo {}
+	property Crosshair crosshair: Crosshair {}
 
 	visible: true
 	title: qsTr("Mina")

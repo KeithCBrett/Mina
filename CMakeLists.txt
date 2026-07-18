@@ -75,6 +75,7 @@ qt_add_executable(mina
 	src/CPP/main.cpp
 	src/CPP/CandlestickChart.cpp include/CandlestickChart.hpp
 	src/CPP/YAxis.cpp            include/YAxis.hpp
+	src/CPP/Crosshair.cpp        include/Crosshair.hpp
 )
 
 # C++ QML module stuff

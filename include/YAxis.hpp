@@ -45,6 +45,9 @@ public:
   double max() const;
   void setMax(const double &max);
 
+  QString stepSize(double inp_first_axis_number);
+  QString firstYAxisNumber(double inp_double);
+
   void paint(QPainter *inp_painter) override;
 
 private:
@@ -53,7 +56,6 @@ private:
   double m_max;
 
   // Below are helper functions for drawing numbers to our Y axis.
-  QString firstYAxisNumber(double inp_double);
   void drawYAxisNumber(QPainter *inp_painter,
                        int inp_location, QString inp_number);
   QString otherYAxisNumber(double inp_min, double inp_max,

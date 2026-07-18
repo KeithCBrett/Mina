@@ -126,52 +126,54 @@ QString YAxis::firstYAxisNumber(double inp_min)
 }
 
 
+// Function for computing the step size used for computing most of the YAxis
+// numbers.
+QString YAxis::stepSize(double inp_first_axis_number)
+{
+  double step_size = m_max - m_min;
+  step_size = step_size / NUM_ELEMENTS;
+
+  // We try to round to a whole number whenever we can.
+  int round_step_size = 0;
+
+  std::string temp_string;
+
+  if (step_size < 0.1)
+  {
+    // In case of irrational numbers. Truncates 0.0XXXX... to 0.0X.
+    temp_string = std::to_string(step_size).substr(0, 4);
+    step_size = std::stod(temp_string);
+
+    // Check if axis fits data.
+    while (m_max >= (step_size * (NUM_ELEMENTS - 1) + inp_first_axis_number))
+    {
+      // If not, generate axis of wider range.
+      step_size = step_size + 0.01;
+    }
+    return QString::number(step_size);
+  }
+  else
+  {
+    round_step_size = std::round(step_size);
+
+    while (m_max
+           >= (round_step_size * (NUM_ELEMENTS - 1) + inp_first_axis_number))
+    {
+      round_step_size++;
+    }
+    return QString::number(round_step_size);
+  }
+}
+
+
 // Function for computing all the YAxis numbers (except the one computed
 // by firstYAxisNumber()).
 QString YAxis::otherYAxisNumber(double inp_min, double inp_max,
                                 QString inp_first_axis_number, int inp_position)
 {
-  double step_size = inp_max - inp_min;
-  step_size = step_size / NUM_ELEMENTS;
-
-  int trunc_step_size = 0;
-
   double first_axis_number = inp_first_axis_number.toDouble();
-
-  QString out_string;
-
-  std::string temp_string;
-  
-  if (step_size < 0.1)
-  {
-    temp_string = std::to_string(step_size).substr(0, 4);
-    step_size = std::stod(temp_string);
-
-    // Check if axis fits data.
-    while (inp_max >= (step_size * (NUM_ELEMENTS - 1) + first_axis_number))
-    {
-      // If not, generate axis of wider range.
-      step_size = step_size + 0.01;
-    }
-
-    out_string = QString::number(step_size * (inp_position - 1)
-                                + first_axis_number);
-    return out_string;
-  }
-  else
-  {
-    trunc_step_size = std::round(step_size);
-
-    while (inp_max
-           >= (trunc_step_size * (NUM_ELEMENTS - 1) + first_axis_number))
-    {
-      trunc_step_size++;
-    }
-
-    out_string = QString::number(trunc_step_size * (inp_position - 1)
-                                + first_axis_number);
-    return out_string;
-  }
+  double step_size = stepSize(first_axis_number).toDouble();
+  return QString::number(step_size * (inp_position - 1) + first_axis_number);
 }
 
 

@@ -43,6 +43,98 @@ Rectangle {
 
 		borderColor: ColorScheme.foreground
 		height: root.height
+		width: root.width
+
+		Crosshair {
+			id: crosshair
+
+			//width: parent.width
+			//height: parent.height / 2
+			anchors.centerIn: parent
+			anchors.fill: parent
+
+			color: ColorScheme.foreground
+			visible: true
+
+			width: parent.width
+			height: parent.height
+
+			posX: width / 2
+			posY: height / 2
+
+			min: ConstSingleton.min
+			max: ConstSingleton.max
+
+			price: "0"
+
+			rightSwapped: false
+			leftSwapped: false
+			topSwapped: false
+
+			//Behavior on posX {
+			//	NumberAnimation {
+			//		duration: 30
+			//	}
+			//}
+
+			//Behavior on posY {
+			//	NumberAnimation {
+			//		duration: 30
+			//	}
+			//}
+		}
+
+		MouseArea {
+			id: chartMouse
+
+			anchors.fill: parent
+
+			hoverEnabled: true
+
+			onEntered: {
+				crosshair.visible = true;
+				crosshair.posX = chartMouse.mouseX;
+				crosshair.posY = chartMouse.mouseY;
+				crosshair.price = crosshair.getPrice();
+			}
+
+			onExited: {
+				crosshair.visible = false;
+				crosshair.price = crosshair.getPrice();
+			}
+
+			onPositionChanged: {
+				crosshair.posX = chartMouse.mouseX;
+				if (crosshair.posX > (chartMouse.width - chartMouse.width / 8))
+				{
+					crosshair.rightSwapped = true;
+				}
+				else
+				{
+					crosshair.rightSwapped = false;
+				}
+
+				if (crosshair.posX < chartMouse.width / 8)
+				{
+					crosshair.leftSwapped = true;
+				}
+				else
+				{
+					crosshair.leftSwapped = false;
+				}
+
+				crosshair.posY = chartMouse.mouseY;
+				if (crosshair.posY < chartMouse.height / 15)
+				{
+					crosshair.topSwapped = true;
+				}
+				else
+				{
+					crosshair.topSwapped = false;
+				}
+				crosshair.price = crosshair.getPrice();
+			}
+		}
 	}
 
 	YAxis {
@@ -53,8 +145,8 @@ Rectangle {
 		height: root.height
 		width: 100
 
-		max: 498.83
-		min: 138.80
+		max: ConstSingleton.max
+		min: ConstSingleton.min
 
 		color: ColorScheme.foreground
 	}
