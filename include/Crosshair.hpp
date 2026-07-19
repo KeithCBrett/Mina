@@ -41,35 +41,55 @@ class Crosshair : public QQuickPaintedItem
   Q_PROPERTY(double max READ max WRITE setMax NOTIFY maxChanged FINAL)
 
   Q_PROPERTY(QString price READ price WRITE setPrice NOTIFY priceChanged FINAL)
+  Q_PROPERTY(QString date READ date WRITE setDate NOTIFY dateChanged FINAL)
+  Q_PROPERTY(qint64 dateOffset READ dateOffset WRITE setDateOffset
+             NOTIFY dateOffsetChanged FINAL)
   QML_ELEMENT
 
 public:
   Crosshair(QQuickItem *parent = nullptr);
 
+  // Color chart is drawn in
   QColor color() const;
   void setColor(const QColor &color);
 
+  // X position of mouse.
   double posX() const;
   void setPosX(const double &posX);
 
+  // Y position of mouse.
   double posY() const;
   void setPosY(const double &posY);
 
+  // Minimum of chart.
   double min() const;
   void setMin(const double &min);
 
+  // Maximum of chart.
   double max() const;
   void setMax(const double &max);
 
+  // Price to display in crosshair window.
   QString price() const;
   void setPrice(const QString &price);
 
+  // Date to display in crosshair window.
+  QString date() const;
+  void setDate(const QString &date);
+
+  // How far back in the past to render candles for.
+  qint64 dateOffset() const;
+  void setDateOffset(const qint64 &dateOffset);
+
+  // Whether cursor is too far to the right of the chart (cuts off a window)
   bool rightSwapped() const;
   void setRightSwapped(const bool &rightSwapped);
 
+  // Whether cursor is too far to the left of the chart (cuts off a window)
   bool leftSwapped() const;
   void setLeftSwapped(const bool &leftSwapped);
 
+  // Whether cursor is too far to the top of the chart (cuts off a window)
   bool topSwapped() const;
   void setTopSwapped(const bool &topSwapped);
 
@@ -80,6 +100,7 @@ public slots:
   // price() calculates which price to put in the price box based off the
   // current mouse Y position.
   QString getPrice();
+  QString getDate();
   
 private:
   QColor m_color;
@@ -91,6 +112,8 @@ private:
   double m_max;
 
   QString m_price;
+  QString m_date;
+  qint64 m_dateOffset;
 
   bool m_rightSwapped;
   bool m_leftSwapped;
@@ -135,6 +158,8 @@ signals:
   void maxChanged();
 
   void priceChanged();
+  void dateChanged();
+  void dateOffsetChanged();
 
   void rightSwappedChanged();
   void leftSwappedChanged();

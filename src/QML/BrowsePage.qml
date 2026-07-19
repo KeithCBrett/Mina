@@ -69,6 +69,9 @@ Rectangle {
 			max: ConstSingleton.max
 
 			price: "0"
+			date: "00/00/00"
+
+			dateOffset: 0
 
 			rightSwapped: false
 			leftSwapped: false
@@ -96,14 +99,19 @@ Rectangle {
 
 			onEntered: {
 				crosshair.visible = true;
+
 				crosshair.posX = chartMouse.mouseX;
 				crosshair.posY = chartMouse.mouseY;
+
 				crosshair.price = crosshair.getPrice();
+				crosshair.date = crosshair.getDate();
 			}
 
 			onExited: {
 				crosshair.visible = false;
+
 				crosshair.price = crosshair.getPrice();
+				crosshair.date = crosshair.getDate();
 			}
 
 			onPositionChanged: {
@@ -135,7 +143,9 @@ Rectangle {
 				{
 					crosshair.topSwapped = false;
 				}
+
 				crosshair.price = crosshair.getPrice();
+				crosshair.date = crosshair.getDate();
 			}
 		}
 	}

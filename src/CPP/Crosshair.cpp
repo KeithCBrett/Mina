@@ -29,6 +29,7 @@
 #define BIG_LINE (width() / 10)
 
 #define NUM_Y_ELEMENTS 10
+#define NUM_X_ELEMENTS 101
 
 
 Crosshair::Crosshair(QQuickItem *parent) : QQuickPaintedItem(parent)
@@ -129,6 +130,40 @@ void Crosshair::setPrice(const QString &price)
     m_price = price;
     update();
     emit priceChanged();
+  }
+}
+
+
+QString Crosshair::date() const
+{
+  return m_date;
+}
+
+
+void Crosshair::setDate(const QString &date)
+{
+  if (date != m_date)
+  {
+    m_date = date;
+    update();
+    emit dateChanged();
+  }
+}
+
+
+qint64 Crosshair::dateOffset() const
+{
+  return m_dateOffset;
+}
+
+
+void Crosshair::setDateOffset(const qint64 &dateOffset)
+{
+  if (dateOffset != m_dateOffset)
+  {
+    m_dateOffset = dateOffset;
+    update();
+    emit dateOffsetChanged();
   }
 }
 
@@ -257,7 +292,7 @@ void Crosshair::drawRightDateBox(QPainter *painter)
   painter->drawLine(p1, p2);
 
   painter->drawText(m_posX - BIG_LINE * 2 + SMALL_LINE * 0.1,
-                    m_posY - (SMALL_LINE + SMALL_LINE / 2), "99/99/99");
+                    m_posY - (SMALL_LINE + SMALL_LINE / 2), m_date);
 }
 
 
@@ -335,7 +370,7 @@ void Crosshair::drawLeftDateBox(QPainter *painter)
   painter->drawLine(p1, p2);
 
   painter->drawText(m_posX + MEDIUM_LINE + SMALL_LINE * 1.1,
-                    m_posY - (SMALL_LINE + SMALL_LINE / 2), "99/99/99");
+                    m_posY - (SMALL_LINE + SMALL_LINE / 2), m_date);
 }
 
 
@@ -413,7 +448,7 @@ void Crosshair::drawTopDateBox(QPainter *painter)
   painter->drawLine(p1, p2);
 
   painter->drawText(m_posX - BIG_LINE + SMALL_LINE * 1.1,
-                    m_posY + MEDIUM_LINE + SMALL_LINE / 2, "99/99/99");
+                    m_posY + MEDIUM_LINE + SMALL_LINE / 2, m_date);
 }
 
 
@@ -491,7 +526,7 @@ void Crosshair::drawTopRightDateBox(QPainter *painter)
   painter->drawLine(p1, p2);
 
   painter->drawText(m_posX - BIG_LINE * 2,
-                    m_posY + MEDIUM_LINE + SMALL_LINE / 2, "99/99/99");
+                    m_posY + MEDIUM_LINE + SMALL_LINE / 2, m_date);
 }
 
 
@@ -569,7 +604,7 @@ void Crosshair::drawTopLeftDateBox(QPainter *painter)
   painter->drawLine(p1, p2);
 
   painter->drawText(m_posX + MEDIUM_LINE + SMALL_LINE * 1.1,
-                    m_posY + MEDIUM_LINE + SMALL_LINE / 2, "99/99/99");
+                    m_posY + MEDIUM_LINE + SMALL_LINE / 2, m_date);
 }
 
 
@@ -606,7 +641,8 @@ void Crosshair::drawDefaultPriceBox(QPainter *painter)
   painter->drawLine(p1, p2);
 
   // Above code drew the box, below code draws the text.
-  painter->drawText(m_posX + MEDIUM_LINE, m_posY - (SMALL_LINE + SMALL_LINE / 2), m_price);
+  painter->drawText(m_posX + MEDIUM_LINE,
+                    m_posY - (SMALL_LINE + SMALL_LINE / 2), m_price);
 }
 
 
@@ -642,9 +678,12 @@ void Crosshair::drawDefaultDateBox(QPainter *painter)
   p2 += QPointF(0.0, MEDIUM_LINE);
   painter->drawLine(p1, p2);
 
+
   // Above code drew the box, below code draws the text.
+  // painter->drawText(m_posX - BIG_LINE + SMALL_LINE * 1.1,
+  //                   m_posY - (SMALL_LINE + SMALL_LINE / 2), "99/99/99");
   painter->drawText(m_posX - BIG_LINE + SMALL_LINE * 1.1,
-                    m_posY - (SMALL_LINE + SMALL_LINE / 2), "99/99/99");
+                    m_posY - (SMALL_LINE + SMALL_LINE / 2), m_date);
 }
 
 
@@ -748,6 +787,41 @@ QString Crosshair::getPrice()
   double y_position = 1.0 - m_posY / height();
 
   return QString::number(std::round(bottom_chart_num + offset * y_position));
+}
+
+
+QString Crosshair::getDate()
+{
+  int step;
+
+  if ((m_posX / width()) > 0.5)
+  {
+    step = std::trunc(m_posX / width() * 100);
+  }
+  else
+  {
+    step = std::round(m_posX / width() * 100);
+  }
+
+  step = (NUM_X_ELEMENTS - 1) - step;
+
+  QDate date = QDate::currentDate();
+  if (m_dateOffset > 0)
+  {
+    date = date.addDays(m_dateOffset);
+  }
+
+  if ((m_posX / width()) > 0.5)
+  {
+    date = date.addDays(-(step-1));
+  }
+  else
+  {
+    date = date.addDays(-(step));
+  }
+
+
+  return date.toString("MM/dd/yy");
 }
 
 
