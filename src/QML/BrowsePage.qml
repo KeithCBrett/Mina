@@ -41,9 +41,12 @@ Rectangle {
 		anchors.right: browsePageMenu.left
 		anchors.rightMargin: ConstSingleton.cogwheelMargin
 
-		borderColor: ColorScheme.foreground
 		height: root.height
 		width: root.width
+
+		borderColor: ColorScheme.foreground
+
+		dateOffset: 0
 
 		Crosshair {
 			id: crosshair

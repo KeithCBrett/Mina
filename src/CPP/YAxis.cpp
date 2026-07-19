@@ -73,7 +73,8 @@ void YAxis::drawYAxisNumber
   (QPainter *inp_painter, int inp_location, QString inp_number)
 {
   inp_painter->drawText
-    (7, (height() - (height() / (NUM_ELEMENTS + 1)) * inp_location) + 5, inp_number);
+    (7, (height() - (height() / (NUM_ELEMENTS + 1)) * inp_location) + 5,
+     inp_number);
 }
 
 

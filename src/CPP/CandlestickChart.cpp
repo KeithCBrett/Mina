@@ -22,7 +22,7 @@
 
 
 #define NUM_Y_AXIS_ELEMENTS 10
-#define NUM_X_AXIS_ELEMENTS 100
+#define NUM_X_AXIS_ELEMENTS 101
 
 
 CandlestickChart::CandlestickChart(QQuickItem *parent)
@@ -49,21 +49,45 @@ void CandlestickChart::drawYAxis(QPainter *painter, float min, float max)
   for (int i = 1 ; i <= NUM_Y_AXIS_ELEMENTS ; i++)
   {
     // Draw axis marking.
-    painter->drawLine((width() - 5), ((height() / (NUM_Y_AXIS_ELEMENTS + 1)) * i),
-                      width(), ((height() / (NUM_Y_AXIS_ELEMENTS + 1)) * i));
-    // Draw axis number.
-//    painter->drawText((width() - 50),
-//                      ((height() / NUM_Y_AXIS_ELEMENTS) * i) + 6, "100");
+    painter->drawLine(width() - 5, (height() / (NUM_Y_AXIS_ELEMENTS + 1) * i),
+                      width(), (height() / (NUM_Y_AXIS_ELEMENTS + 1) * i));
   }
 }
 
 
 void CandlestickChart::drawXAxis(QPainter *painter)
 {
+  QDate date = QDate::currentDate();
+  
   for (int i = 1 ; i <= NUM_X_AXIS_ELEMENTS ; i++)
   {
-    painter->drawLine(((width() / NUM_X_AXIS_ELEMENTS) * i), (height() - 7),
-                      ((width() / NUM_X_AXIS_ELEMENTS) * i), height());
+    painter->drawLine(width() / NUM_X_AXIS_ELEMENTS * i, (height() - 7),
+                      width() / NUM_X_AXIS_ELEMENTS * i, height());
+
+    if ((i % 10 == 0) && (i <= NUM_X_AXIS_ELEMENTS - 10))
+    {
+      painter->drawText((width() / NUM_X_AXIS_ELEMENTS * i) - width() * 0.0185,
+                        height() * 0.99,
+                        date.addDays(-(NUM_X_AXIS_ELEMENTS - i - 1
+                                       + m_dateOffset)).toString("MM/dd"));
+    }
+  }
+}
+
+
+qint64 CandlestickChart::dateOffset() const
+{
+  return m_dateOffset;
+}
+
+
+void CandlestickChart::setDateOffset(const qint64 &dateOffset)
+{
+  if (dateOffset != m_dateOffset)
+  {
+    m_dateOffset = dateOffset;
+    update();
+    emit dateOffsetChanged();
   }
 }
 

@@ -256,8 +256,8 @@ void Crosshair::drawRightDateBox(QPainter *painter)
   p2 += QPointF(0.0, MEDIUM_LINE);
   painter->drawLine(p1, p2);
 
-  painter->drawText(m_posX - BIG_LINE - MEDIUM_LINE * 4 + SMALL_LINE / 1.5,
-                    m_posY - (SMALL_LINE + SMALL_LINE / 2), "99/99");
+  painter->drawText(m_posX - BIG_LINE * 2 + SMALL_LINE * 0.1,
+                    m_posY - (SMALL_LINE + SMALL_LINE / 2), "99/99/99");
 }
 
 
@@ -334,8 +334,8 @@ void Crosshair::drawLeftDateBox(QPainter *painter)
   p2 += QPointF(0.0, SMALL_LINE);
   painter->drawLine(p1, p2);
 
-  painter->drawText(m_posX + MEDIUM_LINE * 3 - SMALL_LINE / 3,
-                    m_posY - (SMALL_LINE + SMALL_LINE / 2), "99/99");
+  painter->drawText(m_posX + MEDIUM_LINE + SMALL_LINE * 1.1,
+                    m_posY - (SMALL_LINE + SMALL_LINE / 2), "99/99/99");
 }
 
 
@@ -412,8 +412,8 @@ void Crosshair::drawTopDateBox(QPainter *painter)
   p2 += QPointF(0.0, -MEDIUM_LINE);
   painter->drawLine(p1, p2);
 
-  painter->drawText(m_posX - BIG_LINE + MEDIUM_LINE + SMALL_LINE * 1.6,
-                    m_posY + MEDIUM_LINE + SMALL_LINE / 2, "99/99");
+  painter->drawText(m_posX - BIG_LINE + SMALL_LINE * 1.1,
+                    m_posY + MEDIUM_LINE + SMALL_LINE / 2, "99/99/99");
 }
 
 
@@ -490,8 +490,8 @@ void Crosshair::drawTopRightDateBox(QPainter *painter)
   p2 += QPointF(0.0, -MEDIUM_LINE);
   painter->drawLine(p1, p2);
 
-  painter->drawText(m_posX + -BIG_LINE * 2 + MEDIUM_LINE + SMALL_LINE / 1.4,
-                    m_posY + MEDIUM_LINE + SMALL_LINE / 2, "99/99");
+  painter->drawText(m_posX - BIG_LINE * 2,
+                    m_posY + MEDIUM_LINE + SMALL_LINE / 2, "99/99/99");
 }
 
 
@@ -568,8 +568,8 @@ void Crosshair::drawTopLeftDateBox(QPainter *painter)
   p2 += QPointF(0.0, -SMALL_LINE);
   painter->drawLine(p1, p2);
 
-  painter->drawText(m_posX + BIG_LINE - MEDIUM_LINE * 2 - SMALL_LINE / 3,
-                    m_posY + MEDIUM_LINE + SMALL_LINE / 2, "99/99");
+  painter->drawText(m_posX + MEDIUM_LINE + SMALL_LINE * 1.1,
+                    m_posY + MEDIUM_LINE + SMALL_LINE / 2, "99/99/99");
 }
 
 
@@ -643,8 +643,8 @@ void Crosshair::drawDefaultDateBox(QPainter *painter)
   painter->drawLine(p1, p2);
 
   // Above code drew the box, below code draws the text.
-  painter->drawText(m_posX - MEDIUM_LINE * 3 - SMALL_LINE / 3,
-                    m_posY - (SMALL_LINE + SMALL_LINE / 2), "99/99");
+  painter->drawText(m_posX - BIG_LINE + SMALL_LINE * 1.1,
+                    m_posY - (SMALL_LINE + SMALL_LINE / 2), "99/99/99");
 }
 
 

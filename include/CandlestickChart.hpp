@@ -30,6 +30,8 @@ class CandlestickChart : public QQuickPaintedItem
 {
   Q_OBJECT
   Q_PROPERTY(QColor borderColor READ borderColor WRITE setBorderColor FINAL)
+  Q_PROPERTY(qint64 dateOffset READ dateOffset WRITE setDateOffset
+             NOTIFY dateOffsetChanged FINAL)
   QML_ELEMENT
 
 public:
@@ -38,14 +40,21 @@ public:
   QColor borderColor() const;
   void setBorderColor(const QColor &borderColor);
 
+  qint64 dateOffset() const;
+  void setDateOffset(const qint64 &dateOffset);
+
   void paint(QPainter *painter) override;
 
 private:
   QColor m_borderColor;
+  qint64 m_dateOffset;
 
   // Helper functions for painting the axises to the screen.
   void drawYAxis(QPainter *painter, float min, float max);
   void drawXAxis(QPainter *painter);
+
+signals:
+  void dateOffsetChanged();
 };
 
 
