@@ -79,9 +79,9 @@ void YAxis::drawYAxisNumber
 
 
 // Function for computing the bottom most YAxis number.
-QString YAxis::firstYAxisNumber(double inp_min)
+QString YAxis::firstYAxisNumber()
 {
-  double temp = inp_min;
+  double temp = m_min;
   double integral = 0.05;
 
   // We only want to return a double for small numbers. Otherwise we would
@@ -184,7 +184,7 @@ void YAxis::paint(QPainter *painter)
 
   // We compute the first number, then subsequently use that number to compute
   // all the other axis numbers.
-  QString first_num = firstYAxisNumber(m_min);
+  QString first_num = firstYAxisNumber();
   QString other_num;
 
   painter->setPen(pen);

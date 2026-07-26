@@ -132,9 +132,9 @@ void CandlestickChart::setDateOffset(const qint64 &dateOffset)
 
 
 // Function for computing the bottom most YAxis number.
-QString CandlestickChart::firstYAxisNumber(double inp_min)
+QString CandlestickChart::firstYAxisNumber()
 {
-  double temp = inp_min;
+  double temp = m_min;
   double integral = 0.05;
 
   // We only want to return a double for small numbers. Otherwise we would
@@ -224,7 +224,7 @@ QString CandlestickChart::stepSize(double inp_first_axis_number)
 
 double CandlestickChart::candleYPoint(double inp_num)
 {
-  double first_y_number = firstYAxisNumber(m_min).toDouble();
+  double first_y_number = firstYAxisNumber().toDouble();
   double step = stepSize(first_y_number).toDouble();
 
   // double chart_min = m_min - step;

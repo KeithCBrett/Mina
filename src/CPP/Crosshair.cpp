@@ -725,9 +725,9 @@ QString Crosshair::stepSize(double inp_first_axis_number)
 }
 
 
-QString Crosshair::firstYAxisNumber(double inp_min)
+QString Crosshair::firstYAxisNumber()
 {
-  double temp = inp_min;
+  double temp = m_min;
   double integral = 0.05;
 
   // We only want to return a double for small numbers. Otherwise we would
@@ -777,7 +777,7 @@ QString Crosshair::firstYAxisNumber(double inp_min)
 // of the cursor. This is done via the mouse cursor's Y position.
 QString Crosshair::getPrice()
 {
-  double first_axis_number = firstYAxisNumber(m_min).toDouble();
+  double first_axis_number = firstYAxisNumber().toDouble();
   double step_count = stepSize(first_axis_number).toDouble();
 
   double bottom_chart_num = first_axis_number - step_count;

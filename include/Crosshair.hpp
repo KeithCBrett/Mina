@@ -148,7 +148,7 @@ private:
   void drawDefaultDateBox(QPainter *painter);
 
   QString stepSize(double inp_first_axis_number);
-  QString firstYAxisNumber(double inp_min);
+  QString firstYAxisNumber();
 
 signals:
   void posXChanged();
