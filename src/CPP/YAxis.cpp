@@ -50,7 +50,12 @@ double YAxis::min() const
 
 void YAxis::setMin(const double &min)
 {
-  m_min = min;
+  if (m_min != min)
+  {
+    m_min = min;
+    update();
+    emit minChanged();
+  }
 }
 
 
@@ -62,7 +67,12 @@ double YAxis::max() const
 
 void YAxis::setMax(const double &max)
 {
-  m_max = max;
+  if (m_max != max)
+  {
+    m_max = max;
+    update();
+    emit maxChanged();
+  }
 }
 
 

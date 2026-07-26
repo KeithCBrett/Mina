@@ -51,7 +51,12 @@ double CandlestickChart::min() const
 
 void CandlestickChart::setMin(const double &min)
 {
-  m_min = min;
+  if (m_min != min)
+  {
+    m_min = min;
+    update();
+    emit minChanged();
+  }
 }
 
 
@@ -63,7 +68,12 @@ double CandlestickChart::max() const
 
 void CandlestickChart::setMax(const double &max)
 {
-  m_max = max;
+  if (m_max != max)
+  {
+    m_max = max;
+    update();
+    emit maxChanged();
+  }
 }
 
 

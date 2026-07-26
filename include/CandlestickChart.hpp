@@ -30,8 +30,8 @@ class CandlestickChart : public QQuickPaintedItem
 {
   Q_OBJECT
   Q_PROPERTY(QColor borderColor READ borderColor WRITE setBorderColor FINAL)
-  Q_PROPERTY(double min READ min WRITE setMin FINAL)
-  Q_PROPERTY(double max READ max WRITE setMax FINAL)
+  Q_PROPERTY(double min READ min WRITE setMin NOTIFY minChanged FINAL)
+  Q_PROPERTY(double max READ max WRITE setMax NOTIFY maxChanged FINAL)
   Q_PROPERTY(qint64 dateOffset READ dateOffset WRITE setDateOffset
              NOTIFY dateOffsetChanged FINAL)
   QML_ELEMENT
@@ -79,6 +79,8 @@ private:
 
 signals:
   void dateOffsetChanged();
+  void minChanged();
+  void maxChanged();
 };
 
 

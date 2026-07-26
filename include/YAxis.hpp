@@ -29,8 +29,8 @@ class YAxis : public QQuickPaintedItem
 {
   Q_OBJECT
   Q_PROPERTY(QColor color READ color WRITE setColor FINAL)
-  Q_PROPERTY(double min READ min WRITE setMin FINAL)
-  Q_PROPERTY(double max READ max WRITE setMax FINAL)
+  Q_PROPERTY(double min READ min WRITE setMin NOTIFY minChanged FINAL)
+  Q_PROPERTY(double max READ max WRITE setMax NOTIFY maxChanged FINAL)
   QML_ELEMENT
 
 public:
@@ -61,6 +61,9 @@ private:
                        int inp_location, QString inp_number);
   QString otherYAxisNumber(double inp_min, double inp_max,
                            QString inp_first_axis_number, int inp_position);
+signals:
+  void minChanged();
+  void maxChanged();
 };
 
 
