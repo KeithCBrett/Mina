@@ -26,6 +26,14 @@
 #include <QColor>
 
 
+struct Candlestick {
+  double open;
+  double close;
+  double high;
+  double low;
+};
+
+
 class CandlestickChart : public QQuickPaintedItem
 {
   Q_OBJECT
