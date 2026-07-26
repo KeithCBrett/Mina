@@ -64,7 +64,6 @@ Item {
 
             onClicked: {
                 stack.pop(null)
-                cogwheel.state = ""
             }
         }
 

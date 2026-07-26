@@ -52,6 +52,7 @@ public:
 
 private:
   QColor m_color;
+
   double m_min;
   double m_max;
 

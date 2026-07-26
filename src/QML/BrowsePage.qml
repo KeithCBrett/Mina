@@ -44,6 +44,9 @@ Rectangle {
 		height: root.height
 		width: root.width
 
+		min: ConstSingleton.min
+		max: ConstSingleton.max
+
 		borderColor: ColorScheme.foreground
 
 		dateOffset: 0
