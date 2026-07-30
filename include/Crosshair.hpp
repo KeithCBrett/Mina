@@ -150,6 +150,11 @@ private:
   QString stepSize(double inp_first_axis_number);
   QString firstYAxisNumber();
 
+  // This function lets us easily omit weekends from our chart.
+  size_t offsetStep(size_t inp_step);
+  // Helper for above function. Checks if date is a weekend.
+  bool weekend(QDate inp_date);
+
 signals:
   void posXChanged();
   void posYChanged();

@@ -466,7 +466,7 @@ void CandlestickChart::paint(QPainter *painter)
   drawXAxis(painter);
   QDate date = QDate::currentDate();
   std::string mystr = date.toString().toStdString();
-  fprintf(stderr, "%s\n", mystr.c_str());
+  // fprintf(stderr, "%s\n", mystr.c_str());
 
   // fprintf(candleChunk(0));
 	// fprintf(stderr, "%s\n", candleChunk(0).c_str());
