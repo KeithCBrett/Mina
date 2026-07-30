@@ -18,11 +18,12 @@
 
 
 #include "../../include/CandlestickChart.hpp"
+
+// We need curl to get stock data from our API
+#include "../include/CurlInit.hpp"
+#include <curl/curl.h>
+
 #include <QPainter>
-
-
-#define NUM_Y_AXIS_ELEMENTS 10
-#define NUM_X_AXIS_ELEMENTS 101
 
 
 CandlestickChart::CandlestickChart(QQuickItem *parent)
@@ -77,6 +78,23 @@ void CandlestickChart::setMax(const double &max)
 }
 
 
+qint64 CandlestickChart::dateOffset() const
+{
+  return m_dateOffset;
+}
+
+
+void CandlestickChart::setDateOffset(const qint64 &dateOffset)
+{
+  if (dateOffset != m_dateOffset)
+  {
+    m_dateOffset = dateOffset;
+    update();
+    emit dateOffsetChanged();
+  }
+}
+
+
 // Draws the lines small lines and dollar amounts associated with the y-axis.
 void CandlestickChart::drawYAxis(QPainter *painter, float min, float max)
 {
@@ -89,9 +107,44 @@ void CandlestickChart::drawYAxis(QPainter *painter, float min, float max)
 }
 
 
+bool isWeekend(QDate date)
+{
+  bool out = false;
+  int day = date.dayOfWeek();
+
+  if (day == 6)
+  {
+    out = true;
+  }
+
+  if (day == 7)
+  {
+    out = true;
+  }
+
+  return out;
+}
+
+
+// QDate CandlestickChart::getDate(QDate current_date, int index)
+// {
+//   int offset = 0;
+// }
+
+
 void CandlestickChart::drawXAxis(QPainter *painter)
 {
   QDate date = QDate::currentDate();
+
+  // For when its a weekend.
+  int weekend_offset = 0;
+
+  QDate temp_date = date;
+
+  if ((temp_date.dayOfWeek() == 6) || (temp_date.dayOfWeek() == 7))
+  {
+    weekend_offset += 2;
+  }
   
   for (int i = 1 ; i <= NUM_X_AXIS_ELEMENTS ; i++)
   {
@@ -112,31 +165,21 @@ void CandlestickChart::drawXAxis(QPainter *painter)
       }
     }
 
-    // Draw dates to screen.
+    temp_date = date.addDays(-(i + weekend_offset));
+    if ((temp_date.dayOfWeek() == 7) || (temp_date.dayOfWeek() == 6))
+    {
+      weekend_offset += 2;
+      temp_date = date.addDays(-(i + weekend_offset));
+    }
+
+    // Draw date to screen.
     if ((i % 10 == 0) && (i <= NUM_X_AXIS_ELEMENTS - 10))
     {
-      painter->drawText((width() / NUM_X_AXIS_ELEMENTS * i) - width() * 0.0185,
+      painter->drawText((width() - ((width() / NUM_X_AXIS_ELEMENTS * i)
+                                    - width() * 0.0092) - width() / 27),
                         height() * 0.99,
-                        date.addDays(-(NUM_X_AXIS_ELEMENTS - i - 1
-                                       + m_dateOffset)).toString("MM/dd"));
+                        temp_date.toString("MM/dd"));
     }
-  }
-}
-
-
-qint64 CandlestickChart::dateOffset() const
-{
-  return m_dateOffset;
-}
-
-
-void CandlestickChart::setDateOffset(const qint64 &dateOffset)
-{
-  if (dateOffset != m_dateOffset)
-  {
-    m_dateOffset = dateOffset;
-    update();
-    emit dateOffsetChanged();
   }
 }
 
@@ -272,6 +315,69 @@ double CandlestickChart::candleLength(double open, double close)
 }
 
 
+// Returns a chunk of stock data to parse.
+std::string CandlestickChart::candleChunk(qint64 offset)
+{
+  QDate start_date;
+  QDate end_date;
+
+  if (offset == 0)
+  {
+    end_date = QDate::currentDate();
+
+    // Markets not open on weekends so we wont even render candles for those day.
+    while ((end_date.dayOfWeek() == 6)
+           || (end_date.dayOfWeek() == 7))
+    {
+      end_date = end_date.addDays(-1);
+    }
+  }
+  else
+  {
+    end_date = QDate::currentDate();
+    end_date = end_date.addDays(offset);
+
+    while ((end_date.dayOfWeek() == 6)
+           || (end_date.dayOfWeek() == 7))
+    {
+      end_date = end_date.addDays(-1);
+    }
+  }
+  
+	std::string my_key = "APCA-API-KEY-ID: PKVOZ3RYLJ3RUPWOAIQKFEMG4F";
+	std::string my_secret = "APCA-API-SECRET-KEY: 8vHFEREYTc2C11SAWTPds7zs"
+		"ojwbHmJgruv7DtYxPiHW";
+
+	std::string url = "https://data.alpaca.markets/v2/stocks/AAPL/bars?tim"
+		"eframe=1D&start=2024-01-03T00%3A00%3A00Z&end=2024-02-04T00%3A"
+		"00%3A00Z&limit=1000&adjustment=raw&feed=sip&sort=asc";
+	
+	std::string *curl_output_buffer;
+	CURL *hnd = NULL;
+	struct curl_slist *headers = NULL;
+
+	headers = curl_slist_append(headers, "accept: application/json");
+	headers = curl_slist_append(headers, my_key.c_str());
+	headers = curl_slist_append(headers, my_secret.c_str());
+
+	curl_output_buffer = action::CurlInit(hnd, url, headers);
+	CURLcode ret = curl_easy_perform(hnd);
+	if (curl_output_buffer->empty() == true)
+	{
+		fprintf(stderr, "Error initializing curl.\n");
+	}
+
+	// fprintf(stderr, "%s\n", (*curl_output_buffer).c_str());
+	return *curl_output_buffer;
+}
+
+
+void CandlestickChart::candleData(CandleData &candles)
+{
+  
+}
+
+
 void CandlestickChart::drawCandle(double high, double low, double open,
                                   double close, int index, QPainter *painter)
 {
@@ -287,12 +393,10 @@ void CandlestickChart::drawCandle(double high, double low, double open,
 
   // Green and red pen for upswing and downswing respectively.
   QPen up_pen;
-  // QColor up_color(39, 77, 234, 92);
   QColor up_color(39, 77, 234);
   up_pen.setColor(up_color);
 
   QPen down_pen;
-  // QColor down_color(186, 22, 80, 73);
   QColor down_color(186, 22, 80);
   down_pen.setColor(down_color);
 
@@ -348,6 +452,9 @@ void CandlestickChart::paint(QPainter *painter)
   painter->setPen(pen);
   painter->setRenderHints(QPainter::Antialiasing, false);
 
+  CandleData candles;
+  // candleData(candles);
+
   // Draw bar chart border.
   QRectF rect(0, 0, width(), height());
   qreal offset = pen.widthF() / 2.0;
@@ -357,4 +464,10 @@ void CandlestickChart::paint(QPainter *painter)
   // Paint the axises to the screen.
   drawYAxis(painter, 0.06, 0.20);
   drawXAxis(painter);
+  QDate date = QDate::currentDate();
+  std::string mystr = date.toString().toStdString();
+  fprintf(stderr, "%s\n", mystr.c_str());
+
+  // fprintf(candleChunk(0));
+	// fprintf(stderr, "%s\n", candleChunk(0).c_str());
 }

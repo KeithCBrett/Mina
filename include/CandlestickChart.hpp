@@ -26,11 +26,15 @@
 #include <QColor>
 
 
-struct Candlestick {
-  double open;
-  double close;
-  double high;
-  double low;
+#define NUM_X_AXIS_ELEMENTS 101
+#define NUM_Y_AXIS_ELEMENTS 10
+
+
+struct CandleData {
+  double open[NUM_X_AXIS_ELEMENTS];
+  double close[NUM_X_AXIS_ELEMENTS];
+  double high[NUM_X_AXIS_ELEMENTS];
+  double low[NUM_X_AXIS_ELEMENTS];
 };
 
 
@@ -82,8 +86,16 @@ private:
   // This function calculates the Y-point for each candle according to chart
   // axis.
   double candleYPoint(double inp_num);
+
   // This function calculates the length of our candlestick body.
   double candleLength(double open, double close);
+
+  // This function fills our candle arrays with real stock data.
+  void candleData(CandleData &candles);
+
+  // Returns a chunk of stock data we can parse. Offset of zero returns candle
+  // for today - 100 days ago.
+  std::string candleChunk(qint64 offset);
 
 signals:
   void dateOffsetChanged();
