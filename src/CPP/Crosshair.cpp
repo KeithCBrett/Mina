@@ -786,6 +786,8 @@ bool Crosshair::weekend(QDate inp_date)
 }
 
 
+// Returns how many days back we need to go to fill the chart. This number
+// should be higher than 100 since we have to skip weekends.
 size_t Crosshair::offsetStep(size_t inp_step)
 {
   // Lowest the input will be is 1. This algorithm expects a lowest of 0.

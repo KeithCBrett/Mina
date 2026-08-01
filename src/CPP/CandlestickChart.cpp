@@ -315,10 +315,10 @@ double CandlestickChart::candleLength(double open, double close)
 }
 
 
-QDate CandlestickChart::endDate(qint64 offset)
+QDate CandlestickChart::endDate()
 {
     QDate end_date = QDate::currentDate();
-    end_date = end_date.addDays(-offset);
+    end_date = end_date.addDays(-m_dateOffset);
 
     while ((end_date.dayOfWeek() == 6)
            || (end_date.dayOfWeek() == 7))
@@ -332,16 +332,29 @@ QDate CandlestickChart::endDate(qint64 offset)
 
 std::string CandlestickChart::callString(QDate end_date, std::string ticker)
 {
-  std::string out_string = "etc";
+  // String to return (We will be concatenating more to it).
+  std::string out_string = "";
+
+  // Needed for all URLS.
+  std::string url_head = "https://data.alpaca.markets/v2/stocks/";
+
+  // Denotes whether its bar data and for what time frame each bar represents.
+  std::string url_type = "/bars?timeframe=1D&start=";
+
+  // std::string startPoint = qDateToAPIDate(startDate());
+  
+  // End point to get data for.
+  // std::string endPoint = qDateToAPIDate(end_date);
+
   return out_string;
 }
 
 
 // Returns a chunk of stock data to parse.
-std::string CandlestickChart::candleChunk(qint64 offset)
+std::string CandlestickChart::candleChunk()
 {
   QDate start_date;
-  QDate end_date = endDate(offset);
+  QDate end_date = endDate();
   const char *printstr = qPrintable(end_date.toString());
 
   fprintf(stderr, "endDate: %s\n", printstr);
@@ -472,5 +485,5 @@ void CandlestickChart::paint(QPainter *painter)
   // fprintf(stderr, "%s\n", mystr.c_str());
 
   // fprintf(candleChunk(0));
-	fprintf(stderr, "%s\n", candleChunk(0).c_str());
+	fprintf(stderr, "%s\n", candleChunk().c_str());
 }

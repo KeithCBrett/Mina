@@ -23,6 +23,7 @@
 
 
 #include <QtQuick/QQuickPaintedItem>
+#include <../include/Crosshair.hpp>
 #include <QColor>
 
 
@@ -95,7 +96,7 @@ private:
 
   // Returns a chunk of stock data we can parse. Offset of zero returns candle
   // for today - 100 days ago.
-  std::string candleChunk(qint64 offset);
+  std::string candleChunk();
 
   // Helper function for candleChunk that generates the string we use to make
   // our Alpaca API call (so we can get stock data).
@@ -103,7 +104,7 @@ private:
 
   // Helper function for candleChunk that calculates the end date based off of
   // offset and whether or not we end in a weekend.
-  QDate endDate(qint64 offset);
+  QDate endDate();
 
 signals:
   void dateOffsetChanged();
