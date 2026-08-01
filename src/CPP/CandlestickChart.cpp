@@ -315,42 +315,45 @@ double CandlestickChart::candleLength(double open, double close)
 }
 
 
+QDate CandlestickChart::endDate(qint64 offset)
+{
+    QDate end_date = QDate::currentDate();
+    end_date = end_date.addDays(-offset);
+
+    while ((end_date.dayOfWeek() == 6)
+           || (end_date.dayOfWeek() == 7))
+    {
+      end_date = end_date.addDays(-1);
+    }
+
+    return end_date;
+}
+
+
+std::string CandlestickChart::callString(QDate end_date, std::string ticker)
+{
+  std::string out_string = "etc";
+  return out_string;
+}
+
+
 // Returns a chunk of stock data to parse.
 std::string CandlestickChart::candleChunk(qint64 offset)
 {
   QDate start_date;
-  QDate end_date;
+  QDate end_date = endDate(offset);
+  const char *printstr = qPrintable(end_date.toString());
 
-  if (offset == 0)
-  {
-    end_date = QDate::currentDate();
-
-    // Markets not open on weekends so we wont even render candles for those day.
-    while ((end_date.dayOfWeek() == 6)
-           || (end_date.dayOfWeek() == 7))
-    {
-      end_date = end_date.addDays(-1);
-    }
-  }
-  else
-  {
-    end_date = QDate::currentDate();
-    end_date = end_date.addDays(offset);
-
-    while ((end_date.dayOfWeek() == 6)
-           || (end_date.dayOfWeek() == 7))
-    {
-      end_date = end_date.addDays(-1);
-    }
-  }
+  fprintf(stderr, "endDate: %s\n", printstr);
   
 	std::string my_key = "APCA-API-KEY-ID: PKVOZ3RYLJ3RUPWOAIQKFEMG4F";
 	std::string my_secret = "APCA-API-SECRET-KEY: 8vHFEREYTc2C11SAWTPds7zs"
 		"ojwbHmJgruv7DtYxPiHW";
 
 	std::string url = "https://data.alpaca.markets/v2/stocks/AAPL/bars?tim"
-		"eframe=1D&start=2024-01-03T00%3A00%3A00Z&end=2024-02-04T00%3A"
-		"00%3A00Z&limit=1000&adjustment=raw&feed=sip&sort=asc";
+		"eframe=1D&start=2024-01-03T00%3A00%3A00Z&end=2024-03-04T00%3A"
+		"00%3A00Z&limit=1000&adjustment=raw&feed=sip&sort=desc";
+	std::string test_url = callString(end_date, "AAPL");
 	
 	std::string *curl_output_buffer;
 	CURL *hnd = NULL;
@@ -453,7 +456,7 @@ void CandlestickChart::paint(QPainter *painter)
   painter->setRenderHints(QPainter::Antialiasing, false);
 
   CandleData candles;
-  // candleData(candles);
+  candleData(candles);
 
   // Draw bar chart border.
   QRectF rect(0, 0, width(), height());
@@ -469,5 +472,5 @@ void CandlestickChart::paint(QPainter *painter)
   // fprintf(stderr, "%s\n", mystr.c_str());
 
   // fprintf(candleChunk(0));
-	// fprintf(stderr, "%s\n", candleChunk(0).c_str());
+	fprintf(stderr, "%s\n", candleChunk(0).c_str());
 }

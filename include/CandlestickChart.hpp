@@ -97,6 +97,14 @@ private:
   // for today - 100 days ago.
   std::string candleChunk(qint64 offset);
 
+  // Helper function for candleChunk that generates the string we use to make
+  // our Alpaca API call (so we can get stock data).
+  std::string callString(QDate end_date, std::string ticker);
+
+  // Helper function for candleChunk that calculates the end date based off of
+  // offset and whether or not we end in a weekend.
+  QDate endDate(qint64 offset);
+
 signals:
   void dateOffsetChanged();
   void minChanged();

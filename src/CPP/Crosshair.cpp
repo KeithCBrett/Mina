@@ -864,6 +864,7 @@ QString Crosshair::getPrice()
 QString Crosshair::getDate()
 {
   size_t step;
+  size_t candle_width = width() / 110;
 
   if ((m_posX / width()) > 0.5)
   {
