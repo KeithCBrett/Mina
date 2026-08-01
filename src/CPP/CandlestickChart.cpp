@@ -315,6 +315,14 @@ double CandlestickChart::candleLength(double open, double close)
 }
 
 
+QDate CandlestickChart::startDate()
+{
+  const char *printstr = "startDate not yet implemented";
+  fprintf(stderr, "%s\n", printstr);
+  return QDate::currentDate();
+}
+
+
 QDate CandlestickChart::endDate()
 {
     QDate end_date = QDate::currentDate();
@@ -330,7 +338,8 @@ QDate CandlestickChart::endDate()
 }
 
 
-std::string CandlestickChart::callString(QDate end_date, std::string ticker)
+std::string CandlestickChart::callString(QDate start_date, QDate end_date,
+                                         std::string ticker)
 {
   // String to return (We will be concatenating more to it).
   std::string out_string = "";
@@ -341,7 +350,7 @@ std::string CandlestickChart::callString(QDate end_date, std::string ticker)
   // Denotes whether its bar data and for what time frame each bar represents.
   std::string url_type = "/bars?timeframe=1D&start=";
 
-  // std::string startPoint = qDateToAPIDate(startDate());
+  // std::string startPoint = qDateToAPIDate(start_date);
   
   // End point to get data for.
   // std::string endPoint = qDateToAPIDate(end_date);
@@ -353,7 +362,7 @@ std::string CandlestickChart::callString(QDate end_date, std::string ticker)
 // Returns a chunk of stock data to parse.
 std::string CandlestickChart::candleChunk()
 {
-  QDate start_date;
+  QDate start_date = startDate();
   QDate end_date = endDate();
   const char *printstr = qPrintable(end_date.toString());
 
@@ -366,7 +375,7 @@ std::string CandlestickChart::candleChunk()
 	std::string url = "https://data.alpaca.markets/v2/stocks/AAPL/bars?tim"
 		"eframe=1D&start=2024-01-03T00%3A00%3A00Z&end=2024-03-04T00%3A"
 		"00%3A00Z&limit=1000&adjustment=raw&feed=sip&sort=desc";
-	std::string test_url = callString(end_date, "AAPL");
+	std::string test_url = callString(start_date, end_date, "AAPL");
 	
 	std::string *curl_output_buffer;
 	CURL *hnd = NULL;
