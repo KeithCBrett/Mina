@@ -66,7 +66,15 @@ public:
   qint64 dateOffset() const;
   void setDateOffset(const qint64 &dateOffset);
 
+  // Returns a chunk of stock data we can parse. Offset of zero returns candle
+  // for today - 100 days ago.
+  std::string candleChunk();
+
   void paint(QPainter *painter) override;
+
+public slots:
+  double getMin();
+  // double getMax();
 
 private:
   QColor m_borderColor;
@@ -93,9 +101,6 @@ private:
   // This function fills our candle array with real stock data.
   CandleData candleData();
 
-  // Returns a chunk of stock data we can parse. Offset of zero returns candle
-  // for today - 100 days ago.
-  std::string candleChunk();
 
   // Helper function for candleChunk that generates the string we use to make
   // our Alpaca API call (so we can get stock data).

@@ -44,12 +44,4 @@ QtObject {
 
     // Width of most borders (in px).
     property real borderWidth: 2
-
-    // Min of candlestick chart.
-//    property double min: 138.80
-    property double min: 138.80
-
-    // Max of candlestick chart.
-  //  property double max: 298.83
-    property double max: 220.83
 }

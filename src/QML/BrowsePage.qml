@@ -44,8 +44,8 @@ Rectangle {
 		height: root.height
 		width: root.width
 
-		min: ConstSingleton.min
-		max: ConstSingleton.max
+		min: getMin();
+		max: 400
 
 		borderColor: ColorScheme.foreground
 
@@ -68,8 +68,8 @@ Rectangle {
 			posX: width / 2
 			posY: height / 2
 
-			min: ConstSingleton.min
-			max: ConstSingleton.max
+			min: candlestickChart.min
+			max: candlestickChart.max
 
 			price: "0"
 			date: "00/00/00"
@@ -161,8 +161,8 @@ Rectangle {
 		height: root.height
 		width: 100
 
-		max: ConstSingleton.max
-		min: ConstSingleton.min
+		max: candlestickChart.max
+		min: candlestickChart.min
 
 		color: ColorScheme.foreground
 	}
