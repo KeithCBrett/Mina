@@ -101,6 +101,9 @@ private:
   // our Alpaca API call (so we can get stock data).
   std::string callString(QDate start_date, QDate end_date, std::string ticker);
 
+  // Converts QDates into Alpaca API dates.
+  std::string qDateToAPIDate(QDate inp_date);
+
   // Helper function for candleChunk that calculates the end date based off of
   // offset and whether or not we end in a weekend.
   QDate endDate();
