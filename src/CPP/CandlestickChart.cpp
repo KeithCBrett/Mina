@@ -539,6 +539,95 @@ double CandlestickChart::getMin()
 }
 
 
+double CandlestickChart::getMax()
+{
+  // We dont care about the first 16 chars.
+  size_t index = 16;
+  char c = global_string[index];
+
+  double maximum = 0.0;
+  double value = 0;
+  
+  // To capture the numbers we will need to know the distance to the nearest
+  // comma.
+  size_t comma_distance = 0;
+
+  while (c != ']')
+  {
+    switch (c)
+    {
+      case 'c':
+        // Get to first number (skip quote and colon).
+        index += 3;
+        c = global_string[index];
+
+        // Capture double value.
+        comma_distance = global_string.find_first_of(',', index);
+        value = std::stod(global_string.substr(index, comma_distance));
+
+        if (value > maximum)
+        {
+          maximum = value;
+        }
+
+        break;
+      case 'h':
+        // Get to first number (skip quote and colon).
+        index += 3;
+        c = global_string[index];
+
+        // Capture double value.
+        comma_distance = global_string.find_first_of(',', index);
+        value = std::stod(global_string.substr(index, comma_distance));
+
+        if (value > maximum)
+        {
+          maximum = value;
+        }
+
+        break;
+      case 'l':
+        // Get to first number (skip quote and colon).
+        index += 3;
+        c = global_string[index];
+
+        // Capture double value.
+        comma_distance = global_string.find_first_of(',', index);
+        value = std::stod(global_string.substr(index, comma_distance));
+
+        if (value > maximum)
+        {
+          maximum = value;
+        }
+
+        break;
+      case 'o':
+        // Get to first number (skip quote and colon).
+        index += 3;
+        c = global_string[index];
+
+        // Capture double value.
+        comma_distance = global_string.find_first_of(',', index);
+        value = std::stod(global_string.substr(index, comma_distance));
+
+        if (value > maximum)
+        {
+          maximum = value;
+        }
+
+        break;
+      default:
+        index++;
+        c = global_string[index];
+
+        break;
+    }
+  }
+ 
+  return maximum;
+}
+
+
 std::string CandlestickChart::qDateToAPIDate(QDate inp_date)
 {
   QString out_string = inp_date.toString("yyyy-MM-dd");

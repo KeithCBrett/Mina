@@ -45,7 +45,7 @@ Rectangle {
 		width: root.width
 
 		min: getMin();
-		max: 400
+		max: getMax();
 
 		borderColor: ColorScheme.foreground
 

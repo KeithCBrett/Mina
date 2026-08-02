@@ -74,7 +74,7 @@ public:
 
 public slots:
   double getMin();
-  // double getMax();
+  double getMax();
 
 private:
   QColor m_borderColor;
