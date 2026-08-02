@@ -394,12 +394,6 @@ QDate CandlestickChart::startDate(QDate end_date)
   
   start_date = start_date.addDays(-(offset - 1));
 
-  const char *printstr1 = qPrintable(end_date.toString());
-  fprintf(stderr, "end_date: %s\n", printstr1);
-
-  const char *printstr2 = qPrintable(start_date.toString());
-  fprintf(stderr, "start_date: %s\n", printstr2);
-
   return start_date;
 }
 
@@ -483,9 +477,103 @@ std::string CandlestickChart::candleChunk()
 }
 
 
-void CandlestickChart::candleData(CandleData &candles)
+// Parses raw data into a CandleData. CandleData is just a struct that holds
+// four arrays. It has an array for high, low, open, and close. With this in
+// mind, CandleData c.high[0] represents the high for the first bar of data.
+CandleData CandlestickChart::candleData()
 {
-  
+  std::string raw_data = candleChunk();
+
+  CandleData out_data;
+
+  // Current positions for our candle data arrays.
+  int high_pos = 0;
+  int low_pos = 0;
+  int open_pos = 0;
+  int close_pos = 0;
+
+  // Stores our position in the raw data.
+  int raw_data_index = 0;
+  char c = raw_data[raw_data_index];
+
+  // In order to lex doubles we are going to use the distance to the nearest
+  // comma (so we know when to stop lexing).
+  size_t comma_distance = 0;
+
+  // str_value is like value but it lets us do substring stuff (instead of
+  // number stuff).
+  double value = 0.0;
+  std::string str_value = "";
+
+  while (c != ']')
+  {
+    switch (c)
+    {
+      case 'c':
+        // Get to first number (skip quote and colon).
+        raw_data_index += 3;
+        c = raw_data[raw_data_index];
+
+        // Capture double value.
+        comma_distance = raw_data.find_first_of(',', raw_data_index);
+        value = std::stod(raw_data.substr(raw_data_index, comma_distance));
+
+        // Store value and do array book keeping.
+        out_data.close[close_pos] = value;
+        close_pos++;
+
+        break;
+      case 'h':
+        // Get to first number (skip quote and colon).
+        raw_data_index += 3;
+        c = raw_data[raw_data_index];
+
+        // Capture double value.
+        comma_distance = raw_data.find_first_of(',', raw_data_index);
+        value = std::stod(raw_data.substr(raw_data_index, comma_distance));
+
+        // Store value and do array book keeping.
+        out_data.high[high_pos] = value;
+        high_pos++;
+
+        break;
+      case 'l':
+        // Get to first number (skip quote and colon).
+        raw_data_index += 3;
+        c = raw_data[raw_data_index];
+
+        // Capture double value.
+        comma_distance = raw_data.find_first_of(',', raw_data_index);
+        value = std::stod(raw_data.substr(raw_data_index, comma_distance));
+
+        // Store value and do array book keeping.
+        out_data.low[low_pos] = value;
+        low_pos++;
+
+        break;
+      case 'o':
+        // Get to first number (skip quote and colon).
+        raw_data_index += 3;
+        c = raw_data[raw_data_index];
+
+        // Capture double value.
+        comma_distance = raw_data.find_first_of(',', raw_data_index);
+        value = std::stod(raw_data.substr(raw_data_index, comma_distance));
+
+        // Store value and do array book keeping.
+        out_data.open[open_pos] = value;
+        open_pos++;
+
+        break;
+      default:
+        raw_data_index++;
+        c = raw_data[raw_data_index];
+
+        break;
+    }
+  }
+
+  return out_data;
 }
 
 
@@ -564,7 +652,7 @@ void CandlestickChart::paint(QPainter *painter)
   painter->setRenderHints(QPainter::Antialiasing, false);
 
   CandleData candles;
-  candleData(candles);
+  candles = candleData();
 
   // Draw bar chart border.
   QRectF rect(0, 0, width(), height());
@@ -581,6 +669,5 @@ void CandlestickChart::paint(QPainter *painter)
   std::string mystr = date.toString().toStdString();
   // fprintf(stderr, "%s\n", mystr.c_str());
 
-  // fprintf(candleChunk(0));
-	fprintf(stderr, "%s\n", candleChunk().c_str());
+	// fprintf(stderr, "%s\n", candleChunk().c_str());
 }

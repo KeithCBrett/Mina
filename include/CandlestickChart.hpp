@@ -31,10 +31,10 @@
 
 
 struct CandleData {
-  double open[NUM_X_AXIS_ELEMENTS];
-  double close[NUM_X_AXIS_ELEMENTS];
-  double high[NUM_X_AXIS_ELEMENTS];
-  double low[NUM_X_AXIS_ELEMENTS];
+  double open[NUM_X_AXIS_ELEMENTS-1];
+  double close[NUM_X_AXIS_ELEMENTS-1];
+  double high[NUM_X_AXIS_ELEMENTS-1];
+  double low[NUM_X_AXIS_ELEMENTS-1];
 };
 
 
@@ -90,8 +90,8 @@ private:
   // This function calculates the length of our candlestick body.
   double candleLength(double open, double close);
 
-  // This function fills our candle arrays with real stock data.
-  void candleData(CandleData &candles);
+  // This function fills our candle array with real stock data.
+  CandleData candleData();
 
   // Returns a chunk of stock data we can parse. Offset of zero returns candle
   // for today - 100 days ago.
