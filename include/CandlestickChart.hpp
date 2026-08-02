@@ -23,7 +23,6 @@
 
 
 #include <QtQuick/QQuickPaintedItem>
-#include <../include/Crosshair.hpp>
 #include <QColor>
 
 
@@ -108,7 +107,14 @@ private:
 
   // This computes the left most date on our chart (earliest). It goes 100 days
   // into the past, skipping weekends.
-  QDate startDate();
+  QDate startDate(QDate end_date);
+
+  // Calculates how far back our starting date is if we have to exclude
+  // weekends.
+  size_t offsetStep(size_t inp_step);
+
+  // Checks whether or not a given day is a weekend.
+  bool weekend(QDate inp_date);
 
 signals:
   void dateOffsetChanged();

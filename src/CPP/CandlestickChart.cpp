@@ -315,26 +315,107 @@ double CandlestickChart::candleLength(double open, double close)
 }
 
 
-QDate CandlestickChart::startDate()
+size_t CandlestickChart::offsetStep(size_t inp_step)
 {
-  const char *printstr = "startDate not yet implemented";
-  fprintf(stderr, "%s\n", printstr);
-  return QDate::currentDate();
+  // Lowest the input will be is 1. This algorithm expects a lowest of 0.
+  inp_step--;
+
+  QDate curr_day = QDate::currentDate();
+  curr_day = curr_day.addDays(-m_dateOffset);
+
+  size_t temp_input = inp_step;
+
+  // Tracks how far back we are from the present. Progress 100 means context
+  // 100 days prior.
+  size_t progress = 0;
+
+  // Tracks number of weekends.
+  size_t offset = 0;
+
+  // If we are on a weekend, we have to start with a weekend offset.
+  if (weekend(curr_day))
+  {
+    offset = 2;
+  }
+  else
+  {
+    offset = 0;
+  }
+
+  // Travel inp_step steps omitting weekends.
+  while (inp_step != 0)
+  {
+    // If current day is not a weekend.
+    if (!weekend(curr_day.addDays(-(offset + progress))))
+    {
+      // Then we have made progress.
+      inp_step--;
+      progress++;
+    }
+    else
+    {
+      // Otherwise we haven't made progress so we must note the fact.
+      offset += 2;
+    }
+  }
+
+  // Handle final/current day.
+  if (weekend(curr_day.addDays(-(offset + progress))))
+  {
+    offset += 2;
+  }
+  else
+  {
+    offset += 0;
+  }
+
+  return (temp_input + offset);
+}
+
+
+bool CandlestickChart::weekend(QDate inp_date)
+{
+  if ((inp_date.dayOfWeek() == 6) || (inp_date.dayOfWeek() == 7))
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+
+
+QDate CandlestickChart::startDate(QDate end_date)
+{
+  size_t offset = offsetStep(100);
+
+  QDate start_date = end_date;
+  
+  start_date = start_date.addDays(-(offset - 1));
+
+  const char *printstr1 = qPrintable(end_date.toString());
+  fprintf(stderr, "end_date: %s\n", printstr1);
+
+  const char *printstr2 = qPrintable(start_date.toString());
+  fprintf(stderr, "start_date: %s\n", printstr2);
+
+  return start_date;
 }
 
 
 QDate CandlestickChart::endDate()
 {
-    QDate end_date = QDate::currentDate();
-    end_date = end_date.addDays(-m_dateOffset);
+  QDate end_date = QDate::currentDate();
+  end_date = end_date.addDays(-m_dateOffset);
 
-    while ((end_date.dayOfWeek() == 6)
-           || (end_date.dayOfWeek() == 7))
-    {
-      end_date = end_date.addDays(-1);
-    }
+  while ((end_date.dayOfWeek() == 6)
+         || (end_date.dayOfWeek() == 7))
+  {
+    end_date = end_date.addDays(-1);
+  }
 
-    return end_date;
+  return end_date;
 }
 
 
@@ -362,11 +443,9 @@ std::string CandlestickChart::callString(QDate start_date, QDate end_date,
 // Returns a chunk of stock data to parse.
 std::string CandlestickChart::candleChunk()
 {
-  QDate start_date = startDate();
   QDate end_date = endDate();
+  QDate start_date = startDate(end_date);
   const char *printstr = qPrintable(end_date.toString());
-
-  fprintf(stderr, "endDate: %s\n", printstr);
   
 	std::string my_key = "APCA-API-KEY-ID: PKVOZ3RYLJ3RUPWOAIQKFEMG4F";
 	std::string my_secret = "APCA-API-SECRET-KEY: 8vHFEREYTc2C11SAWTPds7zs"
@@ -489,7 +568,9 @@ void CandlestickChart::paint(QPainter *painter)
   // Paint the axises to the screen.
   drawYAxis(painter, 0.06, 0.20);
   drawXAxis(painter);
+
   QDate date = QDate::currentDate();
+
   std::string mystr = date.toString().toStdString();
   // fprintf(stderr, "%s\n", mystr.c_str());
 
