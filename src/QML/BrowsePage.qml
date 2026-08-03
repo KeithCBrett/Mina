@@ -37,6 +37,8 @@ Rectangle {
 	CandlestickChart{
 		id: candlestickChart
 
+		ticker: "INTC"
+
 		anchors.left: stockList.right
 		anchors.right: browsePageMenu.left
 		anchors.rightMargin: ConstSingleton.cogwheelMargin

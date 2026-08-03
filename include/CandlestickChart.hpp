@@ -42,6 +42,7 @@ class CandlestickChart : public QQuickPaintedItem
 {
   Q_OBJECT
   Q_PROPERTY(QColor borderColor READ borderColor WRITE setBorderColor FINAL)
+  Q_PROPERTY(QString ticker READ ticker WRITE setTicker FINAL)
   Q_PROPERTY(double min READ min WRITE setMin NOTIFY minChanged FINAL)
   Q_PROPERTY(double max READ max WRITE setMax NOTIFY maxChanged FINAL)
   Q_PROPERTY(qint64 dateOffset READ dateOffset WRITE setDateOffset
@@ -60,6 +61,9 @@ public:
   double max() const;
   void setMax(const double &max);
 
+  QString ticker() const;
+  void setTicker(const QString &ticker);
+
   QString stepSize(double inp_first_axis_number);
   QString firstYAxisNumber();
 
@@ -75,12 +79,15 @@ public:
 public slots:
   double getMin();
   double getMax();
+  // QString getTicker();
 
 private:
   QColor m_borderColor;
 
   double m_min;
   double m_max;
+
+  QString m_ticker;
 
   qint64 m_dateOffset;
 
@@ -104,7 +111,7 @@ private:
 
   // Helper function for candleChunk that generates the string we use to make
   // our Alpaca API call (so we can get stock data).
-  std::string callString(QDate start_date, QDate end_date, std::string ticker);
+  std::string callString(QDate start_date, QDate end_date);
 
   // Converts QDates into Alpaca API dates.
   std::string qDateToAPIDate(QDate inp_date);
@@ -128,6 +135,7 @@ signals:
   void dateOffsetChanged();
   void minChanged();
   void maxChanged();
+  // void tickerChanged();
 };
 
 

@@ -80,6 +80,18 @@ void CandlestickChart::setMax(const double &max)
 }
 
 
+QString CandlestickChart::ticker() const
+{
+  return m_ticker;
+}
+
+
+void CandlestickChart::setTicker(const QString &ticker)
+{
+  m_ticker = ticker;
+}
+
+
 qint64 CandlestickChart::dateOffset() const
 {
   return m_dateOffset;
@@ -126,12 +138,6 @@ bool isWeekend(QDate date)
 
   return out;
 }
-
-
-// QDate CandlestickChart::getDate(QDate current_date, int index)
-// {
-//   int offset = 0;
-// }
 
 
 void CandlestickChart::drawXAxis(QPainter *painter)
@@ -249,6 +255,9 @@ QString CandlestickChart::stepSize(double inp_first_axis_number)
   {
     // In case of irrational numbers. Truncates 0.0XXXX... to 0.0X.
     temp_string = std::to_string(step_size).substr(0, 4);
+
+    fprintf(stderr, "stod call 1: \n\tArgument 1: %s", temp_string.c_str());
+
     step_size = std::stod(temp_string);
 
     // Check if axis fits data.
@@ -418,13 +427,12 @@ std::string CandlestickChart::candleChunk()
 {
   QDate end_date = endDate();
   QDate start_date = startDate(end_date);
-  const char *printstr = qPrintable(end_date.toString());
   
 	std::string my_key = "APCA-API-KEY-ID: PKVOZ3RYLJ3RUPWOAIQKFEMG4F";
 	std::string my_secret = "APCA-API-SECRET-KEY: 8vHFEREYTc2C11SAWTPds7zs"
 		"ojwbHmJgruv7DtYxPiHW";
 
-	std::string url = callString(start_date, end_date, "AAPL");
+	std::string url = callString(start_date, end_date);
 	
 	std::string *curl_output_buffer;
 	CURL *hnd = NULL;
@@ -452,9 +460,11 @@ std::string global_string = chart.candleChunk();
 
 double CandlestickChart::getMin()
 {
+  std::string data_string = candleChunk();
+
   // We dont care about the first 16 chars.
   size_t index = 16;
-  char c = global_string[index];
+  char c = data_string[index];
 
   double minimum = 999999.99;
   double value = 0;
@@ -470,11 +480,11 @@ double CandlestickChart::getMin()
       case 'c':
         // Get to first number (skip quote and colon).
         index += 3;
-        c = global_string[index];
+        c = data_string[index];
 
         // Capture double value.
-        comma_distance = global_string.find_first_of(',', index);
-        value = std::stod(global_string.substr(index, comma_distance));
+        comma_distance = data_string.find_first_of(',', index);
+        value = std::stod(data_string.substr(index, comma_distance));
 
         if (value < minimum)
         {
@@ -485,11 +495,11 @@ double CandlestickChart::getMin()
       case 'h':
         // Get to first number (skip quote and colon).
         index += 3;
-        c = global_string[index];
+        c = data_string[index];
 
         // Capture double value.
-        comma_distance = global_string.find_first_of(',', index);
-        value = std::stod(global_string.substr(index, comma_distance));
+        comma_distance = data_string.find_first_of(',', index);
+        value = std::stod(data_string.substr(index, comma_distance));
 
         if (value < minimum)
         {
@@ -500,11 +510,11 @@ double CandlestickChart::getMin()
       case 'l':
         // Get to first number (skip quote and colon).
         index += 3;
-        c = global_string[index];
+        c = data_string[index];
 
         // Capture double value.
-        comma_distance = global_string.find_first_of(',', index);
-        value = std::stod(global_string.substr(index, comma_distance));
+        comma_distance = data_string.find_first_of(',', index);
+        value = std::stod(data_string.substr(index, comma_distance));
 
         if (value < minimum)
         {
@@ -515,11 +525,11 @@ double CandlestickChart::getMin()
       case 'o':
         // Get to first number (skip quote and colon).
         index += 3;
-        c = global_string[index];
+        c = data_string[index];
 
         // Capture double value.
-        comma_distance = global_string.find_first_of(',', index);
-        value = std::stod(global_string.substr(index, comma_distance));
+        comma_distance = data_string.find_first_of(',', index);
+        value = std::stod(data_string.substr(index, comma_distance));
 
         if (value < minimum)
         {
@@ -529,7 +539,7 @@ double CandlestickChart::getMin()
         break;
       default:
         index++;
-        c = global_string[index];
+        c = data_string[index];
 
         break;
     }
@@ -541,9 +551,10 @@ double CandlestickChart::getMin()
 
 double CandlestickChart::getMax()
 {
+  std::string data_string = candleChunk();
   // We dont care about the first 16 chars.
   size_t index = 16;
-  char c = global_string[index];
+  char c = data_string[index];
 
   double maximum = 0.0;
   double value = 0;
@@ -559,11 +570,11 @@ double CandlestickChart::getMax()
       case 'c':
         // Get to first number (skip quote and colon).
         index += 3;
-        c = global_string[index];
+        c = data_string[index];
 
         // Capture double value.
-        comma_distance = global_string.find_first_of(',', index);
-        value = std::stod(global_string.substr(index, comma_distance));
+        comma_distance = data_string.find_first_of(',', index);
+        value = std::stod(data_string.substr(index, comma_distance));
 
         if (value > maximum)
         {
@@ -574,11 +585,11 @@ double CandlestickChart::getMax()
       case 'h':
         // Get to first number (skip quote and colon).
         index += 3;
-        c = global_string[index];
+        c = data_string[index];
 
         // Capture double value.
-        comma_distance = global_string.find_first_of(',', index);
-        value = std::stod(global_string.substr(index, comma_distance));
+        comma_distance = data_string.find_first_of(',', index);
+        value = std::stod(data_string.substr(index, comma_distance));
 
         if (value > maximum)
         {
@@ -589,11 +600,11 @@ double CandlestickChart::getMax()
       case 'l':
         // Get to first number (skip quote and colon).
         index += 3;
-        c = global_string[index];
+        c = data_string[index];
 
         // Capture double value.
-        comma_distance = global_string.find_first_of(',', index);
-        value = std::stod(global_string.substr(index, comma_distance));
+        comma_distance = data_string.find_first_of(',', index);
+        value = std::stod(data_string.substr(index, comma_distance));
 
         if (value > maximum)
         {
@@ -604,11 +615,11 @@ double CandlestickChart::getMax()
       case 'o':
         // Get to first number (skip quote and colon).
         index += 3;
-        c = global_string[index];
+        c = data_string[index];
 
         // Capture double value.
-        comma_distance = global_string.find_first_of(',', index);
-        value = std::stod(global_string.substr(index, comma_distance));
+        comma_distance = data_string.find_first_of(',', index);
+        value = std::stod(data_string.substr(index, comma_distance));
 
         if (value > maximum)
         {
@@ -618,7 +629,7 @@ double CandlestickChart::getMax()
         break;
       default:
         index++;
-        c = global_string[index];
+        c = data_string[index];
 
         break;
     }
@@ -635,8 +646,7 @@ std::string CandlestickChart::qDateToAPIDate(QDate inp_date)
 }
 
 
-std::string CandlestickChart::callString(QDate start_date, QDate end_date,
-                                         std::string ticker)
+std::string CandlestickChart::callString(QDate start_date, QDate end_date)
 {
   // Needed for all URLS.
   std::string s1 = "https://data.alpaca.markets/v2/stocks/bars?symbols=";
@@ -653,7 +663,7 @@ std::string CandlestickChart::callString(QDate start_date, QDate end_date,
 
   std::string s6 = "&limit=1000&adjustment=raw&feed=sip&sort=asc";
 
-  std::string out_string = s1 + ticker + s3 + startPoint + s4 + endPoint + s6;
+  std::string out_string = s1 + ticker().toStdString() + s3 + startPoint + s4 + endPoint + s6;
 
   return out_string;
 }
@@ -665,6 +675,7 @@ std::string CandlestickChart::callString(QDate start_date, QDate end_date,
 CandleData CandlestickChart::candleData()
 {
   CandleData out_data;
+  std::string data_string = candleChunk();
 
   // Current positions for our candle data arrays.
   int high_pos = 0;
@@ -674,7 +685,7 @@ CandleData CandlestickChart::candleData()
 
   // Stores our position in the raw data.
   int raw_data_index = 0;
-  char c = global_string[raw_data_index];
+  char c = data_string[raw_data_index];
 
   // In order to lex doubles we are going to use the distance to the nearest
   // comma (so we know when to stop lexing).
@@ -692,11 +703,11 @@ CandleData CandlestickChart::candleData()
       case 'c':
         // Get to first number (skip quote and colon).
         raw_data_index += 3;
-        c = global_string[raw_data_index];
+        c = data_string[raw_data_index];
 
         // Capture double value.
-        comma_distance = global_string.find_first_of(',', raw_data_index);
-        value = std::stod(global_string.substr(raw_data_index, comma_distance));
+        comma_distance = data_string.find_first_of(',', raw_data_index);
+        value = std::stod(data_string.substr(raw_data_index, comma_distance));
 
         // Store value and do array book keeping.
         out_data.close[close_pos] = value;
@@ -706,11 +717,11 @@ CandleData CandlestickChart::candleData()
       case 'h':
         // Get to first number (skip quote and colon).
         raw_data_index += 3;
-        c = global_string[raw_data_index];
+        c = data_string[raw_data_index];
 
         // Capture double value.
-        comma_distance = global_string.find_first_of(',', raw_data_index);
-        value = std::stod(global_string.substr(raw_data_index, comma_distance));
+        comma_distance = data_string.find_first_of(',', raw_data_index);
+        value = std::stod(data_string.substr(raw_data_index, comma_distance));
 
         // Store value and do array book keeping.
         out_data.high[high_pos] = value;
@@ -720,11 +731,11 @@ CandleData CandlestickChart::candleData()
       case 'l':
         // Get to first number (skip quote and colon).
         raw_data_index += 3;
-        c = global_string[raw_data_index];
+        c = data_string[raw_data_index];
 
         // Capture double value.
-        comma_distance = global_string.find_first_of(',', raw_data_index);
-        value = std::stod(global_string.substr(raw_data_index, comma_distance));
+        comma_distance = data_string.find_first_of(',', raw_data_index);
+        value = std::stod(data_string.substr(raw_data_index, comma_distance));
 
         // Store value and do array book keeping.
         out_data.low[low_pos] = value;
@@ -734,11 +745,11 @@ CandleData CandlestickChart::candleData()
       case 'o':
         // Get to first number (skip quote and colon).
         raw_data_index += 3;
-        c = global_string[raw_data_index];
+        c = data_string[raw_data_index];
 
         // Capture double value.
-        comma_distance = global_string.find_first_of(',', raw_data_index);
-        value = std::stod(global_string.substr(raw_data_index, comma_distance));
+        comma_distance = data_string.find_first_of(',', raw_data_index);
+        value = std::stod(data_string.substr(raw_data_index, comma_distance));
 
         // Store value and do array book keeping.
         out_data.open[open_pos] = value;
@@ -747,7 +758,7 @@ CandleData CandlestickChart::candleData()
         break;
       default:
         raw_data_index++;
-        c = global_string[raw_data_index];
+        c = data_string[raw_data_index];
 
         break;
     }
@@ -846,8 +857,7 @@ void CandlestickChart::paint(QPainter *painter)
 
   QDate date = QDate::currentDate();
 
-  fprintf(stderr, "data: %s\n", global_string.c_str());
-  std::string mystr = date.toString().toStdString();
+  // std::string mystr = date.toString().toStdString();
   // fprintf(stderr, "%s\n", mystr.c_str());
 
 	// fprintf(stderr, "%s\n", candleChunk().c_str());
