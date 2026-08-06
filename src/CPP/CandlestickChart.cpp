@@ -638,6 +638,8 @@ std::string CandlestickChart::qDateToAPIDate(QDate inp_date)
 std::string CandlestickChart::callString(QDate start_date, QDate end_date,
                                          std::string ticker)
 {
+  std::string out_string;
+
   // Needed for all URLS.
   std::string s1 = "https://data.alpaca.markets/v2/stocks/bars?symbols=";
 
@@ -653,7 +655,15 @@ std::string CandlestickChart::callString(QDate start_date, QDate end_date,
 
   std::string s6 = "&limit=1000&adjustment=raw&feed=sip&sort=asc";
 
-  std::string out_string = s1 + ticker + s3 + startPoint + s4 + endPoint + s6;
+
+  if (dateOffset() == 0)
+  {
+    out_string = s1 + ticker + s3 + startPoint + s6;
+  }
+  else
+  {
+    out_string = s1 + ticker + s3 + startPoint + s4 + endPoint + s6;
+  }
 
   return out_string;
 }
