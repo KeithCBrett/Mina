@@ -24,6 +24,7 @@
 #include <curl/curl.h>
 
 #include <QPainter>
+#include <iostream>
 
 
 
@@ -165,7 +166,7 @@ void CandlestickChart::drawXAxis(QPainter *painter)
                       width() / NUM_X_AXIS_ELEMENTS * i, height());
 
     // Draw candle to screen.
-    if (i <= (NUM_X_AXIS_ELEMENTS - 6))
+    if (i <= (NUM_X_AXIS_ELEMENTS - 1))
     {
       drawCandle(candle_data.high[i], candle_data.low[i], candle_data.open[i],
                  candle_data.close[i], i, painter);
@@ -193,7 +194,7 @@ void CandlestickChart::drawXAxis(QPainter *painter)
 // Function for computing the bottom most YAxis number.
 QString CandlestickChart::firstYAxisNumber()
 {
-  double temp = m_min;
+  double temp = min();
   double integral = 0.05;
 
   // We only want to return a double for small numbers. Otherwise we would
@@ -243,7 +244,7 @@ QString CandlestickChart::firstYAxisNumber()
 // numbers.
 QString CandlestickChart::stepSize(double inp_first_axis_number)
 {
-  double step_size = m_max - m_min;
+  double step_size = max() - min();
   step_size = step_size / NUM_Y_AXIS_ELEMENTS;
 
   // We try to round to a whole number whenever we can.
@@ -261,7 +262,7 @@ QString CandlestickChart::stepSize(double inp_first_axis_number)
     step_size = std::stod(temp_string);
 
     // Check if axis fits data.
-    while (m_max >= (step_size * (NUM_Y_AXIS_ELEMENTS - 1)
+    while (max() >= (step_size * (NUM_Y_AXIS_ELEMENTS - 1)
                      + inp_first_axis_number))
     {
       // If not, generate axis of wider range.
@@ -273,7 +274,7 @@ QString CandlestickChart::stepSize(double inp_first_axis_number)
   {
     round_step_size = std::round(step_size);
 
-    while (m_max
+    while (max()
            >= (round_step_size * (NUM_Y_AXIS_ELEMENTS - 1)
                + inp_first_axis_number))
     {
@@ -330,7 +331,7 @@ size_t CandlestickChart::offsetStep(size_t inp_step)
   inp_step--;
 
   QDate curr_day = QDate::currentDate();
-  curr_day = curr_day.addDays(-m_dateOffset);
+  curr_day = curr_day.addDays(-dateOffset());
 
   size_t temp_input = inp_step;
 
@@ -397,7 +398,7 @@ bool CandlestickChart::weekend(QDate inp_date)
 
 QDate CandlestickChart::startDate(QDate end_date)
 {
-  size_t offset = offsetStep(100);
+  size_t offset = offsetStep(106);
 
   QDate start_date = end_date;
   
@@ -411,7 +412,7 @@ QDate CandlestickChart::startDate(QDate end_date)
 QDate CandlestickChart::endDate()
 {
   QDate end_date = QDate::currentDate();
-  end_date = end_date.addDays(-m_dateOffset);
+  end_date = end_date.addDays(-dateOffset());
 
   while (weekend(end_date))
   {
@@ -432,7 +433,7 @@ std::string CandlestickChart::candleChunk()
 	std::string my_secret = "APCA-API-SECRET-KEY: 8vHFEREYTc2C11SAWTPds7zs"
 		"ojwbHmJgruv7DtYxPiHW";
 
-	std::string url = callString(start_date, end_date);
+	std::string url = callString(start_date, end_date, "QCOM");
 	
 	std::string *curl_output_buffer;
 	CURL *hnd = NULL;
@@ -845,14 +846,10 @@ void CandlestickChart::drawCandle(double high, double low, double open,
 
 void CandlestickChart::paint(QPainter *painter)
 {
-
-  QPen pen(m_borderColor, 2);
+  QPen pen(borderColor(), 2);
 
   painter->setPen(pen);
   painter->setRenderHints(QPainter::Antialiasing, false);
-
-  // CandleData candles;
-  // candles = candleData();
 
   // Draw bar chart border.
   QRectF rect(0, 0, width(), height());
@@ -864,10 +861,14 @@ void CandlestickChart::paint(QPainter *painter)
   drawYAxis(painter, 0.06, 0.20);
   drawXAxis(painter);
 
+<<<<<<< HEAD
   QDate date = QDate::currentDate();
 
   // std::string mystr = date.toString().toStdString();
   // fprintf(stderr, "%s\n", mystr.c_str());
 
 	// fprintf(stderr, "%s\n", candleChunk().c_str());
+=======
+  // fprintf(stderr, "data: %s\n", global_string.c_str());
+>>>>>>> charts
 }
