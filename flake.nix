@@ -14,10 +14,12 @@
         cmake
         curl
 
+        gdb
         qt6.qtbase
         qt6.qtcharts
         qt6.qt5compat
         qt6Packages.qtstyleplugin-kvantum
+        qtcreator
 
         # Shell hook.
         qt6.wrapQtAppsHook

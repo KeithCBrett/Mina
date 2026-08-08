@@ -100,6 +100,18 @@ void CandlestickChart::setMax(const double &max)
 }
 
 
+QString CandlestickChart::ticker() const
+{
+  return m_ticker;
+}
+
+
+void CandlestickChart::setTicker(const QString &ticker)
+{
+  m_ticker = ticker;
+}
+
+
 qint64 CandlestickChart::dateOffset() const
 {
     return m_dateOffset;
@@ -233,8 +245,8 @@ void CandlestickChart::drawTicker(QPainter *painter, QString ticker)
 // Function for computing the bottom most YAxis number.
 QString CandlestickChart::firstYAxisNumber()
 {
-    double temp = m_min;
-    double integral = 0.05;
+  double temp = min();
+  double integral = 0.05;
 
     // We only want to return a double for small numbers. Otherwise we would
     // rather work with integers.
@@ -283,8 +295,8 @@ QString CandlestickChart::firstYAxisNumber()
 // numbers.
 QString CandlestickChart::stepSize(double inp_first_axis_number)
 {
-    double step_size = m_max - m_min;
-    step_size = step_size / NUM_Y_AXIS_ELEMENTS;
+  double step_size = max() - min();
+  step_size = step_size / NUM_Y_AXIS_ELEMENTS;
 
     // We try to round to a whole number whenever we can.
     int round_step_size = 0;
