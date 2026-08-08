@@ -22,148 +22,138 @@ import mina_module
 
 
 Rectangle {
-	id: root
+    id: root
 
-	color: ColorScheme.background
+    color: ColorScheme.background
 
-	DropdownMenu {
-		id: browsePageMenu
-	}
+    DropdownMenu {
+        id: browsePageMenu
+    }
 
-	StockList {
-		id: stockList
-	}
+    StockList {
+        id: stockList
+    }
 
-	CandlestickChart{
-		id: candlestickChart
+    CandlestickChart{
+        id: candlestickChart
 
-		anchors.left: stockList.right
-		anchors.right: browsePageMenu.left
-		anchors.rightMargin: ConstSingleton.cogwheelMargin
+        anchors.left: stockList.right
+        anchors.right: browsePageMenu.left
+        anchors.rightMargin: ConstSingleton.cogwheelMargin
 
-		height: root.height
-		width: root.width
+        height: root.height
+        width: root.width
 
-		min: getMin();
-		max: getMax();
+        ticker: "QCOM"
 
-		borderColor: ColorScheme.foreground
+        min: getMin()
+        max: getMax()
 
-		dateOffset: 0
+        borderColor: ColorScheme.foreground
 
-		Crosshair {
-			id: crosshair
+        dateOffset: 0
 
-			//width: parent.width
-			//height: parent.height / 2
-			anchors.centerIn: parent
-			anchors.fill: parent
+        Crosshair {
+            id: crosshair
 
-			color: ColorScheme.foreground
-			visible: true
+            //width: parent.width
+            //height: parent.height / 2
+            anchors.centerIn: parent
+            anchors.fill: parent
 
-			width: parent.width
-			height: parent.height
+            color: ColorScheme.foreground
+            visible: true
 
-			posX: width / 2
-			posY: height / 2
+            width: parent.width
+            height: parent.height
 
-			min: candlestickChart.min
-			max: candlestickChart.max
+            posX: width / 2
+            posY: height / 2
 
-			price: "0"
-			date: "00/00/00"
+            min: candlestickChart.min
+            max: candlestickChart.max
 
-			dateOffset: 0
+            price: "0"
+            date: "00/00/00"
 
-			rightSwapped: false
-			leftSwapped: false
-			topSwapped: false
+            dateOffset: 0
 
-			//Behavior on posX {
-			//	NumberAnimation {
-			//		duration: 30
-			//	}
-			//}
+            rightSwapped: false
+            leftSwapped: false
+            topSwapped: false
+        }
 
-			//Behavior on posY {
-			//	NumberAnimation {
-			//		duration: 30
-			//	}
-			//}
-		}
+        MouseArea {
+            id: chartMouse
 
-		MouseArea {
-			id: chartMouse
+            anchors.fill: parent
 
-			anchors.fill: parent
+            hoverEnabled: true
 
-			hoverEnabled: true
+            onEntered: {
+                crosshair.visible = true;
 
-			onEntered: {
-				crosshair.visible = true;
+                crosshair.posX = chartMouse.mouseX;
+                crosshair.posY = chartMouse.mouseY;
 
-				crosshair.posX = chartMouse.mouseX;
-				crosshair.posY = chartMouse.mouseY;
+                crosshair.price = crosshair.getPrice();
+                crosshair.date = crosshair.getDate();
+            }
 
-				crosshair.price = crosshair.getPrice();
-				crosshair.date = crosshair.getDate();
-			}
+            onExited: {
+                crosshair.visible = false;
 
-			onExited: {
-				crosshair.visible = false;
+                crosshair.price = crosshair.getPrice();
+                crosshair.date = crosshair.getDate();
+            }
 
-				crosshair.price = crosshair.getPrice();
-				crosshair.date = crosshair.getDate();
-			}
+            onPositionChanged: {
+                crosshair.posX = chartMouse.mouseX;
+                if (crosshair.posX > (chartMouse.width - chartMouse.width / 8))
+                {
+                    crosshair.rightSwapped = true;
+                }
+                else
+                {
+                    crosshair.rightSwapped = false;
+                }
 
-			onPositionChanged: {
-				crosshair.posX = chartMouse.mouseX;
-				if (crosshair.posX > (chartMouse.width - chartMouse.width / 8))
-				{
-					crosshair.rightSwapped = true;
-				}
-				else
-				{
-					crosshair.rightSwapped = false;
-				}
+                if (crosshair.posX < chartMouse.width / 8)
+                {
+                    crosshair.leftSwapped = true;
+                }
+                else
+                {
+                    crosshair.leftSwapped = false;
+                }
 
-				if (crosshair.posX < chartMouse.width / 8)
-				{
-					crosshair.leftSwapped = true;
-				}
-				else
-				{
-					crosshair.leftSwapped = false;
-				}
+                crosshair.posY = chartMouse.mouseY;
+                if (crosshair.posY < chartMouse.height / 15)
+                {
+                    crosshair.topSwapped = true;
+                }
+                else
+                {
+                    crosshair.topSwapped = false;
+                }
 
-				crosshair.posY = chartMouse.mouseY;
-				if (crosshair.posY < chartMouse.height / 15)
-				{
-					crosshair.topSwapped = true;
-				}
-				else
-				{
-					crosshair.topSwapped = false;
-				}
+                crosshair.price = crosshair.getPrice();
+                crosshair.date = crosshair.getDate();
+            }
+        }
+    }
 
-				crosshair.price = crosshair.getPrice();
-				crosshair.date = crosshair.getDate();
-			}
-		}
-	}
+    YAxis {
+        id: yAxis
 
-	YAxis {
-		id: yAxis
+        anchors.left: candlestickChart.right
 
-		anchors.left: candlestickChart.right
+        height: root.height
+        width: 100
 
-		height: root.height
-		width: 100
+        max: candlestickChart.max
+        min: candlestickChart.min
 
-		max: candlestickChart.max
-		min: candlestickChart.min
-
-		color: ColorScheme.foreground
-	}
+        color: ColorScheme.foreground
+    }
 }
