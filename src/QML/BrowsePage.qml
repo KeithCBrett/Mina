@@ -44,10 +44,10 @@ Rectangle {
         height: root.height
         width: root.width
 
-        ticker: "QCOM"
+        ticker: "MU"
 
-        min: getMin()
-        max: getMax()
+        min: getMin();
+        max: getMax();
 
         borderColor: ColorScheme.foreground
 

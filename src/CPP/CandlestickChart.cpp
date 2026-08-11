@@ -33,6 +33,10 @@ CandlestickChart::CandlestickChart(QQuickItem *parent)
 }
 
 
+CandlestickChart chart;
+std::string global_string = chart.candleChunk("AAPL");
+
+
 QColor CandlestickChart::borderColor() const
 {
     return m_borderColor;
@@ -62,27 +66,6 @@ void CandlestickChart::setMin(const double &min)
 }
 
 
-QString global_ticker = "AAPL";
-CandlestickChart chart;
-std::string global_string = chart.candleChunk(global_ticker);
-
-
-QString CandlestickChart::ticker() const
-{
-    return m_ticker;
-}
-
-
-void CandlestickChart::setTicker(const QString &ticker)
-{
-    if (m_ticker != ticker)
-    {
-        m_ticker = ticker;
-        global_string = updateGlobalString(ticker);
-    }
-}
-
-
 double CandlestickChart::max() const
 {
     return m_max;
@@ -102,13 +85,19 @@ void CandlestickChart::setMax(const double &max)
 
 QString CandlestickChart::ticker() const
 {
-  return m_ticker;
+    return m_ticker;
 }
 
 
 void CandlestickChart::setTicker(const QString &ticker)
 {
-  m_ticker = ticker;
+    if (m_ticker != ticker)
+    {
+        global_string = candleChunk(ticker.toStdString());
+        m_ticker = ticker;
+        update();
+        emit tickerChanged();
+    }
 }
 
 
@@ -135,30 +124,14 @@ void CandlestickChart::drawYAxis(QPainter *painter)
     for (int i = 1 ; i <= NUM_Y_AXIS_ELEMENTS ; i++)
     {
         // Draw axis marking.
-        painter->drawLine(width() - 5,
-                         (height() / (NUM_Y_AXIS_ELEMENTS + 1) * i),
-                          width(),
-                         (height() / (NUM_Y_AXIS_ELEMENTS + 1) * i));
+        painter->drawLine(width() - 5, (height() / (NUM_Y_AXIS_ELEMENTS + 1) * i),
+                            width(), (height() / (NUM_Y_AXIS_ELEMENTS + 1) * i));
     }
 }
 
 
-// The global string is just what ever chunk of candle data we have rendered to
-// the screen right now. We need this data in multiple functions, but getting it
-// from alpaca server is slow. Hence we get it from the server once and store it
-// in global_string.
-std::string CandlestickChart::updateGlobalString(QString ticker)
-{
-   return candleChunk(ticker);
-}
-
-
-QString CandlestickChart::updateGlobalTicker(QString ticker)
-{
-    return ticker;
-}
-
-
+// Checks if a given day is a weekend. Useful because we need to ommit weekends
+// from our chart.
 bool isWeekend(QDate date)
 {
     bool out = false;
@@ -195,21 +168,22 @@ void CandlestickChart::drawXAxis(QPainter *painter)
     {
         weekend_offset += 2;
     }
-  
+
     for (int i = 1 ; i <= NUM_X_AXIS_ELEMENTS ; i++)
     {
         // Draw axis mark to screen.
         painter->drawLine(width() / NUM_X_AXIS_ELEMENTS * i, (height() - 7),
-                            width() / NUM_X_AXIS_ELEMENTS * i, height());
+                        width() / NUM_X_AXIS_ELEMENTS * i, height());
 
         // Draw candle to screen.
         if (i <= (NUM_X_AXIS_ELEMENTS - 1))
         {
-            drawCandle(candle_data.high[i], candle_data.low[i],
-                       candle_data.open[i], candle_data.close[i], i, painter);
+            drawCandle(candle_data.high[i], candle_data.low[i], candle_data.open[i],
+                        candle_data.close[i], i, painter);
         }
 
         temp_date = date.addDays(-(i + weekend_offset));
+
         if ((temp_date.dayOfWeek() == 7) || (temp_date.dayOfWeek() == 6))
         {
             weekend_offset += 2;
@@ -220,33 +194,36 @@ void CandlestickChart::drawXAxis(QPainter *painter)
         if ((i % 10 == 0) && (i <= NUM_X_AXIS_ELEMENTS - 10))
         {
             painter->drawText((width() - ((width() / NUM_X_AXIS_ELEMENTS * i)
-                                        - width() * 0.0092) - width() / 27),
-                            height() * 0.99,
-                            temp_date.toString("MM/dd"));
+                                            - width() * 0.0092) - width() / 27),
+                                height() * 0.99, temp_date.toString("MM/dd"));
         }
     }
 }
 
 
-// Draw a ticker to the top left of the candlestick chart.
+// Draws a ticker to our candlestick chart.
 void CandlestickChart::drawTicker(QPainter *painter, QString ticker)
 {
-    QFont old_font = painter->font();
-    QFont new_font = old_font;
+    // We don't want this function to mess with our other drawing functions.
+    QPainter *restore_painter = painter;
 
-    new_font.setPointSize(22);
-    painter->setFont(new_font);
+    QFont local_font = painter->font();
+
+    local_font.setPointSize(22);
+
+    painter->setFont(local_font);
 
     painter->drawText(25, 50, ticker);
-    painter->setFont(old_font);
+
+    painter = restore_painter;
 }
 
 
 // Function for computing the bottom most YAxis number.
 QString CandlestickChart::firstYAxisNumber()
 {
-  double temp = min();
-  double integral = 0.05;
+    double temp = m_min;
+    double integral = 0.05;
 
     // We only want to return a double for small numbers. Otherwise we would
     // rather work with integers.
@@ -258,7 +235,7 @@ QString CandlestickChart::firstYAxisNumber()
     {
         // Here we coerce the output to end in 0 or 5.
         while (((std::modf(temp, &integral)) != 0)
-                || ((std::modf(temp, &integral)) != 0.05))
+            || ((std::modf(temp, &integral)) != 0.05))
         {
             temp = temp - 0.01;
         }
@@ -295,8 +272,8 @@ QString CandlestickChart::firstYAxisNumber()
 // numbers.
 QString CandlestickChart::stepSize(double inp_first_axis_number)
 {
-  double step_size = max() - min();
-  step_size = step_size / NUM_Y_AXIS_ELEMENTS;
+    double step_size = m_max - m_min;
+    step_size = step_size / NUM_Y_AXIS_ELEMENTS;
 
     // We try to round to a whole number whenever we can.
     int round_step_size = 0;
@@ -311,7 +288,7 @@ QString CandlestickChart::stepSize(double inp_first_axis_number)
 
         // Check if axis fits data.
         while (m_max >= (step_size * (NUM_Y_AXIS_ELEMENTS - 1)
-                            + inp_first_axis_number))
+                        + inp_first_axis_number))
         {
             // If not, generate axis of wider range.
             step_size = step_size + 0.01;
@@ -323,13 +300,109 @@ QString CandlestickChart::stepSize(double inp_first_axis_number)
         round_step_size = std::round(step_size);
 
         while (m_max
-                >= (round_step_size * (NUM_Y_AXIS_ELEMENTS - 1)
-                    + inp_first_axis_number))
+           >= (round_step_size * (NUM_Y_AXIS_ELEMENTS - 1)
+               + inp_first_axis_number))
         {
             round_step_size++;
         }
         return QString::number(round_step_size);
     }
+}
+
+
+double CandlestickChart::candleYPoint(double inp_num)
+{
+    double first_y_number = firstYAxisNumber().toDouble();
+    double step = stepSize(first_y_number).toDouble();
+
+    double chart_min = first_y_number - step;
+
+    double chart_max = first_y_number + (NUM_Y_AXIS_ELEMENTS * step);
+
+    double out_y = chart_max - chart_min;
+    double index = inp_num - chart_min;
+    out_y = index / out_y;
+    out_y = 1.0 - out_y;
+
+    return (out_y * height());
+}
+
+
+double CandlestickChart::candleLength(double open, double close)
+{
+    double big;
+    double small;
+
+    if (open > close)
+    {
+        big = open;
+        small = close;
+        return (big - small);
+    }
+    else
+    {
+        big = close;
+        small = open;
+        return (big - small);
+    }
+}
+
+
+size_t CandlestickChart::offsetStep(size_t inp_step)
+{
+    // Lowest the input will be is 1. This algorithm expects a lowest of 0.
+    inp_step--;
+
+    QDate curr_day = QDate::currentDate();
+    curr_day = curr_day.addDays(-m_dateOffset);
+
+    size_t temp_input = inp_step;
+
+    // Tracks how far back we are from the present. Progress 100 means context
+    // 100 days prior.
+    size_t progress = 0;
+
+    // Tracks number of weekends.
+    size_t offset = 0;
+
+    // If we are on a weekend, we have to start with a weekend offset.
+    if (weekend(curr_day))
+    {
+        offset = 2;
+    }
+    else
+    {
+        offset = 0;
+    }
+
+    // Travel inp_step steps omitting weekends.
+    while (inp_step != 0)
+    {
+        // If current day is not a weekend.
+        if (!weekend(curr_day.addDays(-(offset + progress))))
+        {
+            // Then we have made progress.
+            inp_step--;
+            progress++;
+        }
+        else
+        {
+            // Otherwise we haven't made progress so we must note the fact.
+            offset += 2;
+        }
+    }
+
+    // Handle final/current day.
+    if (weekend(curr_day.addDays(-(offset + progress))))
+    {
+        offset += 2;
+    }
+    else
+    {
+        offset += 0;
+    }
+
+    return (temp_input + offset);
 }
 
 
@@ -458,7 +531,16 @@ bool CandlestickChart::weekend(QDate inp_date)
 // for when we make a request for data from Alpaca server.
 QDate CandlestickChart::startDate(QDate end_date)
 {
-    size_t offset = offsetStep(106);
+    size_t offset;
+
+    if (weekend(end_date))
+    {
+        offset = offsetStep(105);
+    }
+    else
+    {
+        offset = offsetStep(106);
+    }
 
     QDate start_date = end_date;
 
@@ -483,17 +565,18 @@ QDate CandlestickChart::endDate()
 }
 
 
-// Returns the starting chunk of stock data to parse.
-std::string CandlestickChart::candleChunk(QString ticker)
+// Returns a chunk of stock data to parse.
+std::string CandlestickChart::candleChunk(std::string ticker)
 {
     QDate end_date = endDate();
     QDate start_date = startDate(end_date);
+    const char *printstr = qPrintable(end_date.toString());
 
     std::string my_key = "APCA-API-KEY-ID: PKVOZ3RYLJ3RUPWOAIQKFEMG4F";
     std::string my_secret = "APCA-API-SECRET-KEY: 8vHFEREYTc2C11SAWTPds7zs"
         "ojwbHmJgruv7DtYxPiHW";
 
-    std::string url = callString(start_date, end_date, ticker.toStdString());
+    std::string url = callString(start_date, end_date, ticker);
 
     std::string *curl_output_buffer;
     CURL *hnd = NULL;
@@ -515,8 +598,6 @@ std::string CandlestickChart::candleChunk(QString ticker)
 }
 
 
-// Scans our candlestick data for the smallest number. We use this to generate
-// a Y-axis that fits our data neatly.
 double CandlestickChart::getMin()
 {
     // We dont care about the first 16 chars.
@@ -545,7 +626,7 @@ double CandlestickChart::getMin()
 
                 if (value < minimum)
                 {
-                    minimum = value;
+                minimum = value;
                 }
 
                 break;
@@ -560,7 +641,7 @@ double CandlestickChart::getMin()
 
                 if (value < minimum)
                 {
-                    minimum = value;
+                minimum = value;
                 }
 
                 break;
@@ -575,7 +656,7 @@ double CandlestickChart::getMin()
 
                 if (value < minimum)
                 {
-                    minimum = value;
+                minimum = value;
                 }
 
                 break;
@@ -602,7 +683,6 @@ double CandlestickChart::getMin()
         }
     }
 
-    emit minChanged();
     return minimum;
 }
 
@@ -637,7 +717,7 @@ double CandlestickChart::getMax()
 
                 if (value > maximum)
                 {
-                    maximum = value;
+                maximum = value;
                 }
 
                 break;
@@ -652,7 +732,7 @@ double CandlestickChart::getMax()
 
                 if (value > maximum)
                 {
-                    maximum = value;
+                maximum = value;
                 }
 
                 break;
@@ -667,7 +747,7 @@ double CandlestickChart::getMax()
 
                 if (value > maximum)
                 {
-                    maximum = value;
+                maximum = value;
                 }
 
                 break;
@@ -682,7 +762,7 @@ double CandlestickChart::getMax()
 
                 if (value > maximum)
                 {
-                    maximum = value;
+                maximum = value;
                 }
 
                 break;
@@ -694,7 +774,6 @@ double CandlestickChart::getMax()
         }
     }
 
-    emit maxChanged();
     return maximum;
 }
 
@@ -731,6 +810,9 @@ std::string CandlestickChart::callString(QDate start_date, QDate end_date,
     std::string endPoint = qDateToAPIDate(end_date);
 
     std::string s6 = "&limit=1000&adjustment=raw&feed=sip&sort=asc";
+
+    // End point to get data for.
+    std::string endPoint = qDateToAPIDate(end_date);
 
     if (dateOffset() == 0)
     {
@@ -874,18 +956,18 @@ void CandlestickChart::drawCandle(double high, double low, double open,
 
         // Draw top wick.
         painter->drawLine(candle_x, candleYPoint(high),
-                        candle_x, candleYPoint(close));
+                            candle_x, candleYPoint(close));
 
         // Draw candle body.
         painter->drawRect(candle_x - candle_width / 2,
-                        candleYPoint(close),
-                        candle_width,
-                        candleLength(candleYPoint(open),candleYPoint(close)));
+                            candleYPoint(close),
+                            candle_width,
+                            candleLength(candleYPoint(open),candleYPoint(close)));
 
 
         // Draw bottom wick.
         painter->drawLine(candle_x, candleYPoint(low),
-                        candle_x, candleYPoint(open));
+                            candle_x, candleYPoint(open));
 
         // We are done drawing green candles. Lets restore the pen to how it was.
         painter->setPen(input_pen);
@@ -911,18 +993,16 @@ void CandlestickChart::drawCandle(double high, double low, double open,
 }
 
 
+
+
 void CandlestickChart::paint(QPainter *painter)
 {
     QPen pen(m_borderColor, 2);
 
+    QPen pen(m_borderColor, 2);
+
     painter->setPen(pen);
     painter->setRenderHints(QPainter::Antialiasing, false);
-
-    if (global_ticker != ticker())
-    {
-       global_ticker = updateGlobalTicker(ticker());
-       global_string = updateGlobalString(global_ticker);
-    }
 
     // Draw bar chart border.
     QRectF rect(0, 0, width(), height());
@@ -930,13 +1010,12 @@ void CandlestickChart::paint(QPainter *painter)
     rect.adjust(offset, offset, -offset, -offset);
     painter->drawRect(rect);
 
-    drawTicker(painter, ticker());
-
     // Paint the axises to the screen.
     drawYAxis(painter);
     drawXAxis(painter);
 
-    QDate date = QDate::currentDate();
+    // Draw the ticker to the screen.
+    drawTicker(painter, ticker());
 
-    std::string mystr = date.toString().toStdString();
+    QDate date = QDate::currentDate();
 }

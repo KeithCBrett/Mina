@@ -44,7 +44,7 @@ class CandlestickChart : public QQuickPaintedItem
     Q_PROPERTY(QColor borderColor READ borderColor WRITE setBorderColor FINAL)
     Q_PROPERTY(double min READ min WRITE setMin NOTIFY minChanged FINAL)
     Q_PROPERTY(double max READ max WRITE setMax NOTIFY maxChanged FINAL)
-    Q_PROPERTY(QString ticker READ ticker WRITE setTicker FINAL)
+    Q_PROPERTY(QString ticker READ ticker WRITE setTicker NOTIFY tickerChanged FINAL)
     Q_PROPERTY(qint64 dateOffset READ dateOffset WRITE setDateOffset
                 NOTIFY dateOffsetChanged FINAL)
     QML_ELEMENT
@@ -72,15 +72,11 @@ public:
 
     // Returns a chunk of stock data we can parse. Offset of zero returns candle
     // for today - 100 days ago.
-    std::string candleChunk(QString ticker);
+    std::string candleChunk(std::string ticker);
 
     void paint(QPainter *painter) override;
 
 public slots:
-    // We call these from QML to store the chart min and max as properties of
-    // our QML type. This will allow us to share this data with other QML
-    // types (like type YAxis which needs it to draw the numbers seen on our
-    // chart's Y-axis).
     double getMin();
     double getMax();
 
@@ -97,8 +93,6 @@ private:
     // Helper functions for painting the axises to the screen.
     void drawYAxis(QPainter *painter);
     void drawXAxis(QPainter *painter);
-
-    void drawTicker(QPainter *painter, QString ticker);
 
     // Helper functions for drawing candles to the screen.
     void drawCandle(double high, double low, double open, double close,
@@ -135,13 +129,13 @@ private:
     // Checks whether or not a given day is a weekend.
     bool weekend(QDate inp_date);
 
-    std::string updateGlobalString(QString ticker);
-    QString updateGlobalTicker(QString ticker);
+    void drawTicker(QPainter *painter, QString ticker);
 
 signals:
     void dateOffsetChanged();
     void minChanged();
     void maxChanged();
+    void tickerChanged();
 };
 
 
