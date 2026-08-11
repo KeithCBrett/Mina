@@ -31,103 +31,111 @@
 
 
 struct CandleData {
-  double open[NUM_X_AXIS_ELEMENTS-1];
-  double close[NUM_X_AXIS_ELEMENTS-1];
-  double high[NUM_X_AXIS_ELEMENTS-1];
-  double low[NUM_X_AXIS_ELEMENTS-1];
+    double open[NUM_X_AXIS_ELEMENTS-1];
+    double close[NUM_X_AXIS_ELEMENTS-1];
+    double high[NUM_X_AXIS_ELEMENTS-1];
+    double low[NUM_X_AXIS_ELEMENTS-1];
 };
 
 
 class CandlestickChart : public QQuickPaintedItem
 {
-  Q_OBJECT
-  Q_PROPERTY(QColor borderColor READ borderColor WRITE setBorderColor FINAL)
-  Q_PROPERTY(double min READ min WRITE setMin NOTIFY minChanged FINAL)
-  Q_PROPERTY(double max READ max WRITE setMax NOTIFY maxChanged FINAL)
-  Q_PROPERTY(qint64 dateOffset READ dateOffset WRITE setDateOffset
-             NOTIFY dateOffsetChanged FINAL)
-  QML_ELEMENT
+    Q_OBJECT
+    Q_PROPERTY(QColor borderColor READ borderColor WRITE setBorderColor FINAL)
+    Q_PROPERTY(double min READ min WRITE setMin NOTIFY minChanged FINAL)
+    Q_PROPERTY(double max READ max WRITE setMax NOTIFY maxChanged FINAL)
+    Q_PROPERTY(QString ticker READ ticker WRITE setTicker NOTIFY tickerChanged FINAL)
+    Q_PROPERTY(qint64 dateOffset READ dateOffset WRITE setDateOffset
+                NOTIFY dateOffsetChanged FINAL)
+    QML_ELEMENT
 
 public:
-  CandlestickChart(QQuickItem *parent = nullptr);
+    CandlestickChart(QQuickItem *parent = nullptr);
 
-  QColor borderColor() const;
-  void setBorderColor(const QColor &borderColor);
+    QColor borderColor() const;
+    void setBorderColor(const QColor &borderColor);
 
-  double min() const;
-  void setMin(const double &min);
+    double min() const;
+    void setMin(const double &min);
 
-  double max() const;
-  void setMax(const double &max);
+    double max() const;
+    void setMax(const double &max);
 
-  QString stepSize(double inp_first_axis_number);
-  QString firstYAxisNumber();
+    QString ticker() const;
+    void setTicker(const QString &ticker);
 
-  qint64 dateOffset() const;
-  void setDateOffset(const qint64 &dateOffset);
+    QString stepSize(double inp_first_axis_number);
+    QString firstYAxisNumber();
 
-  // Returns a chunk of stock data we can parse. Offset of zero returns candle
-  // for today - 100 days ago.
-  std::string candleChunk();
+    qint64 dateOffset() const;
+    void setDateOffset(const qint64 &dateOffset);
 
-  void paint(QPainter *painter) override;
+    // Returns a chunk of stock data we can parse. Offset of zero returns candle
+    // for today - 100 days ago.
+    std::string candleChunk(std::string ticker);
+
+    void paint(QPainter *painter) override;
 
 public slots:
-  double getMin();
-  double getMax();
+    double getMin();
+    double getMax();
 
 private:
-  QColor m_borderColor;
+    QColor m_borderColor;
 
-  double m_min;
-  double m_max;
+    double m_min;
+    double m_max;
 
-  qint64 m_dateOffset;
+    QString m_ticker;
 
-  // Helper functions for painting the axises to the screen.
-  void drawYAxis(QPainter *painter, float min, float max);
-  void drawXAxis(QPainter *painter);
+    qint64 m_dateOffset;
 
-  // Helper functions for drawing candles to the screen.
-  void drawCandle(double high, double low, double open, double close,
-                  int index, QPainter *painter);
-  // This function calculates the Y-point for each candle according to chart
-  // axis.
-  double candleYPoint(double inp_num);
+    // Helper functions for painting the axises to the screen.
+    void drawYAxis(QPainter *painter);
+    void drawXAxis(QPainter *painter);
 
-  // This function calculates the length of our candlestick body.
-  double candleLength(double open, double close);
+    // Helper functions for drawing candles to the screen.
+    void drawCandle(double high, double low, double open, double close,
+                    int index, QPainter *painter);
+    // This function calculates the Y-point for each candle according to chart
+    // axis.
+    double candleYPoint(double inp_num);
 
-  // This function fills our candle array with real stock data.
-  CandleData candleData();
+    // This function calculates the length of our candlestick body.
+    double candleLength(double open, double close);
 
+    // This function fills our candle array with real stock data.
+    CandleData candleData();
 
-  // Helper function for candleChunk that generates the string we use to make
-  // our Alpaca API call (so we can get stock data).
-  std::string callString(QDate start_date, QDate end_date, std::string ticker);
+    // Helper function for candleChunk that generates the string we use to make
+    // our Alpaca API call (so we can get stock data).
+    std::string callString(QDate start_date, QDate end_date, std::string ticker);
 
-  // Converts QDates into Alpaca API dates.
-  std::string qDateToAPIDate(QDate inp_date);
+    // Converts QDates into Alpaca API dates.
+    std::string qDateToAPIDate(QDate inp_date);
 
-  // Helper function for candleChunk that calculates the end date based off of
-  // offset and whether or not we end in a weekend.
-  QDate endDate();
+    // Helper function for candleChunk that calculates the end date based off of
+    // offset and whether or not we end in a weekend.
+    QDate endDate();
 
-  // This computes the left most date on our chart (earliest). It goes 100 days
-  // into the past, skipping weekends.
-  QDate startDate(QDate end_date);
+    // This computes the left most date on our chart (earliest). It goes 100 days
+    // into the past, skipping weekends.
+    QDate startDate(QDate end_date);
 
-  // Calculates how far back our starting date is if we have to exclude
-  // weekends.
-  size_t offsetStep(size_t inp_step);
+    // Calculates how far back our starting date is if we have to exclude
+    // weekends.
+    size_t offsetStep(size_t inp_step);
 
-  // Checks whether or not a given day is a weekend.
-  bool weekend(QDate inp_date);
+    // Checks whether or not a given day is a weekend.
+    bool weekend(QDate inp_date);
+
+    void drawTicker(QPainter *painter, QString ticker);
 
 signals:
-  void dateOffsetChanged();
-  void minChanged();
-  void maxChanged();
+    void dateOffsetChanged();
+    void minChanged();
+    void maxChanged();
+    void tickerChanged();
 };
 
 
