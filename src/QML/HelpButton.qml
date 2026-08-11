@@ -18,8 +18,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-import Qt5Compat.GraphicalEffects
 import QtQuick
+import QtQuick.Effects
 
 
 Item {
@@ -102,14 +102,15 @@ Item {
             height: 40
 
             layer.enabled: true
-            layer.effect: ColorOverlay {
+            layer.effect: MultiEffect {
                 id: colorImage
 
 
                 anchors.fill: image
                 source: image
 
-                color: ColorScheme.foreground
+                colorization: 1.0
+                colorizationColor: ColorScheme.foreground
             }
         }
 

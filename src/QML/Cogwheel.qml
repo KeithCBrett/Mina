@@ -17,9 +17,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-// For color overlay
-import Qt5Compat.GraphicalEffects
 import QtQuick
+import QtQuick.Effects
 
 
 Item {
@@ -36,82 +35,82 @@ Item {
     Image {
         id: cogwheel
 
-		source: "images/setting.png"
+        source: "images/setting.png"
 
-		smooth: true
+        smooth: true
 
-		// We would rather see the colored overlay we create later.
-		visible: false
+        // We would rather see the colored overlay we create later.
+        visible: false
 
-		anchors.fill: parent
+        anchors.fill: parent
 
-		Behavior on anchors.rightMargin {
-			PropertyAnimation {
-				easing.type: Easing.InOutQuad
-				duration: ConstSingleton.baseAnimationSpeed
-			}
-		}
+        Behavior on anchors.rightMargin {
+            PropertyAnimation {
+                easing.type: Easing.InOutQuad
+                duration: ConstSingleton.baseAnimationSpeed
+            }
+        }
     }
 
-	// Colors setting button orange
-	ColorOverlay {
-		id: colorCogwheel
+    MultiEffect {
+        id: colorCogwheel
+        source: cogwheel
 
-		anchors.fill: cogwheel
+        anchors.fill: cogwheel
 
-		source: cogwheel
-		color: ColorScheme.foreground
+        colorization: 1.0
+        colorizationColor: ColorScheme.foreground
 
-		// Whenever the cogwheel is rotated, animate it
-		Behavior on rotation {
-			NumberAnimation {
-				from: 0
-				to: 720
-				duration: 300
-			}
-		}
-	}
+        // Whenever the cogwheel is rotated, animate it
+        Behavior on rotation {
+            NumberAnimation {
+                from: 0
+                to: 720
+                duration: 300
+            }
+        }
+    }
 
-	MouseArea {
-	    id: cogwheelMouse
+    MouseArea {
+        id: cogwheelMouse
 
-	    anchors.fill: root
+        anchors.fill: root
 
-	    hoverEnabled: true
+        hoverEnabled: true
 
-	    cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
+        cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
 
-	    onEntered: {
-	        colorCogwheel.rotation += 360
-	    }
+        onEntered: {
+            colorCogwheel.rotation += 360
+        }
 
-	    onClicked: {
-			root.state == "toggle" ? root.state = "" : root.state = "toggle";
+        onClicked: {
+            root.state == "toggle" ? root.state = "" : root.state = "toggle";
 
-			if ((root.state == "") && (aboutMenu.state == "toggle")) {
-				aboutMenu.state = "";
-			}
+            if ((root.state == "") && (aboutMenu.state == "toggle")) {
+                aboutMenu.state = "";
+            }
 
-			if ((root.state == "") && (helpMenu.state == "toggle")) {
-				helpMenu.state = "";
-			}
-			
-			if ((helpMenu.state == "toggle") || (aboutMenu.state == "toggle")) {
-				ConstSingleton.buttonsVisible = false;
-			} else {
-				ConstSingleton.buttonsVisible = true;
-			}
-		}
-	}
+            if ((root.state == "") && (helpMenu.state == "toggle")) {
+                helpMenu.state = "";
+            }
+
+            if ((helpMenu.state == "toggle") || (aboutMenu.state == "toggle")) {
+                ConstSingleton.buttonsVisible = false;
+            } else {
+                ConstSingleton.buttonsVisible = true;
+            }
+        }
+    }
 
     states: [
-    	State {
-    		name: "toggle"
+        State {
+            name: "toggle"
 
-    		PropertyChanges {
-    			target: root.parent
-    			anchors.leftMargin: (parent.width / 4) * 3
-    		}
-    	}
+            PropertyChanges {
+                target: root.parent
+                anchors.leftMargin: (parent.width / 4) * 3
+            }
+        }
     ]
 }

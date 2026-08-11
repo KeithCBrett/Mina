@@ -310,100 +310,8 @@ QString CandlestickChart::stepSize(double inp_first_axis_number)
 }
 
 
-double CandlestickChart::candleYPoint(double inp_num)
-{
-    double first_y_number = firstYAxisNumber().toDouble();
-    double step = stepSize(first_y_number).toDouble();
-
-    double chart_min = first_y_number - step;
-
-    double chart_max = first_y_number + (NUM_Y_AXIS_ELEMENTS * step);
-
-    double out_y = chart_max - chart_min;
-    double index = inp_num - chart_min;
-    out_y = index / out_y;
-    out_y = 1.0 - out_y;
-
-    return (out_y * height());
-}
 
 
-double CandlestickChart::candleLength(double open, double close)
-{
-    double big;
-    double small;
-
-    if (open > close)
-    {
-        big = open;
-        small = close;
-        return (big - small);
-    }
-    else
-    {
-        big = close;
-        small = open;
-        return (big - small);
-    }
-}
-
-
-size_t CandlestickChart::offsetStep(size_t inp_step)
-{
-    // Lowest the input will be is 1. This algorithm expects a lowest of 0.
-    inp_step--;
-
-    QDate curr_day = QDate::currentDate();
-    curr_day = curr_day.addDays(-m_dateOffset);
-
-    size_t temp_input = inp_step;
-
-    // Tracks how far back we are from the present. Progress 100 means context
-    // 100 days prior.
-    size_t progress = 0;
-
-    // Tracks number of weekends.
-    size_t offset = 0;
-
-    // If we are on a weekend, we have to start with a weekend offset.
-    if (weekend(curr_day))
-    {
-        offset = 2;
-    }
-    else
-    {
-        offset = 0;
-    }
-
-    // Travel inp_step steps omitting weekends.
-    while (inp_step != 0)
-    {
-        // If current day is not a weekend.
-        if (!weekend(curr_day.addDays(-(offset + progress))))
-        {
-            // Then we have made progress.
-            inp_step--;
-            progress++;
-        }
-        else
-        {
-            // Otherwise we haven't made progress so we must note the fact.
-            offset += 2;
-        }
-    }
-
-    // Handle final/current day.
-    if (weekend(curr_day.addDays(-(offset + progress))))
-    {
-        offset += 2;
-    }
-    else
-    {
-        offset += 0;
-    }
-
-    return (temp_input + offset);
-}
 
 
 // Converts a dollar amount into a Y-point on our candlestick chart according
@@ -539,7 +447,7 @@ QDate CandlestickChart::startDate(QDate end_date)
     }
     else
     {
-        offset = offsetStep(106);
+        offset = offsetStep(105 + end_date.dayOfWeek());
     }
 
     QDate start_date = end_date;
@@ -811,9 +719,6 @@ std::string CandlestickChart::callString(QDate start_date, QDate end_date,
 
     std::string s6 = "&limit=1000&adjustment=raw&feed=sip&sort=asc";
 
-    // End point to get data for.
-    std::string endPoint = qDateToAPIDate(end_date);
-
     if (dateOffset() == 0)
     {
         out_string = s1 + ticker + s3 + startPoint + s6;
@@ -997,8 +902,6 @@ void CandlestickChart::drawCandle(double high, double low, double open,
 
 void CandlestickChart::paint(QPainter *painter)
 {
-    QPen pen(m_borderColor, 2);
-
     QPen pen(m_borderColor, 2);
 
     painter->setPen(pen);
