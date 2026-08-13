@@ -1,5 +1,5 @@
-// Cogwheel.qml is a subcomponent to our dropdown menu. It represents the
-// cogwheel in the top right of the screen.
+// Globe.qml is a subcomponent to our dropdown menu. It represents the
+// globe in the top right of the screen.
 
 // Copyright (C) 2026  Keith C Brett (KeithCBrett@gmail.com)
 
@@ -24,18 +24,18 @@ import QtQuick.Effects
 Item {
     id: root
 
-    height: ConstSingleton.cogwheelWidth
-    width: ConstSingleton.cogwheelWidth
+    height: ConstSingleton.globeWidth
+    width: ConstSingleton.globeWidth
 
     anchors.left: parent.left
     anchors.top: parent.top
-    anchors.rightMargin: ConstSingleton.cogwheelMargin
-    anchors.topMargin: ConstSingleton.cogwheelMargin
+    anchors.rightMargin: ConstSingleton.globeMargin
+    anchors.topMargin: ConstSingleton.globeMargin
 
     Image {
-        id: cogwheel
+        id: globe
 
-        source: "images/setting.png"
+        source: "images/globe.png"
 
         smooth: true
 
@@ -53,15 +53,15 @@ Item {
     }
 
     MultiEffect {
-        id: colorCogwheel
-        source: cogwheel
+        id: colorGlobe
+        source: globe
 
-        anchors.fill: cogwheel
+        anchors.fill: globe
 
         colorization: 1.0
         colorizationColor: ColorScheme.foreground
 
-        // Whenever the cogwheel is rotated, animate it
+        // Whenever the globe is rotated, animate it
         Behavior on rotation {
             NumberAnimation {
                 from: 0
@@ -72,7 +72,7 @@ Item {
     }
 
     MouseArea {
-        id: cogwheelMouse
+        id: globeMouse
 
         anchors.fill: root
 
@@ -81,7 +81,7 @@ Item {
         cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
 
         onEntered: {
-            colorCogwheel.rotation += 360
+            colorGlobe.rotation += 360
         }
 
         onClicked: {

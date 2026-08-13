@@ -447,7 +447,7 @@ QDate CandlestickChart::startDate(QDate end_date)
     }
     else
     {
-        offset = offsetStep(105 + end_date.dayOfWeek());
+        offset = offsetStep(105 + 2);
     }
 
     QDate start_date = end_date;

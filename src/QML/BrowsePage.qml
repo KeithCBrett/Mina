@@ -39,7 +39,7 @@ Rectangle {
 
         anchors.left: stockList.right
         anchors.right: browsePageMenu.left
-        anchors.rightMargin: ConstSingleton.cogwheelMargin
+        anchors.rightMargin: ConstSingleton.globeMargin
 
         height: root.height
         width: root.width

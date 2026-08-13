@@ -1,5 +1,5 @@
 // DropdownButtonColumn.qml represents the slide out column of buttons that
-// appears in the U.I. when the cogwheel icon is clicked.
+// appears in the U.I. when the globe icon is clicked.
 
 // Copyright (C) 2026  Keith C Brett (KeithCBrett@gmail.com)
 

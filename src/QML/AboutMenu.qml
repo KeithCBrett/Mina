@@ -22,59 +22,59 @@ import mina_module
 
 
 Rectangle {
-	id: root
+    id: root
 
-	color: ColorScheme.settingsMenu
+    color: ColorScheme.settingsMenu
 
-	width: parent.width - ConstSingleton.dropdownMenuWidthOffset
-	height: parent.height
+    width: parent.width - ConstSingleton.dropdownMenuWidthOffset
+    height: parent.height
 
-	border.color: ColorScheme.foreground
-	border.width: ConstSingleton.borderWidth
+    border.color: ColorScheme.foreground
+    border.width: ConstSingleton.borderWidth
 
-	Text {
-		id: aboutMenuText
+    Text {
+        id: aboutMenuText
 
-		anchors.fill: parent
+        anchors.fill: parent
 
-		color: ColorScheme.foreground
+        color: ColorScheme.foreground
 
-		wrapMode: Text.WordWrap
-		padding: 10
+        wrapMode: Text.WordWrap
+        padding: 10
 
-		font.pointSize: (ConstSingleton.buttonFontSize - 2)
-		font.family: ConstSingleton.defaultFont
+        font.pointSize: (ConstSingleton.buttonFontSize - 2)
+        font.family: ConstSingleton.defaultFont
 
-		text: "Mina:\nis a equity analyzer that performs various"
-		+ " functions related to the appraisal of common stock"
-		+ " (Such as DCF, NOPLAT, ROIC, etc)\n\nContact:"
-		+ " KeithCBrett@gmail.com\n\nLicense:\nGPLv3\n\nVersion:\n"
-		+ version_number.getMajor() + "." + version_number.getMinor()
-		+ "." + version_number.getPatch()
-	}
+        text: "Mina:\nis a equity analyzer that performs various"
+        + " functions related to the appraisal of common stock"
+        + " (Such as DCF, NOPLAT, ROIC, etc)\n\nContact:"
+        + " KeithCBrett@gmail.com\n\nLicense:\nGPLv3\n\nVersion:\n"
+        + version_number.getMajor() + "." + version_number.getMinor()
+        + "." + version_number.getPatch()
+    }
 
-	Behavior on color {
-		ColorAnimation {
-			easing.type: Easing.InOutQuad;
-			duration: ConstSingleton.baseAnimationSpeed
-		}
-	}
+    Behavior on color {
+        ColorAnimation {
+            easing.type: Easing.InOutQuad;
+            duration: ConstSingleton.baseAnimationSpeed
+        }
+    }
 
-	states: [
-		State {
-			name: "toggle"
+    states: [
+        State {
+            name: "toggle"
 
-			AnchorChanges {
-				target: root
-				anchors.left: buttonColumn.left
-			}
-		}
-	]
+            AnchorChanges {
+                target: root
+                anchors.left: buttonColumn.left
+            }
+        }
+    ]
 
-	transitions: Transition {
-		AnchorAnimation {
-			easing.type: Easing.InOutQuad
-			duration: ConstSingleton.baseAnimationSpeed
-		}
-	}
+    transitions: Transition {
+        AnchorAnimation {
+            easing.type: Easing.InOutQuad
+            duration: ConstSingleton.baseAnimationSpeed
+        }
+    }
 }

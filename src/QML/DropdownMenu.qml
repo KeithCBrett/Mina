@@ -1,4 +1,4 @@
-// DropdownMenu is graphically represented by the cogwheel in the top right
+// DropdownMenu is graphically represented by the globe in the top right
 // corner of each GUI page. Written in Qt's QML framework.
 
 // Copyright (C) 2026  Keith C Brett (KeithCBrett@gmail.com)
@@ -21,43 +21,43 @@ import mina_module
 
 
 Item {
-	id: root
+    id: root
 
-	height: parent.height
-	width: parent.width
+    height: parent.height
+    width: parent.width
 
-	anchors.right: parent.right
-	anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.left: parent.left
 
-	anchors.leftMargin: Math.round(parent.width - ConstSingleton.cogwheelWidth
-	- ConstSingleton.cogwheelMargin)
+    anchors.leftMargin: Math.round(parent.width - ConstSingleton.globeWidth
+    - ConstSingleton.globeMargin)
 
-	Cogwheel {
-		id: cogwheel
-	}
+    Globe {
+        id: globe
+    }
 
-	DropdownButtonColumn {
-		id: buttonColumn
+    DropdownButtonColumn {
+        id: buttonColumn
 
-		anchors.left: cogwheel.right
-	}
+        anchors.left: globe.right
+    }
 
-	HelpMenu {
-		id: helpMenu
+    HelpMenu {
+        id: helpMenu
 
-		anchors.left: buttonColumn.right
-	}
+        anchors.left: buttonColumn.right
+    }
 
-	AboutMenu {
-		id: aboutMenu
+    AboutMenu {
+        id: aboutMenu
 
-		anchors.left: buttonColumn.right
-	}
+        anchors.left: buttonColumn.right
+    }
 
-	Behavior on anchors.leftMargin {
-		PropertyAnimation {
-			easing.type: Easing.InOutQuad
-			duration: ConstSingleton.baseAnimationSpeed
-		}
-	}
+    Behavior on anchors.leftMargin {
+        PropertyAnimation {
+            easing.type: Easing.InOutQuad
+            duration: ConstSingleton.baseAnimationSpeed
+        }
+    }
 }

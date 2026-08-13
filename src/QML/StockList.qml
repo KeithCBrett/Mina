@@ -23,11 +23,11 @@ import QtQuick
 Rectangle {
     id: root
 
-	anchors.left: parent.left
-	anchors.top: parent.top
-	anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
 
-	width: (parent.width / 4) - ConstSingleton.cogwheelWidth - (parent.width / 24)
+    width: (parent.width / 4) - ConstSingleton.globeWidth - (parent.width / 24)
 
     color: ColorScheme.settingsMenu
 

@@ -26,9 +26,9 @@ QtObject {
     property string defaultFont: "BigBlueTerm437 Nerd Font"
     property real buttonFontSize: 22
 
-    // For DropdownMenu.qml cogwheel.
-    property real cogwheelWidth: 30
-    property real cogwheelMargin: 40
+    // For DropdownMenu.qml globe.
+    property real globeWidth: 30
+    property real globeMargin: 40
 
     // Length of most animations (in ms).
     property real baseAnimationSpeed: 200

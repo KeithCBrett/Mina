@@ -1,5 +1,5 @@
 // ManualButton.qml represents the U.I. button with the book icon that appears
-// whenever the cogwheel in the top right of the screen is clicked.
+// whenever the globe in the top right of the screen is clicked.
 
 // Copyright (C) 2026  Keith C Brett (KeithCBrett@gmail.com)
 
@@ -64,7 +64,7 @@ Item {
 
             onClicked: {
                 stack.push(manualPage)
-                cogwheel.state = ""
+                globe.state = ""
             }
         }
 

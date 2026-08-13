@@ -1,5 +1,5 @@
 // HomeButton.qml represents the U.I. button with the house that slides out
-// whenever the cogwheel of the top right corner of the screen is pressed.
+// whenever the globe of the top right corner of the screen is pressed.
 
 // Copyright (C) 2026  Keith C Brett (KeithCBrett@gmail.com)
 

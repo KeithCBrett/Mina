@@ -39,12 +39,12 @@ find_package(CURL)
 
 # Prepends subdirectory to files in a list
 function(PREPEND var)
-	# Declare empty storage list
-	set(listVar "")
-	foreach(f ${${var}})
-		list(APPEND listVar "${CMAKE_CURRENT_SOURCE_DIR}/${f}")
-	endforeach(f)
-	set(${var} "${listVar}" PARENT_SCOPE)
+  # Declare empty storage list
+  set(listVar "")
+  foreach(f ${${var}})
+    list(APPEND listVar "${CMAKE_CURRENT_SOURCE_DIR}/${f}")
+  endforeach(f)
+  set(${var} "${listVar}" PARENT_SCOPE)
 endfunction(PREPEND)
 
 
@@ -72,16 +72,16 @@ target_include_directories(calc PUBLIC include/)
 
 # Name of executable generated
 qt_add_executable(mina
-	src/CPP/main.cpp
-	src/CPP/CandlestickChart.cpp include/CandlestickChart.hpp
-	src/CPP/YAxis.cpp            include/YAxis.hpp
-	src/CPP/Crosshair.cpp        include/Crosshair.hpp
+  src/CPP/main.cpp
+  src/CPP/CandlestickChart.cpp include/CandlestickChart.hpp
+  src/CPP/YAxis.cpp            include/YAxis.hpp
+  src/CPP/Crosshair.cpp        include/Crosshair.hpp
 )
 
 # C++ QML module stuff
 set_target_properties(mina PROPERTIES
-	WIN32_EXECUTABLE TRUE
-	MACOSX_BUNDLE TRUE
+  WIN32_EXECUTABLE TRUE
+  MACOSX_BUNDLE TRUE
 )
 
 set(CMAKE_AUTORCC ON)
@@ -90,74 +90,74 @@ set(CMAKE_AUTORCC ON)
 # We will now declare a QML singleton to act as a global variable.
 # https://doc.qt.io/qt-6/qml-singleton.html#accessing-singletons
 set_source_files_properties(src/QML/ConstSingleton.qml
-	PROPERTIES QT_QML_SINGLETON_TYPE TRUE
+  PROPERTIES QT_QML_SINGLETON_TYPE TRUE
 )
 
 # We will also use a singleton to store the colors for our default color
 # scheme.
 set_source_files_properties(src/QML/ColorScheme.qml
-	PROPERTIES QT_QML_SINGLETON_TYPE TRUE
+  PROPERTIES QT_QML_SINGLETON_TYPE TRUE
 )
 
 # Declare a QML (Qt) module
 qt_add_qml_module(mina
-	URI mina_module
-	QML_FILES
-		src/QML/Main.qml
-		src/QML/AboutButton.qml
-		src/QML/AboutMenu.qml
-		src/QML/AppearanceMenu.qml
-		src/QML/BrowseButton.qml
-		src/QML/BrowsePage.qml
-		src/QML/ConstSingleton.qml
-		src/QML/ColorScheme.qml
-		src/QML/Cogwheel.qml
-		src/QML/DropdownMenu.qml
-		src/QML/DropdownButtonColumn.qml
-		src/QML/HelpMenu.qml
-		src/QML/HelpButton.qml
-		src/QML/HomeButton.qml
-		src/QML/HomePage.qml
-		src/QML/ManualButton.qml
-		src/QML/ManualPage.qml
-		src/QML/StockList.qml
-	RESOURCES
-		src/QML/images/manual.png
-		src/QML/images/setting.png
-		src/QML/images/question.png
-		src/QML/images/info.png
-		src/QML/images/home.png
-	SOURCES
-		include/VersionNumberInfo.hpp
-		src/CPP/VersionNumberInfo.cpp
+  URI mina_module
+  QML_FILES
+    src/QML/Main.qml
+    src/QML/AboutButton.qml
+    src/QML/AboutMenu.qml
+    src/QML/AppearanceMenu.qml
+    src/QML/BrowseButton.qml
+    src/QML/BrowsePage.qml
+    src/QML/ConstSingleton.qml
+    src/QML/ColorScheme.qml
+    src/QML/Globe.qml
+    src/QML/DropdownMenu.qml
+    src/QML/DropdownButtonColumn.qml
+    src/QML/HelpMenu.qml
+    src/QML/HelpButton.qml
+    src/QML/HomeButton.qml
+    src/QML/HomePage.qml
+    src/QML/ManualButton.qml
+    src/QML/ManualPage.qml
+    src/QML/StockList.qml
+  RESOURCES
+    src/QML/images/manual.png
+    src/QML/images/globe.png
+    src/QML/images/question.png
+    src/QML/images/info.png
+    src/QML/images/home.png
+  SOURCES
+    include/VersionNumberInfo.hpp
+    src/CPP/VersionNumberInfo.cpp
 )
 
 
 target_link_libraries(mina
-	PRIVATE
-		action
-		calc
-		Qt6::Quick
-		Qt6::Widgets
-		Qt6::Core
-		Qt6::Gui
-		Qt6::Qml
-		CURL::libcurl
+  PRIVATE
+    action
+    calc
+    Qt6::Quick
+    Qt6::Widgets
+    Qt6::Core
+    Qt6::Gui
+    Qt6::Qml
+    CURL::libcurl
 )
 
 
 # Below allows us to automate versioning via number of git commits
 find_package(Git REQUIRED)
 execute_process(
-	COMMAND ${GIT_EXECUTABLE} rev-list --count main
-	RESULT_VARIABLE result
-	OUTPUT_VARIABLE num_commits
-	ERROR_VARIABLE num_commits
+  COMMAND ${GIT_EXECUTABLE} rev-list --count main
+  RESULT_VARIABLE result
+  OUTPUT_VARIABLE num_commits
+  ERROR_VARIABLE num_commits
 )
 if (result)
-	message(FATAL_ERROR "Failed to get number of commits")
+  message(FATAL_ERROR "Failed to get number of commits")
 endif()
 set(kcbfin_NUM_COMMITS ${num_commits})
 configure_file(src/CPP/GetVersionNum.cpp.in
-	${CMAKE_CURRENT_SOURCE_DIR}/src/CPP/GetVersionNum.cpp @ONLY
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/CPP/GetVersionNum.cpp @ONLY
 )

@@ -1,5 +1,5 @@
 // AboutButton.qml represents the U.I. button with the info icon that appears
-// when the cogwheel in the top right of the screen is clicked.
+// when the globe in the top right of the screen is clicked.
 
 // Copyright (C) 2026  Keith C Brett (KeithCBrett@gmail.com)
 
