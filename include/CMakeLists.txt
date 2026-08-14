@@ -15,24 +15,16 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-# Below we create a list of all include files that are apart of the action
-# library
-set(mina_action_INC
-	GetVersionNum.hpp
-	CurlInit.hpp
-	CurlWriter.hpp
+# Below we create a list of all include files that are apart of the
+# mina_lib library.
+set(mina_lib_INC
+  GetVersionNum.hpp
+  CurlInit.hpp
+  CurlWriter.hpp
+  Ebita.hpp
 )
 
-# Do the same for library calc
-set(mina_calc_INC
-	Ebita.hpp
-)
-
-# Use helper function to get full path string to include files
-PREPEND(mina_action_INC)
-# Pass result to parent scope
-set(mina_action_INC ${mina_action_INC} PARENT_SCOPE)
-
-# Do the same for calc
-PREPEND(mina_calc_INC)
-set(mina_calc_INC ${mina_calc_INC} PARENT_SCOPE)
+# Use helper function to get full path string to include files.
+PREPEND(mina_lib_INC)
+# Pass result to parent scope.
+set(mina_lib_INC ${mina_lib_INC} PARENT_SCOPE)

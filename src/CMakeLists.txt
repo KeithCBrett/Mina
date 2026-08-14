@@ -16,24 +16,16 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-# Below we create a list of all source files that are apart of the action
-# library
-set(mina_action_SRC
-	CPP/GetVersionNum.cpp
-	CPP/CurlInit.cpp
-	CPP/CurlWriter.cpp
+# Below we create a list of all source files that are apart of the
+# mina_lib library.
+set(mina_lib_SRC
+  CPP/GetVersionNum.cpp
+  CPP/CurlInit.cpp
+  CPP/CurlWriter.cpp
+  CPP/Ebita.cpp
 )
 
-# We also create a list for our calc library
-set(mina_calc_SRC
-	CPP/Ebita.cpp
-)
-
-# Use helper function to get full path string to source files
-PREPEND(mina_action_SRC)
-# Pass result to parent scope
-set(mina_action_SRC ${mina_action_SRC} PARENT_SCOPE)
-
-# Do the same for library calc
-PREPEND(mina_calc_SRC)
-set(mina_calc_SRC ${mina_calc_SRC} PARENT_SCOPE)
+# Use helper function to get full path string to source files.
+PREPEND(mina_lib_SRC)
+# Pass result to parent scope.
+set(mina_lib_SRC ${mina_lib_SRC} PARENT_SCOPE)

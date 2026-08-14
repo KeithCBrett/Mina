@@ -61,13 +61,11 @@ add_subdirectory(test)
 
 
 # Here we declare our libraries and their source files
-add_library(action STATIC ${mina_action_SRC} ${mina_action_INC})
-add_library(calc STATIC ${mina_calc_SRC} ${mina_calc_INC})
+add_library(mina_lib STATIC ${mina_lib_SRC} ${mina_lib_INC})
 
 
-# Tells CMake that action and calc need files located in include/
-target_include_directories(action PUBLIC include/)
-target_include_directories(calc PUBLIC include/)
+# Tells CMake that mina_lib needs files located in include/
+target_include_directories(mina_lib PUBLIC include/)
 
 
 # Name of executable generated
@@ -135,8 +133,7 @@ qt_add_qml_module(mina
 
 target_link_libraries(mina
   PRIVATE
-    action
-    calc
+    mina_lib
     Qt6::Quick
     Qt6::Widgets
     Qt6::Core
