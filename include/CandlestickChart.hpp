@@ -64,8 +64,6 @@ public:
     QString ticker() const;
     void setTicker(const QString &ticker);
 
-    QString stepSize(double inp_first_axis_number);
-
     qint64 dateOffset() const;
     void setDateOffset(const qint64 &dateOffset);
 

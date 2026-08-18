@@ -24,6 +24,10 @@
 namespace ChartLib {
     // Function for computing the bottom most YAxis number.
     QString firstYAxisNumber(double min);
+
+    // This function computes the distance between Y-axis markings (in dollars,
+    // according to chart min and max)
+    QString stepSize(double inp_first_axis_number);
 }
 
 

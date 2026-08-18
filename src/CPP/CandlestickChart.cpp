@@ -221,109 +221,12 @@ void CandlestickChart::drawTicker(QPainter *painter, QString ticker)
 }
 
 
-// Function for computing the bottom most YAxis number.
-/*
-QString CandlestickChart::firstYAxisNumber(min)
-{
-    double temp = min;
-    double integral = 0.05;
-
-    // We only want to return a double for small numbers. Otherwise we would
-    // rather work with integers.
-    int trunc_temp = 0;
-
-    QString out_string;
-
-    if (temp < 1.0)
-    {
-        // Here we coerce the output to end in 0 or 5.
-        while (((std::modf(temp, &integral)) != 0)
-            || ((std::modf(temp, &integral)) != 0.05))
-        {
-            temp = temp - 0.01;
-        }
-
-        out_string = QString::number(temp);
-        return out_string;
-    }
-    else if ((temp >= 1.0) && (temp < 5.0))
-    {
-        trunc_temp = std::trunc(temp);
-
-        out_string = QString::number(trunc_temp);
-
-        return out_string;
-    }
-    else
-    {
-        trunc_temp = std::trunc(temp);
-
-        // Here we coerce the output to be divisible by 5 for aethetic reasons.
-        while ((trunc_temp % 5) != 0)
-        {
-            trunc_temp--;
-        }
-
-        out_string = QString::number(trunc_temp);
-
-        return out_string;
-    }
-}
-*/
-
-
-// Function for computing the step size used for computing most of the YAxis
-// numbers.
-QString CandlestickChart::stepSize(double inp_first_axis_number)
-{
-    double step_size = m_max - m_min;
-    step_size = step_size / NUM_Y_AXIS_ELEMENTS;
-
-    // We try to round to a whole number whenever we can.
-    int round_step_size = 0;
-
-    std::string temp_string;
-
-    if (step_size < 0.1)
-    {
-        // In case of irrational numbers. Truncates 0.0XXXX... to 0.0X.
-        temp_string = std::to_string(step_size).substr(0, 4);
-        step_size = std::stod(temp_string);
-
-        // Check if axis fits data.
-        while (m_max >= (step_size * (NUM_Y_AXIS_ELEMENTS - 1)
-                        + inp_first_axis_number))
-        {
-            // If not, generate axis of wider range.
-            step_size = step_size + 0.01;
-        }
-        return QString::number(step_size);
-    }
-    else
-    {
-        round_step_size = std::round(step_size);
-
-        while (m_max
-           >= (round_step_size * (NUM_Y_AXIS_ELEMENTS - 1)
-               + inp_first_axis_number))
-        {
-            round_step_size++;
-        }
-        return QString::number(round_step_size);
-    }
-}
-
-
-
-
-
-
 // Converts a dollar amount into a Y-point on our candlestick chart according
 // to our axis.
 double CandlestickChart::candleYPoint(double inp_num)
 {
     double first_y_number = ChartLib::firstYAxisNumber(min()).toDouble();
-    double step = stepSize(first_y_number).toDouble();
+    double step = ChartLib::stepSize(first_y_number, min(), max()).toDouble();
 
     // double chart_min = m_min - step;
     double chart_min = first_y_number - step;

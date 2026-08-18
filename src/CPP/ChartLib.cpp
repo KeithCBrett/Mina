@@ -22,7 +22,7 @@
 
 namespace ChartLib {
     // Function for computing the bottom most YAxis number.
-    QString firstYAxisNumber (double min)
+    QString firstYAxisNumber(double min)
     {
         double temp = min;
         double integral = 0.05;
@@ -66,6 +66,48 @@ namespace ChartLib {
             out_string = QString::number(trunc_temp);
 
             return out_string;
+        }
+    }
+
+
+    // Function for computing the step size used for computing most of the YAxis
+    // numbers.
+    QString stepSize(double inp_first_axis_number, double min, double max)
+    {
+        double step_size = max - min;
+        step_size = step_size / NUM_Y_AXIS_ELEMENTS;
+
+        // We try to round to a whole number whenever we can.
+        int round_step_size = 0;
+
+        std::string temp_string;
+
+        if (step_size < 0.1)
+        {
+            // In case of irrational numbers. Truncates 0.0XXXX... to 0.0X.
+            temp_string = std::to_string(step_size).substr(0, 4);
+            step_size = std::stod(temp_string);
+
+            // Check if axis fits data.
+            while (max >= (step_size * (NUM_Y_AXIS_ELEMENTS - 1)
+                            + inp_first_axis_number))
+            {
+                // If not, generate axis of wider range.
+                step_size = step_size + 0.01;
+            }
+            return QString::number(step_size);
+        }
+        else
+        {
+            round_step_size = std::round(step_size);
+
+            while (max
+            >= (round_step_size * (NUM_Y_AXIS_ELEMENTS - 1)
+                + inp_first_axis_number))
+            {
+                round_step_size++;
+            }
+            return QString::number(round_step_size);
         }
     }
 }
