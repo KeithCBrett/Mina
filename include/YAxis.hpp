@@ -45,8 +45,6 @@ public:
   double max() const;
   void setMax(const double &max);
 
-  QString stepSize(double inp_first_axis_number);
-
   void paint(QPainter *inp_painter) override;
 
 private:
