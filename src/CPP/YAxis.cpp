@@ -22,6 +22,9 @@
 #include <cmath>
 
 
+#include "../../include/ChartLib.hpp"
+
+
 #define NUM_ELEMENTS 10
 
 
@@ -88,55 +91,6 @@ void YAxis::drawYAxisNumber
 }
 
 
-// Function for computing the bottom most YAxis number.
-QString YAxis::firstYAxisNumber()
-{
-  double temp = m_min;
-  double integral = 0.05;
-
-  // We only want to return a double for small numbers. Otherwise we would
-  // rather work with integers.
-  int trunc_temp = 0;
-
-  QString out_string;
-
-  if (temp < 1.0)
-  {
-    // Here we coerce the output to end in 0 or 5.
-    while (((std::modf(temp, &integral)) != 0)
-           || ((std::modf(temp, &integral)) != 0.05))
-    {
-      temp = temp - 0.01;
-    }
-
-    out_string = QString::number(temp);
-    return out_string;
-  }
-  else if ((temp >= 1.0) && (temp < 5.0))
-  {
-    trunc_temp = std::trunc(temp);
-
-    out_string = QString::number(trunc_temp);
-
-    return out_string;
-  }
-  else
-  {
-    trunc_temp = std::trunc(temp);
-
-    // Here we coerce the output to be divisible by 5 for aethetic reasons.
-    while ((trunc_temp % 5) != 0)
-    {
-      trunc_temp--;
-    }
-
-    out_string = QString::number(trunc_temp);
-
-    return out_string;
-  }
-}
-
-
 // Function for computing the step size used for computing most of the YAxis
 // numbers.
 QString YAxis::stepSize(double inp_first_axis_number)
@@ -194,7 +148,7 @@ void YAxis::paint(QPainter *painter)
 
   // We compute the first number, then subsequently use that number to compute
   // all the other axis numbers.
-  QString first_num = firstYAxisNumber();
+  QString first_num = ChartLib::firstYAxisNumber(min());
   QString other_num;
 
   painter->setPen(pen);

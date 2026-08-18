@@ -23,6 +23,10 @@
 #include <QPainter>
 
 
+#include "../../include/ChartLib.hpp"
+//#include "../CPP/ChartLib.cpp"
+
+
 // Useful constants for drawing lines of known length.
 #define SMALL_LINE (width() / 100)
 #define MEDIUM_LINE (width() / 50)
@@ -725,54 +729,6 @@ QString Crosshair::stepSize(double inp_first_axis_number)
 }
 
 
-QString Crosshair::firstYAxisNumber()
-{
-  double temp = m_min;
-  double integral = 0.05;
-
-  // We only want to return a double for small numbers. Otherwise we would
-  // rather work with integers.
-  int trunc_temp = 0;
-
-  QString out_string;
-
-  if (temp < 1.0)
-  {
-    // Here we coerce the output to end in 0 or 5.
-    while (((std::modf(temp, &integral)) != 0)
-           || ((std::modf(temp, &integral)) != 0.05))
-    {
-      temp = temp - 0.01;
-    }
-
-    out_string = QString::number(temp);
-    return out_string;
-  }
-  else if ((temp >= 1.0) && (temp < 5.0))
-  {
-    trunc_temp = std::trunc(temp);
-
-    out_string = QString::number(trunc_temp);
-
-    return out_string;
-  }
-  else
-  {
-    trunc_temp = std::trunc(temp);
-
-    // Here we coerce the output to be divisible by 5 for aethetic reasons.
-    while ((trunc_temp % 5) != 0)
-    {
-      trunc_temp--;
-    }
-
-    out_string = QString::number(trunc_temp);
-
-    return out_string;
-  }
-}
-
-
 bool Crosshair::weekend(QDate inp_date)
 {
   if ((inp_date.dayOfWeek() == 6) || (inp_date.dayOfWeek() == 7))
@@ -850,7 +806,7 @@ size_t Crosshair::offsetStep(size_t inp_step)
 // of the cursor. This is done via the mouse cursor's Y position.
 QString Crosshair::getPrice()
 {
-  double first_axis_number = firstYAxisNumber().toDouble();
+  double first_axis_number = ChartLib::firstYAxisNumber(min()).toDouble();
   double step_count = stepSize(first_axis_number).toDouble();
 
   double bottom_chart_num = first_axis_number - step_count;

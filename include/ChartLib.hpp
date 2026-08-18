@@ -1,4 +1,5 @@
-// GetVersionNum is used to get the version number via number of git commits
+// ChartLib.hpp represents the definitions for ChartLib. ChartLib is a
+// general library that provides utilities useful for drawing charts.
 
 // Copyright (C) 2026  Keith C Brett (KeithCBrett@gmail.com)
 
@@ -14,33 +15,16 @@
 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#include "../include/GetVersionNum.hpp"
 
 
-unsigned
-GetVersionMajor ()
-{
-	return  +0;
+#ifndef CHARTLIB_H
+#define CHARTLIB_H
+
+
+namespace ChartLib {
+    // Function for computing the bottom most YAxis number.
+    QString firstYAxisNumber(double min);
 }
 
 
-unsigned
-GetVersionMinor ()
-{
-	return  +0;
-}
-
-
-unsigned
-GetVersionPatch ()
-{
-	return  +0;
-}
-
-
-unsigned
-GetNumCommits ()
-{
-	return 89
- +0;
-}
+#endif // CHARTLIB_H

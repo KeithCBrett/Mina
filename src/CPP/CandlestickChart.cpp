@@ -19,6 +19,8 @@
 
 #include "../../include/CandlestickChart.hpp"
 
+#include "../CPP/ChartLib.cpp"
+
 // We need curl to get stock data from our API
 #include "../include/CurlInit.hpp"
 #include <curl/curl.h>
@@ -220,9 +222,10 @@ void CandlestickChart::drawTicker(QPainter *painter, QString ticker)
 
 
 // Function for computing the bottom most YAxis number.
-QString CandlestickChart::firstYAxisNumber()
+/*
+QString CandlestickChart::firstYAxisNumber(min)
 {
-    double temp = m_min;
+    double temp = min;
     double integral = 0.05;
 
     // We only want to return a double for small numbers. Otherwise we would
@@ -266,6 +269,7 @@ QString CandlestickChart::firstYAxisNumber()
         return out_string;
     }
 }
+*/
 
 
 // Function for computing the step size used for computing most of the YAxis
@@ -318,7 +322,7 @@ QString CandlestickChart::stepSize(double inp_first_axis_number)
 // to our axis.
 double CandlestickChart::candleYPoint(double inp_num)
 {
-    double first_y_number = firstYAxisNumber().toDouble();
+    double first_y_number = ChartLib::firstYAxisNumber(min()).toDouble();
     double step = stepSize(first_y_number).toDouble();
 
     // double chart_min = m_min - step;

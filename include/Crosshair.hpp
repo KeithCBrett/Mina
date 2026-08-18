@@ -77,7 +77,6 @@ public:
   QString date() const;
   void setDate(const QString &date);
 
-
   // How far back in the past to render candles for.
   qint64 dateOffset() const;
   void setDateOffset(const qint64 &dateOffset);
@@ -148,7 +147,7 @@ private:
   void drawDefaultDateBox(QPainter *painter);
 
   QString stepSize(double inp_first_axis_number);
-  QString firstYAxisNumber();
+  //QString firstYAxisNumber();
 
   // Returns how many days back we need to go to fill the chart. This number
   // should be higher than 100 since we have to skip weekends.
