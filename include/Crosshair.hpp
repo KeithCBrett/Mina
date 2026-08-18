@@ -146,9 +146,6 @@ private:
   void drawDefaultPriceBox(QPainter *painter);
   void drawDefaultDateBox(QPainter *painter);
 
-  QString stepSize(double inp_first_axis_number);
-  //QString firstYAxisNumber();
-
   // Returns how many days back we need to go to fill the chart. This number
   // should be higher than 100 since we have to skip weekends.
   size_t offsetStep(size_t inp_step);

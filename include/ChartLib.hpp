@@ -27,7 +27,7 @@ namespace ChartLib {
 
     // This function computes the distance between Y-axis markings (in dollars,
     // according to chart min and max)
-    QString stepSize(double inp_first_axis_number);
+    QString stepSize(double inp_first_axis_number, double min, double max);
 }
 
 

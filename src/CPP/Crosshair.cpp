@@ -691,44 +691,6 @@ void Crosshair::drawDefaultDateBox(QPainter *painter)
 }
 
 
-QString Crosshair::stepSize(double inp_first_axis_number)
-{
-  double step_size = m_max - m_min;
-  step_size = step_size / NUM_Y_ELEMENTS;
-
-  // We try to round to a whole number whenever we can.
-  int round_step_size = 0;
-
-  std::string temp_string;
-
-  if (step_size < 0.1)
-  {
-    // In case of irrational numbers. Truncates 0.0XXXX... to 0.0X.
-    temp_string = std::to_string(step_size).substr(0, 4);
-    step_size = std::stod(temp_string);
-
-    // Check if axis fits data.
-    while (m_max >= (step_size * (NUM_Y_ELEMENTS - 1) + inp_first_axis_number))
-    {
-      // If not, generate axis of wider range.
-      step_size = step_size + 0.01;
-    }
-    return QString::number(step_size);
-  }
-  else
-  {
-    round_step_size = std::round(step_size);
-
-    while (m_max
-           >= (round_step_size * (NUM_Y_ELEMENTS - 1) + inp_first_axis_number))
-    {
-      round_step_size++;
-    }
-    return QString::number(round_step_size);
-  }
-}
-
-
 bool Crosshair::weekend(QDate inp_date)
 {
   if ((inp_date.dayOfWeek() == 6) || (inp_date.dayOfWeek() == 7))
@@ -807,7 +769,7 @@ size_t Crosshair::offsetStep(size_t inp_step)
 QString Crosshair::getPrice()
 {
   double first_axis_number = ChartLib::firstYAxisNumber(min()).toDouble();
-  double step_count = stepSize(first_axis_number).toDouble();
+  double step_count = ChartLib::stepSize(first_axis_number, min(), max()).toDouble();
 
   double bottom_chart_num = first_axis_number - step_count;
   double top_chart_num = first_axis_number + step_count * 10;
