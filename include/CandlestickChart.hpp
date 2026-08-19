@@ -95,9 +95,6 @@ private:
     void drawCandle(double high, double low, double open, double close,
                     int index, QPainter *painter);
 
-    // This function calculates the length of our candlestick body.
-    double candleLength(double open, double close);
-
     // This function fills our candle array with real stock data.
     CandleData candleData();
 

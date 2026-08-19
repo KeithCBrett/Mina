@@ -221,28 +221,6 @@ void CandlestickChart::drawTicker(QPainter *painter, QString ticker)
 }
 
 
-// Calculates the length of our candle according to the axis. We will need this
-// when we try to draw a candle with drawRect.
-double CandlestickChart::candleLength(double open, double close)
-{
-    double big;
-    double small;
-
-    if (open > close)
-    {
-        big = open;
-        small = close;
-        return (big - small);
-    }
-    else
-    {
-        big = close;
-        small = open;
-        return (big - small);
-    }
-}
-
-
 // If we were to try to get data for say 100 days from the past, we would be
 // off by a significant amount (because QDate counts weekends but our candle
 // data has no such weekends). This algorithm would return 100 + however many
@@ -756,15 +734,12 @@ void CandlestickChart::drawCandle(double high, double low, double open,
         painter->drawRect(candle_x - candle_width / 2,
                           ChartLib::candleYPoint
                           (close, min(), max(), height(), NUM_Y_AXIS_ELEMENTS),
-                          candle_width, candleLength (ChartLib::candleYPoint
-                                                      (open, min(), max(),
-                                                       height(),
-                                                       NUM_Y_AXIS_ELEMENTS),
-                                                      ChartLib::candleYPoint
-                                                      (close, min(), max(),
-                                                       height(),
-                                                       NUM_Y_AXIS_ELEMENTS)));
-
+                          candle_width, ChartLib::candleLength
+                          (ChartLib::candleYPoint
+                           (open, min(), max(), height(), NUM_Y_AXIS_ELEMENTS),
+                           ChartLib::candleYPoint
+                           (close, min(), max(), height(),
+                            NUM_Y_AXIS_ELEMENTS)));
 
         // Draw bottom wick.
         painter->drawLine(candle_x, ChartLib::candleYPoint
@@ -786,14 +761,11 @@ void CandlestickChart::drawCandle(double high, double low, double open,
 
         painter->fillRect(candle_x - candle_width / 2, ChartLib::candleYPoint
                           (open, min(), max(), height(), NUM_Y_AXIS_ELEMENTS),
-                          candle_width, candleLength(ChartLib::candleYPoint
-                                                     (open, min(), max(),
-                                                      height(),
-                                                      NUM_Y_AXIS_ELEMENTS),
-                                                     ChartLib::candleYPoint
-                                                     (close, min(), max(),
-                                                      height(),
-                                                      NUM_Y_AXIS_ELEMENTS)),
+                          candle_width, ChartLib::candleLength
+                          (ChartLib::candleYPoint
+                           (open, min(), max(), height(), NUM_Y_AXIS_ELEMENTS),
+                           ChartLib::candleYPoint
+                           (close, min(), max(), height(), NUM_Y_AXIS_ELEMENTS)),
                           down_color);
 
         painter->drawLine(candle_x, ChartLib::candleYPoint

@@ -33,6 +33,9 @@ namespace ChartLib {
     // axis.
     double candleYPoint(double inp_num, double min, double max, double height,
                         size_t num_axis_elements);
+
+    // This function calculates the length of our candlestick body.
+    double candleLength(double open, double close);
 }
 
 

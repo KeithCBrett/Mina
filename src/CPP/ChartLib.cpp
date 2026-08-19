@@ -131,4 +131,26 @@ namespace ChartLib {
 
         return (out_y * height);
     }
+
+
+    // Calculates the length of our candle according to the axis. We will need this
+    // when we try to draw a candle with drawRect.
+    double candleLength(double open, double close)
+    {
+        double big;
+        double small;
+
+        if (open > close)
+        {
+            big = open;
+            small = close;
+            return (big - small);
+        }
+        else
+        {
+            big = close;
+            small = open;
+            return (big - small);
+        }
+    }
 }
