@@ -20,6 +20,11 @@
 #include "../../include/ChartLib.hpp"
 
 
+// We need curl to get stock data from our API
+#include "../include/CurlInit.hpp"
+#include <curl/curl.h>
+
+
 namespace ChartLib {
     // Function for computing the bottom most YAxis number.
     QString firstYAxisNumber(double min)
@@ -261,11 +266,90 @@ namespace ChartLib {
         QDate end_date = QDate::currentDate();
         end_date = end_date.addDays(-date_offset);
 
-        while (ChartLib::weekend(end_date))
+        while (weekend(end_date))
         {
             end_date = end_date.addDays(-1);
         }
 
         return end_date;
+    }
+
+
+    // Returns a chunk of stock data to parse.
+    std::string candleChunk(std::string ticker, qint64 date_offset)
+    {
+        QDate end_date = endDate(date_offset);
+        QDate start_date = startDate(end_date, date_offset);
+        const char *printstr = qPrintable(end_date.toString());
+
+        std::string my_key = "APCA-API-KEY-ID: PKVOZ3RYLJ3RUPWOAIQKFEMG4F";
+        std::string my_secret = "APCA-API-SECRET-KEY: 8vHFEREYTc2C11SAWTPds7zs"
+            "ojwbHmJgruv7DtYxPiHW";
+
+        std::string url = callString(start_date, end_date, ticker, date_offset);
+
+        std::string *curl_output_buffer;
+        CURL *hnd = NULL;
+        struct curl_slist *headers = NULL;
+
+        headers = curl_slist_append(headers, "accept: application/json");
+        headers = curl_slist_append(headers, my_key.c_str());
+        headers = curl_slist_append(headers, my_secret.c_str());
+
+        curl_output_buffer = action::CurlInit(hnd, url, headers);
+        CURLcode ret = curl_easy_perform(hnd);
+        if (curl_output_buffer->empty() == true)
+        {
+            fprintf(stderr, "Error initializing curl.\n");
+        }
+
+        // fprintf(stderr, "%s\n", (*curl_output_buffer).c_str());
+        return *curl_output_buffer;
+    }
+
+
+    // Creates a string to send to the Alpaca server so that we may obtain financial
+    // data. Argument ticker decides for which stock we are getting data for.
+    // Arguments start_date and end_date are used to set the timeframe of data we
+    // want.
+    std::string callString(QDate start_date, QDate end_date, std::string ticker,
+                           qint64 date_offset)
+    {
+        std::string out_string;
+
+        // Needed for all URLS.
+        std::string s1 = "https://data.alpaca.markets/v2/stocks/bars?symbols=";
+
+        // Set timeframe for each bar.
+        std::string s3 = "&timeframe=1D&start=";
+
+        std::string startPoint = qDateToAPIDate(start_date);
+
+        std::string s4 = "&end=";
+
+        // End point to get data for.
+        std::string endPoint = qDateToAPIDate(end_date);
+
+        std::string s6 = "&limit=1000&adjustment=raw&feed=sip&sort=asc";
+
+        if (date_offset == 0)
+        {
+            out_string = s1 + ticker + s3 + startPoint + s6;
+        }
+        else
+        {
+            out_string = s1 + ticker + s3 + startPoint + s4 + endPoint + s6;
+        }
+
+        return out_string;
+    }
+
+
+    // Converts QDate so that we can use it to make request to Alpaca server for
+    // financial data.
+    std::string qDateToAPIDate(QDate inp_date)
+    {
+        QString out_string = inp_date.toString("yyyy-MM-dd");
+        return out_string.toStdString();
     }
 }

@@ -21,10 +21,6 @@
 
 #include "../CPP/ChartLib.cpp"
 
-// We need curl to get stock data from our API
-#include "../include/CurlInit.hpp"
-#include <curl/curl.h>
-
 #include <QPainter>
 #include <iostream>
 
@@ -35,8 +31,24 @@ CandlestickChart::CandlestickChart(QQuickItem *parent)
 }
 
 
-CandlestickChart chart;
-std::string global_string = chart.candleChunk("AAPL");
+qint64 CandlestickChart::dateOffset() const
+{
+    return m_dateOffset;
+}
+
+
+void CandlestickChart::setDateOffset(const qint64 &dateOffset)
+{
+    if (dateOffset != m_dateOffset)
+    {
+        m_dateOffset = dateOffset;
+        update();
+        emit dateOffsetChanged();
+    }
+}
+
+
+std::string global_string = ChartLib::candleChunk("AAPL", 0);
 
 
 QColor CandlestickChart::borderColor() const
@@ -95,27 +107,10 @@ void CandlestickChart::setTicker(const QString &ticker)
 {
     if (m_ticker != ticker)
     {
-        global_string = candleChunk(ticker.toStdString());
+        global_string = ChartLib::candleChunk(ticker.toStdString(), dateOffset());
         m_ticker = ticker;
         update();
         emit tickerChanged();
-    }
-}
-
-
-qint64 CandlestickChart::dateOffset() const
-{
-    return m_dateOffset;
-}
-
-
-void CandlestickChart::setDateOffset(const qint64 &dateOffset)
-{
-    if (dateOffset != m_dateOffset)
-    {
-        m_dateOffset = dateOffset;
-        update();
-        emit dateOffsetChanged();
     }
 }
 
@@ -197,39 +192,6 @@ void CandlestickChart::drawTicker(QPainter *painter, QString ticker)
     painter->drawText(25, 50, ticker);
 
     painter = restore_painter;
-}
-
-
-// Returns a chunk of stock data to parse.
-std::string CandlestickChart::candleChunk(std::string ticker)
-{
-    QDate end_date = ChartLib::endDate(dateOffset());
-    QDate start_date = ChartLib::startDate(end_date, dateOffset());
-    const char *printstr = qPrintable(end_date.toString());
-
-    std::string my_key = "APCA-API-KEY-ID: PKVOZ3RYLJ3RUPWOAIQKFEMG4F";
-    std::string my_secret = "APCA-API-SECRET-KEY: 8vHFEREYTc2C11SAWTPds7zs"
-        "ojwbHmJgruv7DtYxPiHW";
-
-    std::string url = callString(start_date, end_date, ticker);
-
-    std::string *curl_output_buffer;
-    CURL *hnd = NULL;
-    struct curl_slist *headers = NULL;
-
-    headers = curl_slist_append(headers, "accept: application/json");
-    headers = curl_slist_append(headers, my_key.c_str());
-    headers = curl_slist_append(headers, my_secret.c_str());
-
-    curl_output_buffer = action::CurlInit(hnd, url, headers);
-    CURLcode ret = curl_easy_perform(hnd);
-    if (curl_output_buffer->empty() == true)
-    {
-        fprintf(stderr, "Error initializing curl.\n");
-    }
-
-    // fprintf(stderr, "%s\n", (*curl_output_buffer).c_str());
-    return *curl_output_buffer;
 }
 
 
@@ -410,52 +372,6 @@ double CandlestickChart::getMax()
     }
 
     return maximum;
-}
-
-
-// Converts QDate so that we can use it to make request to Alpaca server for
-// financial data.
-std::string CandlestickChart::qDateToAPIDate(QDate inp_date)
-{
-    QString out_string = inp_date.toString("yyyy-MM-dd");
-    return out_string.toStdString();
-}
-
-
-// Creates a string to send to the Alpaca server so that we may obtain financial
-// data. Argument ticker decides for which stock we are getting data for.
-// Arguments start_date and end_date are used to set the timeframe of data we
-// want.
-std::string CandlestickChart::callString(QDate start_date, QDate end_date,
-                                         std::string ticker)
-{
-    std::string out_string;
-
-    // Needed for all URLS.
-    std::string s1 = "https://data.alpaca.markets/v2/stocks/bars?symbols=";
-
-    // Set timeframe for each bar.
-    std::string s3 = "&timeframe=1D&start=";
-
-    std::string startPoint = qDateToAPIDate(start_date);
-
-    std::string s4 = "&end=";
-
-    // End point to get data for.
-    std::string endPoint = qDateToAPIDate(end_date);
-
-    std::string s6 = "&limit=1000&adjustment=raw&feed=sip&sort=asc";
-
-    if (dateOffset() == 0)
-    {
-        out_string = s1 + ticker + s3 + startPoint + s6;
-    }
-    else
-    {
-        out_string = s1 + ticker + s3 + startPoint + s4 + endPoint + s6;
-    }
-
-    return out_string;
 }
 
 

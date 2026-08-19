@@ -51,6 +51,18 @@ namespace ChartLib {
     // Helper function for candleChunk that calculates the end date based off of
     // offset and whether or not we end in a weekend.
     QDate endDate(qint64 date_offset);
+
+    // Returns a chunk of stock data we can parse. Offset of zero returns candle
+    // for today - 100 days ago.
+    std::string candleChunk(std::string ticker, qint64 date_offset);
+
+    // Helper function for candleChunk that generates the string we use to make
+    // our Alpaca API call (so we can get stock data).
+    std::string callString(QDate start_date, QDate end_date, std::string ticker,
+                           qint64 date_offset);
+
+    // Converts QDates into Alpaca API dates.
+    std::string qDateToAPIDate(QDate inp_date);
 }
 
 
