@@ -1,4 +1,4 @@
-// Valid input unit test for function Ebita () of module calc
+// Valid input unit test for function ebita of module FunAnalysisLib
 
 // Copyright (C) 2026  Keith C Brett (KeithCBrett@gmail.com)
 
@@ -14,12 +14,14 @@
 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+
 #include "unit_tests.hpp"
 
 
-TEST (EbitaValidInp, CalcTests)
+TEST (EbitaValidInp, FundementalAnalysisTests)
 {
-	EXPECT_EQ (9790, calc::Ebita (90837, 61054, 18348, 1645));
-	EXPECT_EQ (7251, calc::Ebita (77349, 51352, 17053, 1693));
-	EXPECT_EQ (4359, calc::Ebita (71288, 47298, 17846, 1785));
+    EXPECT_EQ(9790, FunAnalysisLib::ebita (90837, 61054, 18348, 1645));
+    EXPECT_EQ(7251, FunAnalysisLib::ebita (77349, 51352, 17053, 1693));
+    EXPECT_EQ(4359, FunAnalysisLib::ebita (71288, 47298, 17846, 1785));
 }

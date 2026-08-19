@@ -1,3 +1,23 @@
+# This CMakeLists.txt represents the CMake build directions for our unit testing
+# apparatus. It links in librarys that the unit tests needs, namely Qt and curl
+# which are required by some of the functions we test.
+
+# Copyright (C) 2026  Keith C Brett (KeithCBrett@gmail.com)
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+
 cmake_minimum_required(VERSION 4.1.2)
 
 
@@ -8,6 +28,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(kcbfin_TEST_SRC
   EbitaInvalidInp.cpp
   EbitaValidInp.cpp
+  test_firstYAxisNumber.cpp
 )
 
 set(kcbfin_TEST_INC
@@ -31,6 +52,8 @@ enable_testing()
 add_executable(unit_tests ${kcbfin_TEST_SRC} ${kcbfin_TEST_INC})
 target_link_libraries(unit_tests
   GTest::gtest_main
+  Qt6::Core
+  CURL::libcurl
   mina_lib
 )
 include(GoogleTest)

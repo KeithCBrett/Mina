@@ -17,10 +17,10 @@
 #include "unit_tests.hpp"
 
 
-TEST (EbitaInvalidInp, CalcTests)
+TEST (EbitaInvalidInp, FundementalAnalysisTests)
 {
-	EXPECT_EQ (-1, calc::Ebita(0, 61054, 18348, 1645));
-	EXPECT_EQ (-1, calc::Ebita(90837, 0, 18348, 1645));
-	EXPECT_EQ (-1, calc::Ebita(90837, 61054, 0, 1645));
-	EXPECT_EQ (-1, calc::Ebita(90837, 61054, 18348, 0));
+    EXPECT_EQ (-1, FunAnalysisLib::ebita(0, 61054, 18348, 1645));
+    EXPECT_EQ (-1, FunAnalysisLib::ebita(90837, 0, 18348, 1645));
+    EXPECT_EQ (-1, FunAnalysisLib::ebita(90837, 61054, 0, 1645));
+    EXPECT_EQ (-1, FunAnalysisLib::ebita(90837, 61054, 18348, 0));
 }

@@ -277,6 +277,7 @@ double CandlestickChart::getMin()
         }
     }
 
+    std::cout << "minimum: " << minimum << "\n";
     return minimum;
 }
 
@@ -372,8 +373,6 @@ double CandlestickChart::getMax()
 }
 
 
-
-
 // This function performs drawing operations to the screen. We call this
 // function in a loop to draw all of the candles that appear on our chart.
 void CandlestickChart::drawCandle(double high, double low, double open,
@@ -457,8 +456,6 @@ void CandlestickChart::drawCandle(double high, double low, double open,
         painter->setPen(input_pen);
     }
 }
-
-
 
 
 void CandlestickChart::paint(QPainter *painter)

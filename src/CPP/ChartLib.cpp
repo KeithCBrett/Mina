@@ -32,6 +32,12 @@ namespace ChartLib {
     // Function for computing the bottom most YAxis number.
     QString firstYAxisNumber(double min)
     {
+        if (min <= 0)
+        {
+            QString out("-1");
+            return out;
+        }
+
         double temp = min;
         double integral = 0.05;
 
