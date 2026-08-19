@@ -109,10 +109,6 @@ private:
     // offset and whether or not we end in a weekend.
     QDate endDate();
 
-    // This computes the left most date on our chart (earliest). It goes 100 days
-    // into the past, skipping weekends.
-    QDate startDate(QDate end_date);
-
     void drawTicker(QPainter *painter, QString ticker);
 
 signals:

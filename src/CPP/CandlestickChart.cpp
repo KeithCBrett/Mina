@@ -200,29 +200,6 @@ void CandlestickChart::drawTicker(QPainter *painter, QString ticker)
 }
 
 
-// Returns the oldest date we are currently rendering a candle for. We need this
-// for when we make a request for data from Alpaca server.
-QDate CandlestickChart::startDate(QDate end_date)
-{
-    size_t offset;
-
-    if (ChartLib::weekend(end_date))
-    {
-        offset = ChartLib::offsetStep(105, dateOffset());
-    }
-    else
-    {
-        offset = ChartLib::offsetStep(105 + 1, dateOffset());
-    }
-
-    QDate start_date = end_date;
-
-    start_date = start_date.addDays(-(offset - 1));
-
-    return start_date;
-}
-
-
 // This function will either return today or (if today is a weekend) today - 2.
 QDate CandlestickChart::endDate()
 {
@@ -242,7 +219,7 @@ QDate CandlestickChart::endDate()
 std::string CandlestickChart::candleChunk(std::string ticker)
 {
     QDate end_date = endDate();
-    QDate start_date = startDate(end_date);
+    QDate start_date = ChartLib::startDate(end_date, dateOffset());
     const char *printstr = qPrintable(end_date.toString());
 
     std::string my_key = "APCA-API-KEY-ID: PKVOZ3RYLJ3RUPWOAIQKFEMG4F";

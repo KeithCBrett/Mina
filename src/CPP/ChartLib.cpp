@@ -230,4 +230,27 @@ namespace ChartLib {
             return false;
         }
     }
+
+
+    // Returns the oldest date we are currently rendering a candle for. We need this
+    // for when we make a request for data from Alpaca server.
+    QDate startDate(QDate end_date, qint64 date_offset)
+    {
+        size_t offset;
+
+        if (weekend(end_date))
+        {
+            offset = offsetStep(105, date_offset);
+        }
+        else
+        {
+            offset = offsetStep(105 + 1, date_offset);
+        }
+
+        QDate start_date = end_date;
+
+        start_date = start_date.addDays(-(offset - 1));
+
+        return start_date;
+    }
 }

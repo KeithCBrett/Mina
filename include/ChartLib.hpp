@@ -43,6 +43,10 @@ namespace ChartLib {
 
     // Checks whether or not a given day is a weekend.
     bool weekend(QDate inp_date);
+
+    // This computes the left most date on our chart (earliest). It goes 100 days
+    // into the past, skipping weekends.
+    QDate startDate(QDate end_date, qint64 date_offset);
 }
 
 
