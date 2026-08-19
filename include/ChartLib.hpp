@@ -47,6 +47,10 @@ namespace ChartLib {
     // This computes the left most date on our chart (earliest). It goes 100 days
     // into the past, skipping weekends.
     QDate startDate(QDate end_date, qint64 date_offset);
+
+    // Helper function for candleChunk that calculates the end date based off of
+    // offset and whether or not we end in a weekend.
+    QDate endDate(qint64 date_offset);
 }
 
 

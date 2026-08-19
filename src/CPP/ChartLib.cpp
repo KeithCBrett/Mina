@@ -253,4 +253,19 @@ namespace ChartLib {
 
         return start_date;
     }
+
+
+    // This function will either return today or (if today is a weekend) today - 2.
+    QDate endDate(qint64 date_offset)
+    {
+        QDate end_date = QDate::currentDate();
+        end_date = end_date.addDays(-date_offset);
+
+        while (ChartLib::weekend(end_date))
+        {
+            end_date = end_date.addDays(-1);
+        }
+
+        return end_date;
+    }
 }

@@ -200,25 +200,10 @@ void CandlestickChart::drawTicker(QPainter *painter, QString ticker)
 }
 
 
-// This function will either return today or (if today is a weekend) today - 2.
-QDate CandlestickChart::endDate()
-{
-    QDate end_date = QDate::currentDate();
-    end_date = end_date.addDays(-m_dateOffset);
-
-    while (ChartLib::weekend(end_date))
-    {
-        end_date = end_date.addDays(-1);
-    }
-
-    return end_date;
-}
-
-
 // Returns a chunk of stock data to parse.
 std::string CandlestickChart::candleChunk(std::string ticker)
 {
-    QDate end_date = endDate();
+    QDate end_date = ChartLib::endDate(dateOffset());
     QDate start_date = ChartLib::startDate(end_date, dateOffset());
     const char *printstr = qPrintable(end_date.toString());
 

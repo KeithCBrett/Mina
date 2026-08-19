@@ -105,10 +105,6 @@ private:
     // Converts QDates into Alpaca API dates.
     std::string qDateToAPIDate(QDate inp_date);
 
-    // Helper function for candleChunk that calculates the end date based off of
-    // offset and whether or not we end in a weekend.
-    QDate endDate();
-
     void drawTicker(QPainter *painter, QString ticker);
 
 signals:
