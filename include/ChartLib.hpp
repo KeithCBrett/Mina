@@ -78,6 +78,11 @@ namespace ChartLib {
 
     // This function fills our candle array with real stock data.
     CandleData candleData();
+
+    // Computes Y axis number based off of bottom-most axis number and
+    // distance between axis numbers.
+    QString otherYAxisNumber(double inp_min, double inp_max,
+                             QString inp_first_axis_number, int inp_position);
 }
 
 

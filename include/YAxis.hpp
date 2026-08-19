@@ -56,8 +56,7 @@ private:
   // Below are helper functions for drawing numbers to our Y axis.
   void drawYAxisNumber(QPainter *inp_painter,
                        int inp_location, QString inp_number);
-  QString otherYAxisNumber(double inp_min, double inp_max,
-                           QString inp_first_axis_number, int inp_position);
+
 signals:
   void minChanged();
   void maxChanged();

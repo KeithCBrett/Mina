@@ -91,17 +91,6 @@ void YAxis::drawYAxisNumber
 }
 
 
-// Function for computing all the YAxis numbers (except the one computed
-// by firstYAxisNumber()).
-QString YAxis::otherYAxisNumber(double inp_min, double inp_max,
-                                QString inp_first_axis_number, int inp_position)
-{
-  double first_axis_number = inp_first_axis_number.toDouble();
-  double step_size = ChartLib::stepSize(first_axis_number, min(), max()).toDouble();
-  return QString::number(step_size * (inp_position - 1) + first_axis_number);
-}
-
-
 void YAxis::paint(QPainter *painter)
 {
   QPen pen(m_color, 2);
@@ -121,7 +110,7 @@ void YAxis::paint(QPainter *painter)
                       3, ((height() / (NUM_ELEMENTS + 1)) * i));
 
     // Draw axis number.
-    other_num = otherYAxisNumber(m_min, m_max, first_num, i);
+    other_num = ChartLib::otherYAxisNumber(m_min, m_max, first_num, i);
     drawYAxisNumber(painter, i, other_num);
   }
 }
