@@ -48,9 +48,6 @@ void CandlestickChart::setDateOffset(const qint64 &dateOffset)
 }
 
 
-std::string global_string = ChartLib::candleChunk("AAPL", 0);
-
-
 QColor CandlestickChart::borderColor() const
 {
     return m_borderColor;
@@ -133,7 +130,7 @@ void CandlestickChart::drawXAxis(QPainter *painter)
 
     // Get candle data from Alpaca so that we can draw our candles.
     CandleData candle_data;
-    candle_data = candleData();
+    candle_data = ChartLib::candleData();
 
     // For when its a weekend.
     int weekend_offset = 0;
@@ -375,102 +372,6 @@ double CandlestickChart::getMax()
 }
 
 
-// Parses raw data into a CandleData. CandleData is just a struct that holds
-// four arrays. It has an array for high, low, open, and close. With this in
-// mind, CandleData c.high[0] represents the high for the first bar of data.
-CandleData CandlestickChart::candleData()
-{
-    CandleData out_data;
-
-    // Current positions for our candle data arrays.
-    int high_pos = 0;
-    int low_pos = 0;
-    int open_pos = 0;
-    int close_pos = 0;
-
-    // Stores our position in the raw data.
-    int raw_data_index = 0;
-    char c = global_string[raw_data_index];
-
-    // In order to lex doubles we are going to use the distance to the nearest
-    // comma (so we know when to stop lexing).
-    size_t comma_distance = 0;
-
-    // str_value is like value but it lets us do substring stuff (instead of
-    // number stuff).
-    double value = 0.0;
-    std::string str_value = "";
-
-    while (c != ']')
-    {
-        switch (c)
-        {
-            case 'c':
-                // Get to first number (skip quote and colon).
-                raw_data_index += 3;
-                c = global_string[raw_data_index];
-
-                // Capture double value.
-                comma_distance = global_string.find_first_of(',', raw_data_index);
-                value = std::stod(global_string.substr(raw_data_index, comma_distance));
-
-                // Store value and do array book keeping.
-                out_data.close[close_pos] = value;
-                close_pos++;
-
-                break;
-            case 'h':
-                // Get to first number (skip quote and colon).
-                raw_data_index += 3;
-                c = global_string[raw_data_index];
-
-                // Capture double value.
-                comma_distance = global_string.find_first_of(',', raw_data_index);
-                value = std::stod(global_string.substr(raw_data_index, comma_distance));
-
-                // Store value and do array book keeping.
-                out_data.high[high_pos] = value;
-                high_pos++;
-
-                break;
-            case 'l':
-                // Get to first number (skip quote and colon).
-                raw_data_index += 3;
-                c = global_string[raw_data_index];
-
-                // Capture double value.
-                comma_distance = global_string.find_first_of(',', raw_data_index);
-                value = std::stod(global_string.substr(raw_data_index, comma_distance));
-
-                // Store value and do array book keeping.
-                out_data.low[low_pos] = value;
-                low_pos++;
-
-                break;
-            case 'o':
-                // Get to first number (skip quote and colon).
-                raw_data_index += 3;
-                c = global_string[raw_data_index];
-
-                // Capture double value.
-                comma_distance = global_string.find_first_of(',', raw_data_index);
-                value = std::stod(global_string.substr(raw_data_index, comma_distance));
-
-                // Store value and do array book keeping.
-                out_data.open[open_pos] = value;
-                open_pos++;
-
-                break;
-            default:
-                raw_data_index++;
-                c = global_string[raw_data_index];
-
-                break;
-        }
-    }
-
-    return out_data;
-}
 
 
 // This function performs drawing operations to the screen. We call this

@@ -21,6 +21,18 @@
 #define CHARTLIB_H
 
 
+#define NUM_X_AXIS_ELEMENTS 101
+#define NUM_Y_AXIS_ELEMENTS 10
+
+
+struct CandleData {
+    double open[NUM_X_AXIS_ELEMENTS-1];
+    double close[NUM_X_AXIS_ELEMENTS-1];
+    double high[NUM_X_AXIS_ELEMENTS-1];
+    double low[NUM_X_AXIS_ELEMENTS-1];
+};
+
+
 namespace ChartLib {
     // Function for computing the bottom most YAxis number.
     QString firstYAxisNumber(double min);
@@ -63,6 +75,9 @@ namespace ChartLib {
 
     // Converts QDates into Alpaca API dates.
     std::string qDateToAPIDate(QDate inp_date);
+
+    // This function fills our candle array with real stock data.
+    CandleData candleData();
 }
 
 

@@ -26,18 +26,6 @@
 #include <QColor>
 
 
-#define NUM_X_AXIS_ELEMENTS 101
-#define NUM_Y_AXIS_ELEMENTS 10
-
-
-struct CandleData {
-    double open[NUM_X_AXIS_ELEMENTS-1];
-    double close[NUM_X_AXIS_ELEMENTS-1];
-    double high[NUM_X_AXIS_ELEMENTS-1];
-    double low[NUM_X_AXIS_ELEMENTS-1];
-};
-
-
 class CandlestickChart : public QQuickPaintedItem
 {
     Q_OBJECT
@@ -90,9 +78,6 @@ private:
     // Helper functions for drawing candles to the screen.
     void drawCandle(double high, double low, double open, double close,
                     int index, QPainter *painter);
-
-    // This function fills our candle array with real stock data.
-    CandleData candleData();
 
     void drawTicker(QPainter *painter, QString ticker);
 
