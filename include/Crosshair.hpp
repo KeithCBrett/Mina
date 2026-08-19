@@ -112,6 +112,7 @@ private:
 
   QString m_price;
   QString m_date;
+
   qint64 m_dateOffset;
 
   bool m_rightSwapped;
@@ -145,13 +146,6 @@ private:
   // For when cursor is just right.
   void drawDefaultPriceBox(QPainter *painter);
   void drawDefaultDateBox(QPainter *painter);
-
-  // Returns how many days back we need to go to fill the chart. This number
-  // should be higher than 100 since we have to skip weekends.
-  size_t offsetStep(size_t inp_step);
-
-  // Helper for above function. Checks if date is a weekend.
-  bool weekend(QDate inp_date);
 
 signals:
   void posXChanged();

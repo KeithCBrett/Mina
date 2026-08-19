@@ -691,79 +691,6 @@ void Crosshair::drawDefaultDateBox(QPainter *painter)
 }
 
 
-bool Crosshair::weekend(QDate inp_date)
-{
-  if ((inp_date.dayOfWeek() == 6) || (inp_date.dayOfWeek() == 7))
-  {
-    return true;
-  }
-  else
-  {
-    return false;
-  }
-}
-
-
-// Returns how many days back we need to go to fill the chart. This number
-// should be higher than 100 since we have to skip weekends.
-size_t Crosshair::offsetStep(size_t inp_step)
-{
-  // Lowest the input will be is 1. This algorithm expects a lowest of 0.
-  inp_step--;
-
-  QDate curr_day = QDate::currentDate();
-  curr_day = curr_day.addDays(-m_dateOffset);
-
-  size_t temp_input = inp_step;
-
-  // Tracks how far back we are from the present. Progress 100 means context
-  // 100 days prior.
-  size_t progress = 0;
-
-  // Tracks number of weekends.
-  size_t offset = 0;
-
-  // If we are on a weekend, we have to start with a weekend offset.
-  if (weekend(curr_day))
-  {
-    offset = 2;
-  }
-  else
-  {
-    offset = 0;
-  }
-
-  // Travel inp_step steps omitting weekends.
-  while (inp_step != 0)
-  {
-    // If current day is not a weekend.
-    if (!weekend(curr_day.addDays(-(offset + progress))))
-    {
-      // Then we have made progress.
-      inp_step--;
-      progress++;
-    }
-    else
-    {
-      // Otherwise we haven't made progress so we must note the fact.
-      offset += 2;
-    }
-  }
-
-  // Handle final/current day.
-  if (weekend(curr_day.addDays(-(offset + progress))))
-  {
-    offset += 2;
-  }
-  else
-  {
-    offset += 0;
-  }
-
-  return (temp_input + offset);
-}
-
-
 // price() computes the number to display for the price window to the top right
 // of the cursor. This is done via the mouse cursor's Y position.
 QString Crosshair::getPrice()
@@ -796,7 +723,7 @@ QString Crosshair::getDate()
   }
 
   step = (NUM_X_ELEMENTS - 1) - step;
-  step = offsetStep(step);
+  step = ChartLib::offsetStep(step, dateOffset());
 
   QDate date = QDate::currentDate();
   date = date.addDays(-1);
