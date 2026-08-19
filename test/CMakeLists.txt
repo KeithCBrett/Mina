@@ -26,8 +26,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 set(kcbfin_TEST_SRC
-  EbitaInvalidInp.cpp
-  EbitaValidInp.cpp
+  test_ebita.cpp
   test_firstYAxisNumber.cpp
 )
 
