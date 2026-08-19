@@ -113,13 +113,6 @@ private:
     // into the past, skipping weekends.
     QDate startDate(QDate end_date);
 
-    // Calculates how far back our starting date is if we have to exclude
-    // weekends.
-    size_t offsetStep(size_t inp_step);
-
-    // Checks whether or not a given day is a weekend.
-    bool weekend(QDate inp_date);
-
     void drawTicker(QPainter *painter, QString ticker);
 
 signals:

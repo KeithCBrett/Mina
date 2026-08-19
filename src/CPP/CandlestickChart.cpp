@@ -132,27 +132,6 @@ void CandlestickChart::drawYAxis(QPainter *painter)
 }
 
 
-// Checks if a given day is a weekend. Useful because we need to ommit weekends
-// from our chart.
-bool isWeekend(QDate date)
-{
-    bool out = false;
-    int day = date.dayOfWeek();
-
-    if (day == 6)
-    {
-        out = true;
-    }
-
-    if (day == 7)
-    {
-        out = true;
-    }
-
-    return out;
-}
-
-
 void CandlestickChart::drawXAxis(QPainter *painter)
 {
     QDate date = QDate::currentDate();
@@ -221,96 +200,19 @@ void CandlestickChart::drawTicker(QPainter *painter, QString ticker)
 }
 
 
-// If we were to try to get data for say 100 days from the past, we would be
-// off by a significant amount (because QDate counts weekends but our candle
-// data has no such weekends). This algorithm would return 100 + however many
-// days we need to skip due to weekends.
-size_t CandlestickChart::offsetStep(size_t inp_step)
-{
-    // Lowest the input will be is 1. This algorithm expects a lowest of 0.
-    inp_step--;
-
-    QDate curr_day = QDate::currentDate();
-    curr_day = curr_day.addDays(-m_dateOffset);
-
-    size_t temp_input = inp_step;
-
-    // Tracks how far back we are from the present. Progress 100 means context
-    // 100 days prior.
-    size_t progress = 0;
-
-    // Tracks number of weekends.
-    size_t offset = 0;
-
-    // If we are on a weekend, we have to start with a weekend offset.
-    if (weekend(curr_day))
-    {
-        offset = 2;
-    }
-    else
-    {
-        offset = 0;
-    }
-
-    // Travel inp_step steps omitting weekends.
-    while (inp_step != 0)
-    {
-        // If current day is not a weekend.
-        if (!weekend(curr_day.addDays(-(offset + progress))))
-        {
-            // Then we have made progress.
-            inp_step--;
-            progress++;
-        }
-        else
-        {
-            // Otherwise we haven't made progress so we must note the fact.
-            offset += 2;
-        }
-    }
-
-    // Handle final/current day.
-    if (weekend(curr_day.addDays(-(offset + progress))))
-    {
-        offset += 2;
-    }
-    else
-    {
-        offset += 0;
-    }
-
-    return (temp_input + offset);
-}
-
-
-// Helper to check whether or not a given day is a weekend. We need this so that
-// we can make QDate addDays() skip weekends.
-bool CandlestickChart::weekend(QDate inp_date)
-{
-    if ((inp_date.dayOfWeek() == 6) || (inp_date.dayOfWeek() == 7))
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-
-
 // Returns the oldest date we are currently rendering a candle for. We need this
 // for when we make a request for data from Alpaca server.
 QDate CandlestickChart::startDate(QDate end_date)
 {
     size_t offset;
 
-    if (weekend(end_date))
+    if (ChartLib::weekend(end_date))
     {
-        offset = offsetStep(105);
+        offset = ChartLib::offsetStep(105, dateOffset());
     }
     else
     {
-        offset = offsetStep(105 + 1);
+        offset = ChartLib::offsetStep(105 + 1, dateOffset());
     }
 
     QDate start_date = end_date;
@@ -327,7 +229,7 @@ QDate CandlestickChart::endDate()
     QDate end_date = QDate::currentDate();
     end_date = end_date.addDays(-m_dateOffset);
 
-    while (weekend(end_date))
+    while (ChartLib::weekend(end_date))
     {
         end_date = end_date.addDays(-1);
     }

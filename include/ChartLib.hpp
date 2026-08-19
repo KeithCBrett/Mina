@@ -36,6 +36,13 @@ namespace ChartLib {
 
     // This function calculates the length of our candlestick body.
     double candleLength(double open, double close);
+
+    // Calculates how far back our starting date is if we have to exclude
+    // weekends.
+    size_t offsetStep(size_t inp_step, qint64 date_offset);
+
+    // Checks whether or not a given day is a weekend.
+    bool weekend(QDate inp_date);
 }
 
 
