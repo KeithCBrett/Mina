@@ -110,4 +110,25 @@ namespace ChartLib {
             return QString::number(round_step_size);
         }
     }
+
+    // Converts a dollar amount into a Y-point on our candlestick chart according
+    // to our axis.
+    double candleYPoint(double inp_num, double min, double max, double height, size_t num_axis_elements)
+    {
+        double first_y_number = firstYAxisNumber(min).toDouble();
+        double step = stepSize(first_y_number, min, max).toDouble();
+
+        // double chart_min = m_min - step;
+        double chart_min = first_y_number - step;
+
+        // double chart_max = m_max + step;
+        double chart_max = first_y_number + (num_axis_elements * step);
+
+        double out_y = chart_max - chart_min;
+        double index = inp_num - chart_min;
+        out_y = index / out_y;
+        out_y = 1.0 - out_y;
+
+        return (out_y * height);
+    }
 }

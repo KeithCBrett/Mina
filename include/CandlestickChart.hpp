@@ -94,9 +94,6 @@ private:
     // Helper functions for drawing candles to the screen.
     void drawCandle(double high, double low, double open, double close,
                     int index, QPainter *painter);
-    // This function calculates the Y-point for each candle according to chart
-    // axis.
-    double candleYPoint(double inp_num);
 
     // This function calculates the length of our candlestick body.
     double candleLength(double open, double close);

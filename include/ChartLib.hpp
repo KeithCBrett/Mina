@@ -28,6 +28,11 @@ namespace ChartLib {
     // This function computes the distance between Y-axis markings (in dollars,
     // according to chart min and max)
     QString stepSize(double inp_first_axis_number, double min, double max);
+
+    // This function calculates the Y-point for each candle according to chart
+    // axis.
+    double candleYPoint(double inp_num, double min, double max, double height,
+                        size_t num_axis_elements);
 }
 
 

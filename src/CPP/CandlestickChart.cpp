@@ -221,28 +221,6 @@ void CandlestickChart::drawTicker(QPainter *painter, QString ticker)
 }
 
 
-// Converts a dollar amount into a Y-point on our candlestick chart according
-// to our axis.
-double CandlestickChart::candleYPoint(double inp_num)
-{
-    double first_y_number = ChartLib::firstYAxisNumber(min()).toDouble();
-    double step = ChartLib::stepSize(first_y_number, min(), max()).toDouble();
-
-    // double chart_min = m_min - step;
-    double chart_min = first_y_number - step;
-
-    // double chart_max = m_max + step;
-    double chart_max = first_y_number + (NUM_Y_AXIS_ELEMENTS * step);
-
-    double out_y = chart_max - chart_min;
-    double index = inp_num - chart_min;
-    out_y = index / out_y;
-    out_y = 1.0 - out_y;
-
-    return (out_y * height());
-}
-
-
 // Calculates the length of our candle according to the axis. We will need this
 // when we try to draw a candle with drawRect.
 double CandlestickChart::candleLength(double open, double close)
@@ -761,25 +739,38 @@ void CandlestickChart::drawCandle(double high, double low, double open,
     QColor down_color(186, 22, 80);
     down_pen.setColor(down_color);
 
-    if (candleYPoint(open) > candleYPoint(close))
+    if (ChartLib::candleYPoint(open, min(), max(), height(), NUM_Y_AXIS_ELEMENTS)
+        > ChartLib::candleYPoint(close, min(), max(), height(),
+                                 NUM_Y_AXIS_ELEMENTS))
     {
         // We want to draw green candles so lets do that.
         painter->setPen(up_pen);
 
         // Draw top wick.
-        painter->drawLine(candle_x, candleYPoint(high),
-                            candle_x, candleYPoint(close));
+        painter->drawLine(candle_x, ChartLib::candleYPoint
+                          (high, min(), max(), height(), NUM_Y_AXIS_ELEMENTS),
+                          candle_x, ChartLib::candleYPoint
+                          (close, min(), max(), height(), NUM_Y_AXIS_ELEMENTS));
 
         // Draw candle body.
         painter->drawRect(candle_x - candle_width / 2,
-                            candleYPoint(close),
-                            candle_width,
-                            candleLength(candleYPoint(open),candleYPoint(close)));
+                          ChartLib::candleYPoint
+                          (close, min(), max(), height(), NUM_Y_AXIS_ELEMENTS),
+                          candle_width, candleLength (ChartLib::candleYPoint
+                                                      (open, min(), max(),
+                                                       height(),
+                                                       NUM_Y_AXIS_ELEMENTS),
+                                                      ChartLib::candleYPoint
+                                                      (close, min(), max(),
+                                                       height(),
+                                                       NUM_Y_AXIS_ELEMENTS)));
 
 
         // Draw bottom wick.
-        painter->drawLine(candle_x, candleYPoint(low),
-                            candle_x, candleYPoint(open));
+        painter->drawLine(candle_x, ChartLib::candleYPoint
+                          (low, min(), max(), height(), NUM_Y_AXIS_ELEMENTS),
+                          candle_x, ChartLib::candleYPoint
+                          (open, min(), max(), height(), NUM_Y_AXIS_ELEMENTS));
 
         // We are done drawing green candles. Lets restore the pen to how it was.
         painter->setPen(input_pen);
@@ -788,17 +779,27 @@ void CandlestickChart::drawCandle(double high, double low, double open,
     {
         painter->setPen(down_pen);
 
-        painter->drawLine(candle_x, candleYPoint(open),
-                        candle_x, candleYPoint(low));
+        painter->drawLine(candle_x, ChartLib::candleYPoint
+                          (open, min(), max(), height(), NUM_Y_AXIS_ELEMENTS),
+                          candle_x, ChartLib::candleYPoint
+                          (low, min(), max(), height(), NUM_Y_AXIS_ELEMENTS));
 
-        painter->fillRect(candle_x - candle_width / 2,
-                        candleYPoint(open),
-                        candle_width,
-                        candleLength(candleYPoint(open), candleYPoint(close)),
-                        down_color);
+        painter->fillRect(candle_x - candle_width / 2, ChartLib::candleYPoint
+                          (open, min(), max(), height(), NUM_Y_AXIS_ELEMENTS),
+                          candle_width, candleLength(ChartLib::candleYPoint
+                                                     (open, min(), max(),
+                                                      height(),
+                                                      NUM_Y_AXIS_ELEMENTS),
+                                                     ChartLib::candleYPoint
+                                                     (close, min(), max(),
+                                                      height(),
+                                                      NUM_Y_AXIS_ELEMENTS)),
+                          down_color);
 
-        painter->drawLine(candle_x, candleYPoint(close),
-                        candle_x, candleYPoint(high));
+        painter->drawLine(candle_x, ChartLib::candleYPoint
+                          (close, min(), max(), height(), NUM_Y_AXIS_ELEMENTS),
+                          candle_x, ChartLib::candleYPoint
+                          (high, min(), max(), height(), NUM_Y_AXIS_ELEMENTS));
 
         painter->setPen(input_pen);
     }
