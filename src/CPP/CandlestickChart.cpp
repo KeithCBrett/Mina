@@ -369,6 +369,7 @@ double CandlestickChart::getMax()
         }
     }
 
+    std::cout << "maximum: " << maximum << "\n";
     return maximum;
 }
 

@@ -44,7 +44,7 @@ Rectangle {
         height: root.height
         width: root.width
 
-        ticker: "AAPL"
+        ticker: "QCOM"
 
         min: getMin();
         max: getMax();
