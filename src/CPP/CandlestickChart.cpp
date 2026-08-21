@@ -277,7 +277,6 @@ double CandlestickChart::getMin()
         }
     }
 
-    std::cout << "minimum: " << minimum << "\n";
     return minimum;
 }
 
@@ -369,7 +368,6 @@ double CandlestickChart::getMax()
         }
     }
 
-    std::cout << "maximum: " << maximum << "\n";
     return maximum;
 }
 

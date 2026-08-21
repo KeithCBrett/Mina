@@ -19,9 +19,6 @@
 
 #include <QtCore>
 #include "unit_tests.hpp"
-
-
-#include "ChartLib.hpp"
 #include "../src/CPP/ChartLib.cpp"
 
 

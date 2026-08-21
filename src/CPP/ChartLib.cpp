@@ -24,6 +24,8 @@
 #include "../include/CurlInit.hpp"
 #include <curl/curl.h>
 
+#include <iostream>
+
 
 std::string global_string = ChartLib::candleChunk("AAPL", 0);
 
@@ -88,6 +90,23 @@ namespace ChartLib {
     // numbers.
     QString stepSize(double inp_first_axis_number, double min, double max)
     {
+        // Error handling.
+        // Bottom axis number should be greater than zero.
+        if (inp_first_axis_number <= 0)
+        {
+            return QString::number(-1);
+        }
+        // Max should be greater than min.
+        if (min >= max)
+        {
+            return QString::number(-1);
+        }
+        // Min and max should be greater than zero.
+        if ((min <= 0) || (max <= 0))
+        {
+            return QString::number(-1);
+        }
+
         double step_size = max - min;
         step_size = step_size / NUM_Y_AXIS_ELEMENTS;
 
@@ -109,7 +128,36 @@ namespace ChartLib {
                 // If not, generate axis of wider range.
                 step_size = step_size + 0.01;
             }
-            return QString::number(step_size);
+
+            // Axis fits, now we get our step_size to be divisible by five.
+
+            // First we check if we can make the step size evenly divisible by
+            // five via subtraction (and have it be greater than or equal to our
+            // max). This ensures the lowest step size possible.
+            int curr = inp_first_axis_number + (step_size - ((int)step_size % 5)) * 9;
+            if (max <= curr)
+            {
+                step_size = step_size - ((int)step_size % 5);
+                return QString::number(step_size);
+            }
+            // This check is for if a unaltered step size is divisible by five.
+            // If thats true and the first if statement fails, then that means
+            // that we are already at the lowest step size.
+            else if (((int)step_size % 5) == 0)
+            {
+                return QString::number(step_size);
+
+            }
+            // Otherwise we add until divisible by five.
+            else
+            {
+                while (((int)step_size % 5) != 0)
+                {
+                    step_size++;
+                }
+
+                return QString::number(step_size);
+            }
         }
         else
         {
@@ -121,7 +169,37 @@ namespace ChartLib {
             {
                 round_step_size++;
             }
-            return QString::number(round_step_size);
+
+            // Axis fits, now we get our step_size to be divisible by five.
+
+            // First we check if we can make the step size evenly divisible by
+            // five via subtraction (and have it be greater than or equal to our
+            // max). This ensures the lowest step size possible.
+            int curr = inp_first_axis_number + (round_step_size
+                                                - (round_step_size % 5)) * 9;
+            if (max <= curr)
+            {
+                round_step_size = round_step_size - ((int)round_step_size % 5);
+                return QString::number(round_step_size);
+            }
+            // This check is for if a unaltered step size is divisible by five.
+            // If thats true and the first if statement fails, then that means
+            // that we are already at the lowest step size.
+            else if (((int)round_step_size % 5) == 0)
+            {
+                return QString::number(round_step_size);
+
+            }
+            // Otherwise we add until divisible by five.
+            else
+            {
+                while (((int)round_step_size % 5) != 0)
+                {
+                    round_step_size++;
+                }
+
+                return QString::number(round_step_size);
+            }
         }
     }
 
