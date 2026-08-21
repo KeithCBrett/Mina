@@ -463,11 +463,10 @@ namespace ChartLib {
 
     // Function for computing all the YAxis numbers (except the one computed
     // by firstYAxisNumber()).
-    QString otherYAxisNumber(double inp_min, double inp_max,
-                             QString inp_first_axis_number, int inp_position)
+    QString otherYAxisNumber(double min, double max,
+                             double first_axis_number, int position)
     {
-        double first_axis_number = inp_first_axis_number.toDouble();
-        double step_size = stepSize(first_axis_number, inp_min, inp_max).toDouble();
-        return QString::number(step_size * (inp_position - 1) + first_axis_number);
+        double step_size = stepSize(first_axis_number, min, max).toDouble();
+        return QString::number(step_size * (position - 1) + first_axis_number);
     }
 }

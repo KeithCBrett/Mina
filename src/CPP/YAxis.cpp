@@ -110,7 +110,7 @@ void YAxis::paint(QPainter *painter)
                       3, ((height() / (NUM_ELEMENTS + 1)) * i));
 
     // Draw axis number.
-    other_num = ChartLib::otherYAxisNumber(m_min, m_max, first_num, i);
+    other_num = ChartLib::otherYAxisNumber(m_min, m_max, first_num.toDouble(), i);
     drawYAxisNumber(painter, i, other_num);
   }
 }
