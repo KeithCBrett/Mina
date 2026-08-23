@@ -205,15 +205,39 @@ namespace ChartLib {
 
     // Converts a dollar amount into a Y-point on our candlestick chart according
     // to our axis.
-    double candleYPoint(double inp_num, double min, double max, double height, size_t num_axis_elements)
+    double candleYPoint(double inp_num, double min, double max, double height,
+                        size_t num_axis_elements)
     {
+        // Error handling.
+        // Price should be greater than zero.
+        if (inp_num <= 0)
+        {
+            return -1;
+        }
+        // Min should be greater than zero.
+        if (min <= 0)
+        {
+            return -1;
+        }
+        // Max should be greater than zero.
+        if (max <= 0)
+        {
+            return -1;
+        }
+        // Height should be greater than zero.
+        if (height <= 0)
+        {
+            return -1;
+        }
+        if (min >= max)
+        {
+            return -1;
+        }
+
         double first_y_number = firstYAxisNumber(min).toDouble();
         double step = stepSize(first_y_number, min, max).toDouble();
 
-        // double chart_min = m_min - step;
         double chart_min = first_y_number - step;
-
-        // double chart_max = m_max + step;
         double chart_max = first_y_number + (num_axis_elements * step);
 
         double out_y = chart_max - chart_min;
@@ -336,7 +360,7 @@ namespace ChartLib {
         }
         else
         {
-            offset = offsetStep(105 + 1, date_offset);
+            offset = offsetStep(105, date_offset);
         }
 
         QDate start_date = end_date;

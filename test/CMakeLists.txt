@@ -29,6 +29,7 @@ set(kcbfin_TEST_SRC
   test_ebita.cpp
   test_stepSize.cpp
   test_firstYAxisNumber.cpp
+  test_candleYPoint.cpp
 )
 
 set(kcbfin_TEST_INC
