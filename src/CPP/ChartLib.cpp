@@ -253,6 +253,18 @@ namespace ChartLib {
     // when we try to draw a candle with drawRect.
     double candleLength(double open, double close)
     {
+        // Error handling.
+        // Open should be greater than zero.
+        if (open <= 0)
+        {
+            return -1;
+        }
+        // Close should be greater than zero.
+        if (close <= 0)
+        {
+            return -1;
+        }
+
         double big;
         double small;
 

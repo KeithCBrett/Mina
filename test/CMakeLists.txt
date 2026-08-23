@@ -30,6 +30,7 @@ set(kcbfin_TEST_SRC
   test_stepSize.cpp
   test_firstYAxisNumber.cpp
   test_candleYPoint.cpp
+  test_candleLength.cpp
 )
 
 set(kcbfin_TEST_INC
