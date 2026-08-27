@@ -27,6 +27,10 @@
 #include <iostream>
 
 
+#define NUM_WEEKDAYS 7
+#define NUM_WEEKENDS 2
+
+
 std::string global_string = ChartLib::candleChunk("AAPL", 0);
 
 
@@ -289,59 +293,63 @@ namespace ChartLib {
     // days we need to skip due to weekends.
     size_t offsetStep(size_t inp_step, qint64 date_offset)
     {
-        // Lowest the input will be is 1. This algorithm expects a lowest of 0.
-        inp_step--;
+        // Error handling.
+        // We don't allow inp_step greater than 100, this algorithm won't scale
+        // well for that (or for big inp_step in general). We loop for each
+        // inp_step.
+        if (inp_step > 100)
+        {
+           return -1;
+        }
 
+        size_t out_step = 0;
+
+        // original_input + days skipped = output.
+        size_t original_input = inp_step;
+
+        // So that we can check if we are on a weekend (to exlude it).
         QDate curr_day = QDate::currentDate();
-        curr_day = curr_day.addDays(-date_offset);
 
-        size_t temp_input = inp_step;
-
-        // Tracks how far back we are from the present. Progress 100 means
-        // context 100 days prior.
-        size_t progress = 0;
-
-        // Tracks number of weekends.
-        size_t offset = 0;
-
-        // If we are on a weekend, we have to start with a weekend offset.
-        if (weekend(curr_day))
+        // We use inp_step to track our progress.
+        while (inp_step > 0)
         {
-            offset = 2;
-        }
-        else
-        {
-            offset = 0;
-        }
-
-        // Travel inp_step steps omitting weekends.
-        while (inp_step != 0)
-        {
-            // If current day is not a weekend.
-            if (!weekend(curr_day.addDays(-(offset + progress))))
+            // In theory, if we count the days we skip, and add it to our orginal
+            // input, this will give us the total distance traveled (which is
+            // what we want as output). Since we skip days in which the market is
+            // closed, that is what we will count.
+            if (!marketOpen(curr_day))
             {
-                // Then we have made progress.
+                out_step++;
+            }
+
+            // If market wasn't open on the day we are checking, we have to
+            // ignore it and move on.
+            if (marketOpen(curr_day))
+            {
                 inp_step--;
-                progress++;
             }
-            else
-            {
-                // Otherwise we haven't made progress so we must note the fact.
-                offset += 2;
-            }
+
+            // Get previous day to progress loop.
+            curr_day = curr_day.addDays(-1);
         }
 
-        // Handle final/current day.
-        if (weekend(curr_day.addDays(-(offset + progress))))
+        return (out_step + original_input);
+    }
+
+
+    bool marketOpen(QDate inp_date)
+    {
+        bool out_bool = true;
+
+        // If it's a weekend, the market is closed.
+        if (weekend(inp_date))
         {
-            offset += 2;
-        }
-        else
-        {
-            offset += 0;
+            return false;
         }
 
-        return (temp_input + offset);
+        // TODO Holidays go here.
+
+        return out_bool;
     }
 
 
@@ -368,14 +376,16 @@ namespace ChartLib {
 
         if (weekend(end_date))
         {
-            offset = offsetStep(105, date_offset);
+            offset = offsetStep(100, date_offset);
         }
         else
         {
-            offset = offsetStep(105, date_offset);
+            offset = offsetStep(100, date_offset);
         }
 
         QDate start_date = end_date;
+
+        std::cout << "offsetStep: " << offset << "\n";
 
         start_date = start_date.addDays(-(offset - 1));
 
@@ -389,10 +399,7 @@ namespace ChartLib {
         QDate end_date = QDate::currentDate();
         end_date = end_date.addDays(-date_offset);
 
-        while (weekend(end_date))
-        {
-            end_date = end_date.addDays(-1);
-        }
+        end_date = end_date.addDays(-offsetStep(0, 0));
 
         return end_date;
     }
@@ -403,6 +410,7 @@ namespace ChartLib {
     {
         QDate end_date = endDate(date_offset);
         QDate start_date = startDate(end_date, date_offset);
+        std::cout << "start_date: " << start_date.toString().toStdString() << "\n";
         const char *printstr = qPrintable(end_date.toString());
 
         std::string my_key = "APCA-API-KEY-ID: PKVOZ3RYLJ3RUPWOAIQKFEMG4F";

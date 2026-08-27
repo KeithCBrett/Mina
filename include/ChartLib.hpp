@@ -83,6 +83,8 @@ namespace ChartLib {
     // distance between axis numbers.
     QString otherYAxisNumber(double inp_min, double inp_max,
                              double inp_first_axis_number, int inp_position);
+
+    bool marketOpen(QDate inp_date);
 }
 
 

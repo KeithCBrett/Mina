@@ -126,21 +126,19 @@ void CandlestickChart::drawYAxis(QPainter *painter)
 
 void CandlestickChart::drawXAxis(QPainter *painter)
 {
-    QDate date = QDate::currentDate();
-
     // Get candle data from Alpaca so that we can draw our candles.
     CandleData candle_data;
     candle_data = ChartLib::candleData();
 
-    // For when its a weekend.
-    int weekend_offset = 0;
-
-    QDate temp_date = date;
-
-    if ((temp_date.dayOfWeek() == 6) || (temp_date.dayOfWeek() == 7))
+    // Check if data is filled.
+    for (auto i = 0 ; i < 100 ; i++)
     {
-        weekend_offset += 2;
+        std::cout << "min[" << i << "]: " << candle_data.low[i] << "\n";
     }
+    std::cout << "\n";
+
+    QDate temp_date = QDate::currentDate();
+    temp_date = temp_date.addDays(-dateOffset());
 
     for (int i = 1 ; i <= NUM_X_AXIS_ELEMENTS ; i++)
     {
@@ -155,17 +153,10 @@ void CandlestickChart::drawXAxis(QPainter *painter)
                         candle_data.close[i], i, painter);
         }
 
-        temp_date = date.addDays(-(i + weekend_offset));
-
-        if ((temp_date.dayOfWeek() == 7) || (temp_date.dayOfWeek() == 6))
-        {
-            weekend_offset += 2;
-            temp_date = date.addDays(-(i + weekend_offset));
-        }
-
         // Draw date to screen.
         if ((i % 10 == 0) && (i <= NUM_X_AXIS_ELEMENTS - 10))
         {
+            temp_date = temp_date.addDays(-(ChartLib::offsetStep(i - 1, dateOffset())));
             painter->drawText((width() - ((width() / NUM_X_AXIS_ELEMENTS * i)
                                             - width() * 0.0092) - width() / 27),
                                 height() * 0.99, temp_date.toString("MM/dd"));

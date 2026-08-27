@@ -36,6 +36,8 @@ qt_standard_project_setup(REQUIRES 6.5)
 # We also need to import curl for getting stock data from Alpaca API
 find_package(CURL)
 
+# Generate debugging symbols
+set(CMAKE_BUILD_TYPE Debug)
 
 # Prepends subdirectory to files in a list
 function(PREPEND var)

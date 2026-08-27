@@ -31,6 +31,7 @@ set(kcbfin_TEST_SRC
   test_firstYAxisNumber.cpp
   test_candleYPoint.cpp
   test_candleLength.cpp
+  test_offsetStep.cpp
 )
 
 set(kcbfin_TEST_INC

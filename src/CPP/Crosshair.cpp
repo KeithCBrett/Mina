@@ -22,6 +22,8 @@
 #include "../../include/YAxis.hpp"
 #include <QPainter>
 
+#include <iostream>
+
 
 #include "../../include/ChartLib.hpp"
 //#include "../CPP/ChartLib.cpp"
@@ -713,6 +715,9 @@ QString Crosshair::getDate()
   size_t step;
   size_t candle_width = width() / 110;
 
+  QDate date = QDate::currentDate();
+  date = date.addDays(-dateOffset());
+
   if ((m_posX / width()) > 0.5)
   {
     step = std::trunc(m_posX / width() * 100);
@@ -723,22 +728,15 @@ QString Crosshair::getDate()
   }
 
   step = (NUM_X_ELEMENTS - 1) - step;
-  step = ChartLib::offsetStep(step, dateOffset());
-
-  QDate date = QDate::currentDate();
-  date = date.addDays(-1);
-  if (m_dateOffset > 0)
-  {
-    date = date.addDays(-m_dateOffset);
-  }
+  step = ChartLib::offsetStep(step - 1, dateOffset());
 
   if ((m_posX / width()) > 0.5)
   {
-    date = date.addDays(-(step-1));
+    date = date.addDays(-(step));
   }
   else
   {
-    date = date.addDays(-step);
+    date = date.addDays(-(step));
   }
 
   return date.toString("MM/dd/yy");
