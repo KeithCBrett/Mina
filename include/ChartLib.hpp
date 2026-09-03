@@ -24,12 +24,13 @@
 #define NUM_X_AXIS_ELEMENTS 101
 #define NUM_Y_AXIS_ELEMENTS 10
 
+#include <QtCore>
 
 struct CandleData {
-    double open[NUM_X_AXIS_ELEMENTS-1];
-    double close[NUM_X_AXIS_ELEMENTS-1];
-    double high[NUM_X_AXIS_ELEMENTS-1];
-    double low[NUM_X_AXIS_ELEMENTS-1];
+    std::array<double, NUM_X_AXIS_ELEMENTS> open;
+    std::array<double, NUM_X_AXIS_ELEMENTS> close;
+    std::array<double, NUM_X_AXIS_ELEMENTS> high;
+    std::array<double, NUM_X_AXIS_ELEMENTS> low;
 };
 
 

@@ -20,8 +20,10 @@
 #include "../../include/CandlestickChart.hpp"
 
 #include "../CPP/ChartLib.cpp"
+//#include "ChartLib.hpp"
 
 #include <QPainter>
+#include <QtQuick>
 #include <iostream>
 
 
@@ -104,7 +106,8 @@ void CandlestickChart::setTicker(const QString &ticker)
 {
     if (m_ticker != ticker)
     {
-        global_string = ChartLib::candleChunk(ticker.toStdString(), dateOffset());
+        global_string = ChartLib::candleChunk
+            (ticker.toStdString(), dateOffset());
         m_ticker = ticker;
         update();
         emit tickerChanged();
@@ -118,8 +121,10 @@ void CandlestickChart::drawYAxis(QPainter *painter)
     for (int i = 1 ; i <= NUM_Y_AXIS_ELEMENTS ; i++)
     {
         // Draw axis marking.
-        painter->drawLine(width() - 5, (height() / (NUM_Y_AXIS_ELEMENTS + 1) * i),
-                            width(), (height() / (NUM_Y_AXIS_ELEMENTS + 1) * i));
+        painter->drawLine(width() - 5,
+                          (height() / (NUM_Y_AXIS_ELEMENTS + 1) * i),
+                          width(),
+                          (height() / (NUM_Y_AXIS_ELEMENTS + 1) * i));
     }
 }
 
@@ -127,21 +132,18 @@ void CandlestickChart::drawYAxis(QPainter *painter)
 void CandlestickChart::drawXAxis(QPainter *painter)
 {
     // Get candle data from Alpaca so that we can draw our candles.
-    CandleData candle_data;
-    candle_data = ChartLib::candleData();
-
-    // Check if data is filled.
-    for (auto i = 0 ; i < 100 ; i++)
-    {
-        std::cout << "min[" << i << "]: " << candle_data.low[i] << "\n";
-    }
-    std::cout << "\n";
+    CandleData candle_data = ChartLib::candleData();
 
     QDate temp_date = QDate::currentDate();
     temp_date = temp_date.addDays(-dateOffset());
 
-    for (int i = 1 ; i <= NUM_X_AXIS_ELEMENTS ; i++)
-    {
+    /*
+    for (auto i = 0; i < 150; i++) {
+        std::cout << "candle_data.open[" << i << "]: " << candle_data.open[i] << "\n";
+    }
+    */
+
+    for (int i = 1; i <= NUM_X_AXIS_ELEMENTS; i++) {
         // Draw axis mark to screen.
         painter->drawLine(width() / NUM_X_AXIS_ELEMENTS * i, (height() - 7),
                         width() / NUM_X_AXIS_ELEMENTS * i, height());
@@ -149,18 +151,24 @@ void CandlestickChart::drawXAxis(QPainter *painter)
         // Draw candle to screen.
         if (i <= (NUM_X_AXIS_ELEMENTS - 1))
         {
-            drawCandle(candle_data.high[i], candle_data.low[i], candle_data.open[i],
-                        candle_data.close[i], i, painter);
+          drawCandle(candle_data.high.at(i), candle_data.low.at(i),
+                     candle_data.open.at(i), candle_data.close.at(i),
+                     i, painter);
         }
 
         // Draw date to screen.
         if ((i % 10 == 0) && (i <= NUM_X_AXIS_ELEMENTS - 10))
         {
-            temp_date = temp_date.addDays(-(ChartLib::offsetStep(i - 1, dateOffset())));
+            temp_date = temp_date.addDays(-(ChartLib::offsetStep
+                                            (i - 1, dateOffset())));
             painter->drawText((width() - ((width() / NUM_X_AXIS_ELEMENTS * i)
                                             - width() * 0.0092) - width() / 27),
                                 height() * 0.99, temp_date.toString("MM/dd"));
         }
+        if (i >= NUM_X_AXIS_ELEMENTS) {
+            return;
+        }
+        std::cout << "i: " << i << "\n";
     }
 }
 
@@ -192,6 +200,8 @@ double CandlestickChart::getMin()
     double minimum = 999999.99;
     double value = 0;
 
+    int numbers_scanned = 0;
+
     // To capture the numbers we will need to know the distance to the nearest
     // comma.
     size_t comma_distance = 0;
@@ -211,10 +221,12 @@ double CandlestickChart::getMin()
 
                 if (value < minimum)
                 {
-                minimum = value;
+                    minimum = value;
                 }
 
-                break;
+                numbers_scanned++;
+
+            break;
             case 'h':
                 // Get to first number (skip quote and colon).
                 index += 3;
@@ -226,10 +238,12 @@ double CandlestickChart::getMin()
 
                 if (value < minimum)
                 {
-                minimum = value;
+                    minimum = value;
                 }
 
-                break;
+                numbers_scanned++;
+
+            break;
             case 'l':
                 // Get to first number (skip quote and colon).
                 index += 3;
@@ -241,10 +255,12 @@ double CandlestickChart::getMin()
 
                 if (value < minimum)
                 {
-                minimum = value;
+                    minimum = value;
                 }
 
-                break;
+                numbers_scanned++;
+
+            break;
             case 'o':
                 // Get to first number (skip quote and colon).
                 index += 3;
@@ -256,18 +272,21 @@ double CandlestickChart::getMin()
 
                 if (value < minimum)
                 {
-                minimum = value;
+                    minimum = value;
                 }
 
-                break;
+                numbers_scanned++;
+
+            break;
             default:
                 index++;
                 c = global_string[index];
 
-                break;
+            break;
         }
     }
 
+    std::cout << "numbers_scanned: " << numbers_scanned << "\n";
     return minimum;
 }
 
@@ -305,7 +324,7 @@ double CandlestickChart::getMax()
                 maximum = value;
                 }
 
-                break;
+            break;
             case 'h':
                 // Get to first number (skip quote and colon).
                 index += 3;
@@ -320,7 +339,7 @@ double CandlestickChart::getMax()
                 maximum = value;
                 }
 
-                break;
+            break;
             case 'l':
                 // Get to first number (skip quote and colon).
                 index += 3;
@@ -335,7 +354,7 @@ double CandlestickChart::getMax()
                 maximum = value;
                 }
 
-                break;
+            break;
             case 'o':
                 // Get to first number (skip quote and colon).
                 index += 3;
@@ -350,12 +369,12 @@ double CandlestickChart::getMax()
                 maximum = value;
                 }
 
-                break;
+            break;
             default:
                 index++;
                 c = global_string[index];
 
-                break;
+            break;
         }
     }
 
@@ -382,7 +401,6 @@ void CandlestickChart::drawCandle(double high, double low, double open,
     QPen up_pen;
     QColor up_color(39, 77, 234);
     up_pen.setColor(up_color);
-
     QPen down_pen;
     QColor down_color(186, 22, 80);
     down_pen.setColor(down_color);
@@ -467,6 +485,4 @@ void CandlestickChart::paint(QPainter *painter)
 
     // Draw the ticker to the screen.
     drawTicker(painter, ticker());
-
-    QDate date = QDate::currentDate();
 }

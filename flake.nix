@@ -1,7 +1,7 @@
+# flake.nix configures a environment so Nix based systems can do development
+# on Mina. Simply run 'nix develop' and the nix file will pull all of the
+# dependencies and create a development environment for you.
 {
-  # This file configures a environment so Nix based systems can do development
-  # on Mina. Simply run 'nix develop' and the nix file will pull all of the
-  # dependencies and create a development environment for you.
   inputs.nixpkgs.url = "github:nixos/nixpkgs";
 
   outputs = { self, nixpkgs }:
@@ -10,11 +10,14 @@
   in
   {
     devShells.x86_64-linux.default = pkgs.mkShell {
+      __structuredAttrs = true;
+
       buildInputs = with pkgs; [
         cmake
         curl
 
         gdb
+        gcc
         qt6.qtbase
         qt6.qtcharts
         qt6.qt5compat

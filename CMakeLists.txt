@@ -27,7 +27,6 @@ project(mina LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-
 # We need to import the Qt API for our GUI
 find_package(Qt6 6.5 REQUIRED COMPONENTS Quick Charts Widgets)
 qt_standard_project_setup(REQUIRES 6.5)
@@ -54,6 +53,9 @@ endfunction(PREPEND)
 # lib/
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/build/bin")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/build/lib")
+
+# CMake will auto generate compile_commands.json so our LSP stops complaining
+set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
 
 
 # The following will execute the CMakeLists.txt in each of the below directories
@@ -160,3 +162,5 @@ set(kcbfin_NUM_COMMITS ${num_commits})
 configure_file(src/CPP/GetVersionNum.cpp.in
   ${CMAKE_CURRENT_SOURCE_DIR}/src/CPP/GetVersionNum.cpp @ONLY
 )
+
+target_compile_options(mina PRIVATE -Wall)

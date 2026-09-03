@@ -19,19 +19,30 @@
 
 #include "../../include/ChartLib.hpp"
 
-
 // We need curl to get stock data from our API
 #include "../include/CurlInit.hpp"
 #include <curl/curl.h>
 
 #include <iostream>
 
-
 #define NUM_WEEKDAYS 7
 #define NUM_WEEKENDS 2
 
 
 std::string global_string = ChartLib::candleChunk("AAPL", 0);
+
+// The market isn't open on the following holidays:
+// QDate date(year, month, day)
+QDate new_years(2026, 1, 1);
+QDate mlk_day(2026, 1, 19);
+QDate washingtons_bday(2026, 2, 16);
+QDate good_friday(2026, 4, 3);
+QDate memorial_day(2026, 5, 25);
+QDate juneteenth(2026, 6, 19);
+QDate independance_day(2026, 7, 3);
+QDate labor_day(2026, 9, 7);
+QDate thanksgiving(2026, 11, 26);
+QDate christmas(2026, 12, 25);
 
 
 namespace ChartLib {
@@ -287,6 +298,63 @@ namespace ChartLib {
     }
 
 
+    bool marketOpen(QDate inp_date)
+    {
+        // If it's a weekend, the market is closed.
+        if (weekend(inp_date))
+        {
+            return false;
+        }
+
+        // We have to skip holidays too.
+        // New Years Day.
+        if (inp_date == new_years)
+        {
+            return false;
+        }
+        else if (inp_date == mlk_day)
+        {
+            return false;
+        }
+        else if (inp_date == washingtons_bday)
+        {
+            return false;
+        }
+        else if (inp_date == good_friday)
+        {
+            return false;
+        }
+        else if (inp_date == memorial_day)
+        {
+            return false;
+        }
+        else if (inp_date == juneteenth)
+        {
+            return false;
+        }
+        else if (inp_date == independance_day)
+        {
+            return false;
+        }
+        else if (inp_date == labor_day)
+        {
+            return false;
+        }
+        else if (inp_date == thanksgiving)
+        {
+            return false;
+        }
+        else if (inp_date == christmas)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+
     // If we were to try to get data for say 100 days from the past, we would be
     // off by a significant amount (because QDate counts weekends but our candle
     // data has no such weekends). This algorithm would return 100 + however many
@@ -337,22 +405,6 @@ namespace ChartLib {
     }
 
 
-    bool marketOpen(QDate inp_date)
-    {
-        bool out_bool = true;
-
-        // If it's a weekend, the market is closed.
-        if (weekend(inp_date))
-        {
-            return false;
-        }
-
-        // TODO Holidays go here.
-
-        return out_bool;
-    }
-
-
     // Helper to check whether or not a given day is a weekend. We need this so that
     // we can make QDate addDays() skip weekends.
     bool weekend(QDate inp_date)
@@ -387,7 +439,7 @@ namespace ChartLib {
 
         std::cout << "offsetStep: " << offset << "\n";
 
-        start_date = start_date.addDays(-(offset - 1));
+        start_date = start_date.addDays(-offset);
 
         return start_date;
     }
@@ -492,11 +544,8 @@ namespace ChartLib {
     {
         CandleData out_data;
 
-        // Current positions for our candle data arrays.
-        int high_pos = 0;
-        int low_pos = 0;
-        int open_pos = 0;
-        int close_pos = 0;
+        // Tracks the positions in our arrays
+        int open_pos = 0, close_pos = 0, high_pos = 0, low_pos = 0;
 
         // Stores our position in the raw data.
         int raw_data_index = 0;
@@ -522,10 +571,11 @@ namespace ChartLib {
 
                     // Capture double value.
                     comma_distance = global_string.find_first_of(',', raw_data_index);
-                    value = std::stod(global_string.substr(raw_data_index, comma_distance));
+                    value = std::stod(global_string.substr
+                                      (raw_data_index, comma_distance));
 
                     // Store value and do array book keeping.
-                    out_data.close[close_pos] = value;
+                    out_data.close.at(close_pos) = value;
                     close_pos++;
 
                     break;
@@ -535,11 +585,13 @@ namespace ChartLib {
                     c = global_string[raw_data_index];
 
                     // Capture double value.
-                    comma_distance = global_string.find_first_of(',', raw_data_index);
-                    value = std::stod(global_string.substr(raw_data_index, comma_distance));
+                    comma_distance = global_string.find_first_of
+                        (',', raw_data_index);
+                    value = std::stod(global_string.substr
+                                      (raw_data_index, comma_distance));
 
                     // Store value and do array book keeping.
-                    out_data.high[high_pos] = value;
+                    out_data.high.at(high_pos) = value;
                     high_pos++;
 
                     break;
@@ -549,11 +601,13 @@ namespace ChartLib {
                     c = global_string[raw_data_index];
 
                     // Capture double value.
-                    comma_distance = global_string.find_first_of(',', raw_data_index);
-                    value = std::stod(global_string.substr(raw_data_index, comma_distance));
+                    comma_distance = global_string.find_first_of
+                        (',', raw_data_index);
+                    value = std::stod(global_string.substr
+                                      (raw_data_index, comma_distance));
 
                     // Store value and do array book keeping.
-                    out_data.low[low_pos] = value;
+                    out_data.low.at(low_pos) = value;
                     low_pos++;
 
                     break;
@@ -563,11 +617,13 @@ namespace ChartLib {
                     c = global_string[raw_data_index];
 
                     // Capture double value.
-                    comma_distance = global_string.find_first_of(',', raw_data_index);
-                    value = std::stod(global_string.substr(raw_data_index, comma_distance));
+                    comma_distance = global_string.find_first_of
+                        (',', raw_data_index);
+                    value = std::stod(global_string.substr
+                                      (raw_data_index, comma_distance));
 
                     // Store value and do array book keeping.
-                    out_data.open[open_pos] = value;
+                    out_data.open.at(open_pos) = value;
                     open_pos++;
 
                     break;
@@ -578,6 +634,11 @@ namespace ChartLib {
                     break;
             }
         }
+
+        std::cout << "high_pos: "  << high_pos  << "\n";
+        std::cout << "low_pos: "   << low_pos   << "\n";
+        std::cout << "open_pos: "  << open_pos  << "\n";
+        std::cout << "close_pos: " << close_pos << "\n";
 
         return out_data;
     }
