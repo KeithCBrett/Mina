@@ -56,7 +56,7 @@ namespace ChartLib {
         }
 
         double temp = min;
-        double integral = 0.05;
+        double divisor = 0.05;
 
         // We only want to return a double for small numbers. Otherwise we would
         // rather work with integers.
@@ -67,8 +67,8 @@ namespace ChartLib {
         if (temp < 1.0)
         {
             // Here we coerce the output to end in 0 or 5.
-            while (((std::modf(temp, &integral)) != 0)
-                || ((std::modf(temp, &integral)) != 0.05))
+            while (((std::modf(temp, &divisor)) != 0)
+                || ((std::modf(temp, &divisor)) != 0.05))
             {
                 temp = temp - 0.01;
             }
@@ -378,6 +378,18 @@ namespace ChartLib {
         // So that we can check if we are on a weekend (to exlude it).
         QDate curr_day = QDate::currentDate();
 
+        // Check if current day is a weekend.
+        // Sunday.
+        if (curr_day.dayOfWeek() == 7) {
+            out_step += 2;
+            curr_day = curr_day.addDays(-2);
+        }
+        // Saturday.
+        if (curr_day.dayOfWeek() == 6) {
+            out_step += 1;
+            curr_day = curr_day.addDays(-1);
+        }
+
         // We use inp_step to track our progress.
         while (inp_step > 0)
         {
@@ -398,6 +410,13 @@ namespace ChartLib {
             }
 
             // Get previous day to progress loop.
+            curr_day = curr_day.addDays(-1);
+        }
+
+        // Sometimes when we break our loop, we end on a closed market day. We
+        // count this in our output.
+        while (!marketOpen(curr_day)) {
+            out_step++;
             curr_day = curr_day.addDays(-1);
         }
 
@@ -437,8 +456,6 @@ namespace ChartLib {
 
         QDate start_date = end_date;
 
-        std::cout << "offsetStep: " << offset << "\n";
-
         start_date = start_date.addDays(-offset);
 
         return start_date;
@@ -462,8 +479,6 @@ namespace ChartLib {
     {
         QDate end_date = endDate(date_offset);
         QDate start_date = startDate(end_date, date_offset);
-        std::cout << "start_date: " << start_date.toString().toStdString() << "\n";
-        const char *printstr = qPrintable(end_date.toString());
 
         std::string my_key = "APCA-API-KEY-ID: PKVOZ3RYLJ3RUPWOAIQKFEMG4F";
         std::string my_secret = "APCA-API-SECRET-KEY: 8vHFEREYTc2C11SAWTPds7zs"
@@ -634,11 +649,6 @@ namespace ChartLib {
                     break;
             }
         }
-
-        std::cout << "high_pos: "  << high_pos  << "\n";
-        std::cout << "low_pos: "   << low_pos   << "\n";
-        std::cout << "open_pos: "  << open_pos  << "\n";
-        std::cout << "close_pos: " << close_pos << "\n";
 
         return out_data;
     }

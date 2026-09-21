@@ -33,16 +33,13 @@ CandlestickChart::CandlestickChart(QQuickItem *parent)
 }
 
 
-qint64 CandlestickChart::dateOffset() const
-{
+qint64 CandlestickChart::dateOffset() const {
     return m_dateOffset;
 }
 
 
-void CandlestickChart::setDateOffset(const qint64 &dateOffset)
-{
-    if (dateOffset != m_dateOffset)
-    {
+void CandlestickChart::setDateOffset(const qint64 &dateOffset) {
+    if (dateOffset != m_dateOffset) {
         m_dateOffset = dateOffset;
         update();
         emit dateOffsetChanged();
@@ -50,28 +47,23 @@ void CandlestickChart::setDateOffset(const qint64 &dateOffset)
 }
 
 
-QColor CandlestickChart::borderColor() const
-{
+QColor CandlestickChart::borderColor() const {
     return m_borderColor;
 }
 
 
-void CandlestickChart::setBorderColor(const QColor &borderColor)
-{
+void CandlestickChart::setBorderColor(const QColor &borderColor) {
     m_borderColor = borderColor;
 }
 
 
-double CandlestickChart::min() const
-{
+double CandlestickChart::min() const {
     return m_min;
 }
 
 
-void CandlestickChart::setMin(const double &min)
-{
-    if (m_min != min)
-    {
+void CandlestickChart::setMin(const double &min) {
+    if (m_min != min) {
         m_min = min;
         update();
         emit minChanged();
@@ -79,16 +71,13 @@ void CandlestickChart::setMin(const double &min)
 }
 
 
-double CandlestickChart::max() const
-{
+double CandlestickChart::max() const {
     return m_max;
 }
 
 
-void CandlestickChart::setMax(const double &max)
-{
-    if (m_max != max)
-    {
+void CandlestickChart::setMax(const double &max) {
+    if (m_max != max) {
         m_max = max;
         update();
         emit maxChanged();
@@ -96,16 +85,13 @@ void CandlestickChart::setMax(const double &max)
 }
 
 
-QString CandlestickChart::ticker() const
-{
+QString CandlestickChart::ticker() const {
     return m_ticker;
 }
 
 
-void CandlestickChart::setTicker(const QString &ticker)
-{
-    if (m_ticker != ticker)
-    {
+void CandlestickChart::setTicker(const QString &ticker) {
+    if (m_ticker != ticker) {
         global_string = ChartLib::candleChunk
             (ticker.toStdString(), dateOffset());
         m_ticker = ticker;
@@ -116,10 +102,8 @@ void CandlestickChart::setTicker(const QString &ticker)
 
 
 // Draws the lines small lines and dollar amounts associated with the y-axis.
-void CandlestickChart::drawYAxis(QPainter *painter)
-{
-    for (int i = 1 ; i <= NUM_Y_AXIS_ELEMENTS ; i++)
-    {
+void CandlestickChart::drawYAxis(QPainter *painter) {
+    for (int i = 1 ; i <= NUM_Y_AXIS_ELEMENTS ; i++) {
         // Draw axis marking.
         painter->drawLine(width() - 5,
                           (height() / (NUM_Y_AXIS_ELEMENTS + 1) * i),
@@ -129,19 +113,13 @@ void CandlestickChart::drawYAxis(QPainter *painter)
 }
 
 
-void CandlestickChart::drawXAxis(QPainter *painter)
-{
+void CandlestickChart::drawXAxis(QPainter *painter) {
     // Get candle data from Alpaca so that we can draw our candles.
     CandleData candle_data = ChartLib::candleData();
 
-    QDate temp_date = QDate::currentDate();
+    QDate curr_date = QDate::currentDate();
+    QDate temp_date = curr_date;
     temp_date = temp_date.addDays(-dateOffset());
-
-    /*
-    for (auto i = 0; i < 150; i++) {
-        std::cout << "candle_data.open[" << i << "]: " << candle_data.open[i] << "\n";
-    }
-    */
 
     for (int i = 1; i <= NUM_X_AXIS_ELEMENTS; i++) {
         // Draw axis mark to screen.
@@ -149,33 +127,26 @@ void CandlestickChart::drawXAxis(QPainter *painter)
                         width() / NUM_X_AXIS_ELEMENTS * i, height());
 
         // Draw candle to screen.
-        if (i <= (NUM_X_AXIS_ELEMENTS - 1))
-        {
+        if (i <= (NUM_X_AXIS_ELEMENTS - 1)) {
           drawCandle(candle_data.high.at(i), candle_data.low.at(i),
-                     candle_data.open.at(i), candle_data.close.at(i),
-                     i, painter);
+                     candle_data.open.at(i), candle_data.close.at(i), i,
+                     painter);
         }
 
         // Draw date to screen.
-        if ((i % 10 == 0) && (i <= NUM_X_AXIS_ELEMENTS - 10))
-        {
-            temp_date = temp_date.addDays(-(ChartLib::offsetStep
-                                            (i - 1, dateOffset())));
+        if ((i % 10 == 0) && (i <= NUM_X_AXIS_ELEMENTS - 10)) {
+            temp_date = curr_date.addDays(-(ChartLib::offsetStep
+                                            (i, dateOffset())));
             painter->drawText((width() - ((width() / NUM_X_AXIS_ELEMENTS * i)
                                             - width() * 0.0092) - width() / 27),
                                 height() * 0.99, temp_date.toString("MM/dd"));
         }
-        if (i >= NUM_X_AXIS_ELEMENTS) {
-            return;
-        }
-        std::cout << "i: " << i << "\n";
     }
 }
 
 
 // Draws a ticker to our candlestick chart.
-void CandlestickChart::drawTicker(QPainter *painter, QString ticker)
-{
+void CandlestickChart::drawTicker(QPainter *painter, QString ticker) {
     // We don't want this function to mess with our other drawing functions.
     QPainter *restore_painter = painter;
 
@@ -191,8 +162,7 @@ void CandlestickChart::drawTicker(QPainter *painter, QString ticker)
 }
 
 
-double CandlestickChart::getMin()
-{
+double CandlestickChart::getMin() {
     // We dont care about the first 16 chars.
     size_t index = 16;
     char c = global_string[index];
@@ -206,10 +176,8 @@ double CandlestickChart::getMin()
     // comma.
     size_t comma_distance = 0;
 
-    while (c != ']')
-    {
-        switch (c)
-        {
+    while (c != ']') {
+        switch (c) {
             case 'c':
                 // Get to first number (skip quote and colon).
                 index += 3;
@@ -219,8 +187,7 @@ double CandlestickChart::getMin()
                 comma_distance = global_string.find_first_of(',', index);
                 value = std::stod(global_string.substr(index, comma_distance));
 
-                if (value < minimum)
-                {
+                if (value < minimum) {
                     minimum = value;
                 }
 
@@ -236,8 +203,7 @@ double CandlestickChart::getMin()
                 comma_distance = global_string.find_first_of(',', index);
                 value = std::stod(global_string.substr(index, comma_distance));
 
-                if (value < minimum)
-                {
+                if (value < minimum) {
                     minimum = value;
                 }
 
@@ -253,8 +219,7 @@ double CandlestickChart::getMin()
                 comma_distance = global_string.find_first_of(',', index);
                 value = std::stod(global_string.substr(index, comma_distance));
 
-                if (value < minimum)
-                {
+                if (value < minimum) {
                     minimum = value;
                 }
 
@@ -270,8 +235,7 @@ double CandlestickChart::getMin()
                 comma_distance = global_string.find_first_of(',', index);
                 value = std::stod(global_string.substr(index, comma_distance));
 
-                if (value < minimum)
-                {
+                if (value < minimum) {
                     minimum = value;
                 }
 
@@ -286,15 +250,13 @@ double CandlestickChart::getMin()
         }
     }
 
-    std::cout << "numbers_scanned: " << numbers_scanned << "\n";
     return minimum;
 }
 
 
 // Scans our data for the largest number. We use this to generate a Y-axis that
 // fits our data neatly.
-double CandlestickChart::getMax()
-{
+double CandlestickChart::getMax() {
     // We dont care about the first 16 chars.
     size_t index = 16;
     char c = global_string[index];
@@ -306,10 +268,8 @@ double CandlestickChart::getMax()
     // comma.
     size_t comma_distance = 0;
 
-    while (c != ']')
-    {
-        switch (c)
-        {
+    while (c != ']') {
+        switch (c) {
             case 'c':
                 // Get to first number (skip quote and colon).
                 index += 3;
@@ -319,9 +279,8 @@ double CandlestickChart::getMax()
                 comma_distance = global_string.find_first_of(',', index);
                 value = std::stod(global_string.substr(index, comma_distance));
 
-                if (value > maximum)
-                {
-                maximum = value;
+                if (value > maximum) {
+                    maximum = value;
                 }
 
             break;
@@ -334,9 +293,8 @@ double CandlestickChart::getMax()
                 comma_distance = global_string.find_first_of(',', index);
                 value = std::stod(global_string.substr(index, comma_distance));
 
-                if (value > maximum)
-                {
-                maximum = value;
+                if (value > maximum) {
+                    maximum = value;
                 }
 
             break;
@@ -349,9 +307,8 @@ double CandlestickChart::getMax()
                 comma_distance = global_string.find_first_of(',', index);
                 value = std::stod(global_string.substr(index, comma_distance));
 
-                if (value > maximum)
-                {
-                maximum = value;
+                if (value > maximum) {
+                    maximum = value;
                 }
 
             break;
@@ -364,9 +321,8 @@ double CandlestickChart::getMax()
                 comma_distance = global_string.find_first_of(',', index);
                 value = std::stod(global_string.substr(index, comma_distance));
 
-                if (value > maximum)
-                {
-                maximum = value;
+                if (value > maximum) {
+                    maximum = value;
                 }
 
             break;
@@ -385,8 +341,7 @@ double CandlestickChart::getMax()
 // This function performs drawing operations to the screen. We call this
 // function in a loop to draw all of the candles that appear on our chart.
 void CandlestickChart::drawCandle(double high, double low, double open,
-                                  double close, int index, QPainter *painter)
-{
+                                  double close, int index, QPainter *painter) {
     // Calculate x position of candle to draw on our chart.
     double candle_x = width() / NUM_X_AXIS_ELEMENTS;
     candle_x = candle_x * index;
@@ -407,8 +362,7 @@ void CandlestickChart::drawCandle(double high, double low, double open,
 
     if (ChartLib::candleYPoint(open, min(), max(), height(), NUM_Y_AXIS_ELEMENTS)
         > ChartLib::candleYPoint(close, min(), max(), height(),
-                                 NUM_Y_AXIS_ELEMENTS))
-    {
+                                 NUM_Y_AXIS_ELEMENTS)) {
         // We want to draw green candles so lets do that.
         painter->setPen(up_pen);
 
@@ -437,9 +391,7 @@ void CandlestickChart::drawCandle(double high, double low, double open,
 
         // We are done drawing green candles. Lets restore the pen to how it was.
         painter->setPen(input_pen);
-    }
-    else
-    {
+    } else {
         painter->setPen(down_pen);
 
         painter->drawLine(candle_x, ChartLib::candleYPoint
@@ -466,8 +418,7 @@ void CandlestickChart::drawCandle(double high, double low, double open,
 }
 
 
-void CandlestickChart::paint(QPainter *painter)
-{
+void CandlestickChart::paint(QPainter *painter) {
     QPen pen(m_borderColor, 2);
 
     painter->setPen(pen);
