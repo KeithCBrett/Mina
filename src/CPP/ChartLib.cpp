@@ -47,10 +47,8 @@ QDate christmas(2026, 12, 25);
 
 namespace ChartLib {
     // Function for computing the bottom most YAxis number.
-    QString firstYAxisNumber(double min)
-    {
-        if (min <= 0)
-        {
+    QString firstYAxisNumber(double min) {
+        if (min <= 0) {
             QString out("-1");
             return out;
         }
@@ -64,33 +62,28 @@ namespace ChartLib {
 
         QString out_string;
 
-        if (temp < 1.0)
-        {
+        if (temp < 1.0) {
             // Here we coerce the output to end in 0 or 5.
             while (((std::modf(temp, &divisor)) != 0)
-                || ((std::modf(temp, &divisor)) != 0.05))
-            {
+                || ((std::modf(temp, &divisor)) != 0.05)) {
                 temp = temp - 0.01;
             }
 
             out_string = QString::number(temp);
             return out_string;
         }
-        else if ((temp >= 1.0) && (temp < 5.0))
-        {
+        else if ((temp >= 1.0) && (temp < 5.0)) {
             trunc_temp = std::trunc(temp);
 
             out_string = QString::number(trunc_temp);
 
             return out_string;
         }
-        else
-        {
+        else {
             trunc_temp = std::trunc(temp);
 
             // Here we coerce the output to be divisible by 5 for aethetic reasons.
-            while ((trunc_temp % 5) != 0)
-            {
+            while ((trunc_temp % 5) != 0) {
                 trunc_temp--;
             }
 
@@ -103,22 +96,18 @@ namespace ChartLib {
 
     // Function for computing the step size used for computing most of the YAxis
     // numbers.
-    QString stepSize(double inp_first_axis_number, double min, double max)
-    {
+    QString stepSize(double inp_first_axis_number, double min, double max) {
         // Error handling.
         // Bottom axis number should be greater than zero.
-        if (inp_first_axis_number <= 0)
-        {
+        if (inp_first_axis_number <= 0) {
             return QString::number(-1);
         }
         // Max should be greater than min.
-        if (min >= max)
-        {
+        if (min >= max) {
             return QString::number(-1);
         }
         // Min and max should be greater than zero.
-        if ((min <= 0) || (max <= 0))
-        {
+        if ((min <= 0) || (max <= 0)) {
             return QString::number(-1);
         }
 
@@ -130,16 +119,14 @@ namespace ChartLib {
 
         std::string temp_string;
 
-        if (step_size < 0.1)
-        {
+        if (step_size < 0.1) {
             // In case of irrational numbers. Truncates 0.0XXXX... to 0.0X.
             temp_string = std::to_string(step_size).substr(0, 4);
             step_size = std::stod(temp_string);
 
             // Check if axis fits data.
             while (max >= (step_size * (NUM_Y_AXIS_ELEMENTS - 1)
-                            + inp_first_axis_number))
-            {
+                            + inp_first_axis_number)) {
                 // If not, generate axis of wider range.
                 step_size = step_size + 0.01;
             }
@@ -150,38 +137,31 @@ namespace ChartLib {
             // five via subtraction (and have it be greater than or equal to our
             // max). This ensures the lowest step size possible.
             int curr = inp_first_axis_number + (step_size - ((int)step_size % 5)) * 9;
-            if (max <= curr)
-            {
+            if (max <= curr) {
                 step_size = step_size - ((int)step_size % 5);
                 return QString::number(step_size);
             }
             // This check is for if a unaltered step size is divisible by five.
             // If thats true and the first if statement fails, then that means
             // that we are already at the lowest step size.
-            else if (((int)step_size % 5) == 0)
-            {
+            else if (((int)step_size % 5) == 0) {
                 return QString::number(step_size);
-
             }
             // Otherwise we add until divisible by five.
-            else
-            {
-                while (((int)step_size % 5) != 0)
-                {
+            else {
+                while (((int)step_size % 5) != 0) {
                     step_size++;
                 }
 
                 return QString::number(step_size);
             }
         }
-        else
-        {
+        else {
             round_step_size = std::round(step_size);
 
             while (max
             >= (round_step_size * (NUM_Y_AXIS_ELEMENTS - 1)
-                + inp_first_axis_number))
-            {
+                + inp_first_axis_number)) {
                 round_step_size++;
             }
 
@@ -192,24 +172,19 @@ namespace ChartLib {
             // max). This ensures the lowest step size possible.
             int curr = inp_first_axis_number + (round_step_size
                                                 - (round_step_size % 5)) * 9;
-            if (max <= curr)
-            {
+            if (max <= curr) {
                 round_step_size = round_step_size - ((int)round_step_size % 5);
                 return QString::number(round_step_size);
             }
             // This check is for if a unaltered step size is divisible by five.
             // If thats true and the first if statement fails, then that means
             // that we are already at the lowest step size.
-            else if (((int)round_step_size % 5) == 0)
-            {
+            else if (((int)round_step_size % 5) == 0) {
                 return QString::number(round_step_size);
-
             }
             // Otherwise we add until divisible by five.
-            else
-            {
-                while (((int)round_step_size % 5) != 0)
-                {
+            else {
+                while (((int)round_step_size % 5) != 0) {
                     round_step_size++;
                 }
 
@@ -221,31 +196,25 @@ namespace ChartLib {
     // Converts a dollar amount into a Y-point on our candlestick chart according
     // to our axis.
     double candleYPoint(double inp_num, double min, double max, double height,
-                        size_t num_axis_elements)
-    {
+                        size_t num_axis_elements) {
         // Error handling.
         // Price should be greater than zero.
-        if (inp_num <= 0)
-        {
+        if (inp_num <= 0) {
             return -1;
         }
         // Min should be greater than zero.
-        if (min <= 0)
-        {
+        if (min <= 0) {
             return -1;
         }
         // Max should be greater than zero.
-        if (max <= 0)
-        {
+        if (max <= 0) {
             return -1;
         }
         // Height should be greater than zero.
-        if (height <= 0)
-        {
+        if (height <= 0) {
             return -1;
         }
-        if (min >= max)
-        {
+        if (min >= max) {
             return -1;
         }
 
@@ -266,31 +235,26 @@ namespace ChartLib {
 
     // Calculates the length of our candle according to the axis. We will need this
     // when we try to draw a candle with drawRect.
-    double candleLength(double open, double close)
-    {
+    double candleLength(double open, double close) {
         // Error handling.
         // Open should be greater than zero.
-        if (open <= 0)
-        {
+        if (open <= 0) {
             return -1;
         }
         // Close should be greater than zero.
-        if (close <= 0)
-        {
+        if (close <= 0) {
             return -1;
         }
 
         double big;
         double small;
 
-        if (open > close)
-        {
+        if (open > close) {
             big = open;
             small = close;
             return (big - small);
         }
-        else
-        {
+        else {
             big = close;
             small = open;
             return (big - small);
@@ -298,58 +262,45 @@ namespace ChartLib {
     }
 
 
-    bool marketOpen(QDate inp_date)
-    {
+    bool marketOpen(QDate inp_date) {
         // If it's a weekend, the market is closed.
-        if (weekend(inp_date))
-        {
+        if (weekend(inp_date)) {
             return false;
         }
 
         // We have to skip holidays too.
         // New Years Day.
-        if (inp_date == new_years)
-        {
+        if (inp_date == new_years) {
             return false;
         }
-        else if (inp_date == mlk_day)
-        {
+        else if (inp_date == mlk_day) {
             return false;
         }
-        else if (inp_date == washingtons_bday)
-        {
+        else if (inp_date == washingtons_bday) {
             return false;
         }
-        else if (inp_date == good_friday)
-        {
+        else if (inp_date == good_friday) {
             return false;
         }
-        else if (inp_date == memorial_day)
-        {
+        else if (inp_date == memorial_day) {
             return false;
         }
-        else if (inp_date == juneteenth)
-        {
+        else if (inp_date == juneteenth) {
             return false;
         }
-        else if (inp_date == independance_day)
-        {
+        else if (inp_date == independance_day) {
             return false;
         }
-        else if (inp_date == labor_day)
-        {
+        else if (inp_date == labor_day) {
             return false;
         }
-        else if (inp_date == thanksgiving)
-        {
+        else if (inp_date == thanksgiving) {
             return false;
         }
-        else if (inp_date == christmas)
-        {
+        else if (inp_date == christmas) {
             return false;
         }
-        else
-        {
+        else {
             return true;
         }
     }
@@ -359,14 +310,12 @@ namespace ChartLib {
     // off by a significant amount (because QDate counts weekends but our candle
     // data has no such weekends). This algorithm would return 100 + however many
     // days we need to skip due to weekends.
-    size_t offsetStep(size_t inp_step, qint64 date_offset)
-    {
+    size_t offsetStep(size_t inp_step, qint64 date_offset) {
         // Error handling.
         // We don't allow inp_step greater than 100, this algorithm won't scale
         // well for that (or for big inp_step in general). We loop for each
         // inp_step.
-        if (inp_step > 100)
-        {
+        if (inp_step > 100) {
            return -1;
         }
 
@@ -391,21 +340,18 @@ namespace ChartLib {
         }
 
         // We use inp_step to track our progress.
-        while (inp_step > 0)
-        {
+        while (inp_step > 0) {
             // In theory, if we count the days we skip, and add it to our orginal
             // input, this will give us the total distance traveled (which is
             // what we want as output). Since we skip days in which the market is
             // closed, that is what we will count.
-            if (!marketOpen(curr_day))
-            {
+            if (!marketOpen(curr_day)) {
                 out_step++;
             }
 
             // If market wasn't open on the day we are checking, we have to
             // ignore it and move on.
-            if (marketOpen(curr_day))
-            {
+            if (marketOpen(curr_day)) {
                 inp_step--;
             }
 
@@ -426,14 +372,11 @@ namespace ChartLib {
 
     // Helper to check whether or not a given day is a weekend. We need this so that
     // we can make QDate addDays() skip weekends.
-    bool weekend(QDate inp_date)
-    {
-        if ((inp_date.dayOfWeek() == 6) || (inp_date.dayOfWeek() == 7))
-        {
+    bool weekend(QDate inp_date) {
+        if ((inp_date.dayOfWeek() == 6) || (inp_date.dayOfWeek() == 7)) {
             return true;
         }
-        else
-        {
+        else {
             return false;
         }
     }
@@ -441,16 +384,13 @@ namespace ChartLib {
 
     // Returns the oldest date we are currently rendering a candle for. We need this
     // for when we make a request for data from Alpaca server.
-    QDate startDate(QDate end_date, qint64 date_offset)
-    {
+    QDate startDate(QDate end_date, qint64 date_offset) {
         size_t offset;
 
-        if (weekend(end_date))
-        {
+        if (weekend(end_date)) {
             offset = offsetStep(100, date_offset);
         }
-        else
-        {
+        else {
             offset = offsetStep(100, date_offset);
         }
 
@@ -463,8 +403,7 @@ namespace ChartLib {
 
 
     // This function will either return today or (if today is a weekend) today - 2.
-    QDate endDate(qint64 date_offset)
-    {
+    QDate endDate(qint64 date_offset) {
         QDate end_date = QDate::currentDate();
         end_date = end_date.addDays(-date_offset);
 
@@ -475,8 +414,7 @@ namespace ChartLib {
 
 
     // Returns a chunk of stock data to parse.
-    std::string candleChunk(std::string ticker, qint64 date_offset)
-    {
+    std::string candleChunk(std::string ticker, qint64 date_offset) {
         QDate end_date = endDate(date_offset);
         QDate start_date = startDate(end_date, date_offset);
 
@@ -496,8 +434,7 @@ namespace ChartLib {
 
         curl_output_buffer = action::CurlInit(hnd, url, headers);
         CURLcode ret = curl_easy_perform(hnd);
-        if (curl_output_buffer->empty() == true)
-        {
+        if (curl_output_buffer->empty() == true) {
             fprintf(stderr, "Error initializing curl.\n");
         }
 
@@ -511,8 +448,7 @@ namespace ChartLib {
     // Arguments start_date and end_date are used to set the timeframe of data we
     // want.
     std::string callString(QDate start_date, QDate end_date, std::string ticker,
-                           qint64 date_offset)
-    {
+                           qint64 date_offset) {
         std::string out_string;
 
         // Needed for all URLS.
@@ -530,12 +466,10 @@ namespace ChartLib {
 
         std::string s6 = "&limit=1000&adjustment=raw&feed=sip&sort=asc";
 
-        if (date_offset == 0)
-        {
+        if (date_offset == 0) {
             out_string = s1 + ticker + s3 + startPoint + s6;
         }
-        else
-        {
+        else {
             out_string = s1 + ticker + s3 + startPoint + s4 + endPoint + s6;
         }
 
@@ -545,8 +479,7 @@ namespace ChartLib {
 
     // Converts QDate so that we can use it to make request to Alpaca server for
     // financial data.
-    std::string qDateToAPIDate(QDate inp_date)
-    {
+    std::string qDateToAPIDate(QDate inp_date) {
         QString out_string = inp_date.toString("yyyy-MM-dd");
         return out_string.toStdString();
     }
@@ -555,8 +488,7 @@ namespace ChartLib {
     // Parses raw data into a CandleData. CandleData is just a struct that holds
     // four arrays. It has an array for high, low, open, and close. With this in
     // mind, CandleData c.high[0] represents the high for the first bar of data.
-    CandleData candleData()
-    {
+    CandleData candleData() {
         CandleData out_data;
 
         // Tracks the positions in our arrays
@@ -575,10 +507,8 @@ namespace ChartLib {
         double value = 0.0;
         std::string str_value = "";
 
-        while (c != ']')
-        {
-            switch (c)
-            {
+        while (c != ']') {
+            switch (c) {
                 case 'c':
                     // Get to first number (skip quote and colon).
                     raw_data_index += 3;
@@ -657,8 +587,7 @@ namespace ChartLib {
     // Function for computing all the YAxis numbers (except the one computed
     // by firstYAxisNumber()).
     QString otherYAxisNumber(double min, double max,
-                             double first_axis_number, int position)
-    {
+                             double first_axis_number, int position) {
         double step_size = stepSize(first_axis_number, min, max).toDouble();
         return QString::number(step_size * (position - 1) + first_axis_number);
     }

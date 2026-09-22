@@ -26,6 +26,7 @@
 
 #include <QtCore>
 
+
 struct CandleData {
     std::array<double, NUM_X_AXIS_ELEMENTS> open;
     std::array<double, NUM_X_AXIS_ELEMENTS> close;
